@@ -53,6 +53,23 @@ This will create a `config/mollie.php` file in your app that you can modify to s
 
 Here you can see an example of just how simple this package is to use.
 
+### Mollie API
+
+```php
+$payment = Mollie::api()->payments()->create([
+    "amount"      => 10.00,
+    "description" => "My first API payment",
+    "redirectUrl" => "https://webshop.example.org/order/12345/",
+]);
+
+$payment = Mollie::api()->payments->get($payment->id);
+
+if ($payment->isPaid())
+{
+    echo "Payment received.";
+}
+```
+
 ### Mollie Connect with Laravel Socialite
 
 ```php
@@ -69,23 +86,6 @@ Route::get('login_callback', function () {
 
     return Mollie::api()->profiles()->all(); // Retrieve all payment profiles available on the obtained Mollie account
 });
-```
-
-### Mollie API
-
-```php
-$payment = Mollie::api()->payments()->create([
-    "amount"      => 10.00,
-    "description" => "My first API payment",
-    "redirectUrl" => "https://webshop.example.org/order/12345/",
-]);
-
-$payment = Mollie::api()->payments->get($payment->id);
-
-if ($payment->isPaid())
-{
-    echo "Payment received.";
-}
 ```
 
 ## License
