@@ -62,7 +62,7 @@ $payment = Mollie::api()->payments()->create([
     "redirectUrl" => "https://webshop.example.org/order/12345/",
 ]);
 
-$payment = Mollie::api()->payments->get($payment->id);
+$payment = Mollie::api()->payments()->get($payment->id);
 
 if ($payment->isPaid())
 {
