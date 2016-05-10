@@ -165,6 +165,14 @@ class MollieApiWrapper
     }
 
     /**
+     * @return \Mollie_API_Resource_Customers_Mandates
+     */
+    public function customersMandates()
+    {
+        return $this->client->customers_mandates;
+    }
+
+    /**
      * @return \Mollie_API_Resource_Permissions
      */
     public function permissions()
