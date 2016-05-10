@@ -1,5 +1,6 @@
-Laravel Mollie
-==============
+![Mollie](https://www.mollie.nl/files/Mollie-Logo-Style-Small.png)
+
+# Laravel-Mollie
 
 Laravel-Mollie incorporates [Mollie Connect](https://www.mollie.com/en/connect) and the [Mollie API](https://www.mollie.com/en/docs/overview) into your [Laravel](https://laravel.com/) or [Lumen](https://lumen.laravel.com/) project.
 
@@ -9,7 +10,7 @@ Laravel-Mollie incorporates [Mollie Connect](https://www.mollie.com/en/connect) 
 
 ## Installation
 
-Add Laravel Mollie to your composer file via the `composer require` command:
+Add Laravel-Mollie to your composer file via the `composer require` command:
 
 ```bash
 $ composer require mollie/laravel-mollie
@@ -87,6 +88,12 @@ Route::get('login_callback', function () {
     return Mollie::api()->profiles()->all(); // Retrieve all payment profiles available on the obtained Mollie account
 });
 ```
+
+## Want to help us make our Laravel module even better?
+
+Want to help us make our Laravel module even better? We take [pull requests](https://github.com/mollie/laravel-mollie/pulls?utf8=%E2%9C%93&q=is%3Apr), sure.
+But how would you like to contribute to a [technology oriented organization](https://www.mollie.com/nl/blog/post/werken-bij-mollie-als-developer/)? Mollie is hiring developers and system engineers.
+[Check out our vacancies](https://www.mollie.com/nl/jobs) or [get in touch](mailto:personeel@mollie.com).
 
 ## License
 
