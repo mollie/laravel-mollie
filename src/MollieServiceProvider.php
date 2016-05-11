@@ -35,6 +35,7 @@ use Illuminate\Contracts\Container\Container;
 use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Lumen\Application as LumenApplication;
+use Mollie\Laravel\Wrappers\MollieApiWrapper;
 
 /**
  * Class MollieServiceProvider.

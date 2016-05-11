@@ -29,7 +29,7 @@
  * @copyright   Mollie B.V.
  * @link        https://www.mollie.com
  */
-namespace Mollie\Laravel;
+namespace Mollie\Laravel\Wrappers;
 
 use Illuminate\Contracts\Config\Repository;
 use Mollie_API_Client;

@@ -32,7 +32,7 @@
 namespace Mollie\Laravel\Facades;
 
 use Illuminate\Support\Facades\Facade;
-use Mollie\Laravel\MollieApiWrapper;
+use Mollie\Laravel\Wrappers\MollieApiWrapper;
 
 /**
  * (Facade) Class Mollie.
