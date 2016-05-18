@@ -89,6 +89,39 @@ Route::get('login_callback', function () {
 });
 ```
 
+### Possible problems
+
+ - My webhook cannot be reached.
+
+   This can be caused because of the CSRF check on the webHook. An example in `app/Http/routes.php`:
+
+   ```php
+   Route::group(array('prefix' => 'mollie'), function ()
+   {
+       Route::post('webhook', function ($paymentId)
+       {
+          /**
+           * Do what needs to be checked with $paymentId
+           */
+       });
+   });
+   ```
+
+   You need to disable the CSRF check for this route by adding this snippet to `app/Http/Middleware/VerifyCsrfToken.php`:
+
+   ```php
+   /**
+    * The URIs that should be excluded from CSRF verification.
+    *
+    * @var array
+    */
+   protected $except = [
+       'mollie/webhook'
+   ]
+   ```
+
+If this solution does not work, then open a [issue](https://github.com/mollie/laravel-mollie/issues) so we can assist in your problem.
+
 ## Want to help us make our Laravel module even better?
 
 Want to help us make our Laravel module even better? We take [pull requests](https://github.com/mollie/laravel-mollie/pulls?utf8=%E2%9C%93&q=is%3Apr), sure.
