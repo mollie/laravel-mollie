@@ -69,17 +69,19 @@ class MollieServiceProvider extends ServiceProvider
     }
 
     /**
-     * Extend the Laravel Socialite factory class.
+     * Extend the Laravel Socialite factory class, if available.
      */
     protected function extendSocialite()
     {
-        $socialite = $this->app->make('Laravel\Socialite\Contracts\Factory');
+        if (class_exists('Laravel\Socialite\Contracts\Factory')) {
+            $socialite = $this->app->make('Laravel\Socialite\Contracts\Factory');
 
-        $socialite->extend('mollie', function (Container $app) use ($socialite) {
-            $config = $app['config']['services.mollie'];
+            $socialite->extend('mollie', function (Container $app) use ($socialite) {
+                $config = $app['config']['services.mollie'];
 
-            return $socialite->buildProvider(MollieConnectProvider::class, $config);
-        });
+                return $socialite->buildProvider(MollieConnectProvider::class, $config);
+            });
+        }
     }
 
     /**
