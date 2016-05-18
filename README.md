@@ -38,7 +38,7 @@ Register the service provider by adding it to the `providers` key in `config/app
 ]
 ```
 
-Make sure that [Laravel Socialite](https://github.com/laravel/socialite) service provider and facade are also registered in your configuration files.
+Make sure that [Laravel Socialite](https://github.com/laravel/socialite) service provider and facade are also registered in your configuration files, if you intend on using Mollie Connect.
 
 ## Configuration
 
@@ -89,38 +89,30 @@ Route::get('login_callback', function () {
 });
 ```
 
-### Possible problems
+## Possible problems
 
- - My webhook cannot be reached.
+#### Webhook cannot be reached, because of CSRF protection
 
-   This can be caused because of the CSRF check on the webHook. An example in `app/Http/routes.php`:
+The `VerifyCsrfToken` middleware, which is included in the `web` middleware group by default, is the troublemaker if your webhook route is in the same middleware group in the `app/Http/routes.php` file.
 
-   ```php
-   Route::group(array('prefix' => 'mollie'), function ()
-   {
-       Route::post('webhook', function ($paymentId)
-       {
-          /**
-           * Do what needs to be checked with $paymentId
-           */
-       });
-   });
-   ```
+```php
+Route::post('mollie/webhook', function ($paymentId) { /** Your logic... */ });
+```
 
-   You need to disable the CSRF check for this route by adding this snippet to `app/Http/Middleware/VerifyCsrfToken.php`:
+You can exclude URIs from the CSRF protection in the `app/Http/Middleware/VerifyCsrfToken.php` file:
 
-   ```php
-   /**
-    * The URIs that should be excluded from CSRF verification.
-    *
-    * @var array
-    */
-   protected $except = [
-       'mollie/webhook'
-   ]
-   ```
+```php
+/**
+ * The URIs that should be excluded from CSRF verification.
+ *
+ * @var array
+ */
+protected $except = [
+    'mollie/webhook'
+];
+```
 
-If this solution does not work, then open a [issue](https://github.com/mollie/laravel-mollie/issues) so we can assist in your problem.
+If this solution does not work, open an [issue](https://github.com/mollie/laravel-mollie/issues) so we can assist you.
 
 ## Want to help us make our Laravel module even better?
 
