@@ -73,7 +73,7 @@ class MollieServiceProvider extends ServiceProvider
      */
     protected function extendSocialite()
     {
-        if (class_exists('Laravel\Socialite\Contracts\Factory')) {
+        if (interface_exists('Laravel\Socialite\Contracts\Factory')) {
             $socialite = $this->app->make('Laravel\Socialite\Contracts\Factory');
 
             $socialite->extend('mollie', function (Container $app) use ($socialite) {
