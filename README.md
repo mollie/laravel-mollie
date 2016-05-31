@@ -45,7 +45,7 @@ Make sure that [Laravel Socialite](https://github.com/laravel/socialite) service
 To get started, you'll need to publish all vendor assets:
 
 ```bash
-$ php artisan vendor:publish
+$ php artisan vendor:publish --provider="Mollie\Laravel\MollieServiceProvider"
 ```
 
 This will create a `config/mollie.php` file in your app that you can modify to set your configuration.
