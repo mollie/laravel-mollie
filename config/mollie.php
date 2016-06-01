@@ -35,8 +35,8 @@ return [
 
     'keys' => [
 
-        'live' => env('MOLLIE_KEY_LIVE', 'live_'),
-        'test' => env('MOLLIE_KEY_TEST', 'test_'),
+        'live' => env('MOLLIE_KEY_LIVE', 'live_xxx'),
+        'test' => env('MOLLIE_KEY_TEST', 'test_xxx'),
 
     ],
 
