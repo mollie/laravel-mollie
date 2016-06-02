@@ -16,9 +16,14 @@
     "belfius direct net", "refunds", "api", "payments", "gateway", "laravel", "lumen", "socialite"
   ],
   "require": {
-    "illuminate/contracts": "5.0.*|5.1.*|5.2.*",
-    "illuminate/support": "5.0.*|5.1.*|5.2.*",
+    "php": "^5.5.9 || ^7.0",
+    "illuminate/contracts": "5.0.* || 5.1.* || 5.2.* || 5.3.*",
+    "illuminate/support": "5.0.* || 5.1.* || 5.2.* || 5.3.*",
     "mollie/mollie-api-php": "~1.0"
+  },
+  "require-dev": {
+    "graham-campbell/testbench": "^3.1",
+    "phpunit/phpunit": "^4.8 || ^5.0"
   },
   "suggest": {
     "laravel/socialite": "Use Mollie Connect (OAuth) to authenticate via Laravel Socialite with the Mollie API. This is needed for some endpoints."
@@ -26,6 +31,11 @@
   "autoload": {
     "psr-4": {
       "Mollie\\Laravel\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Mollie\\Laravel\\Tests\\": "tests/"
     }
   },
   "minimum-stability": "dev",
