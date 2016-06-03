@@ -1,6 +1,6 @@
 ![Mollie](https://www.mollie.nl/files/Mollie-Logo-Style-Small.png)
 
-# Laravel-Mollie ![Travis CI](https://travis-ci.org/mollie/laravel-mollie.svg?branch=master)
+# Laravel-Mollie [![Build Status](https://travis-ci.org/mollie/laravel-mollie.svg?branch=master)](https://travis-ci.org/mollie/laravel-mollie)
 
 Laravel-Mollie incorporates [Mollie Connect](https://www.mollie.com/en/connect) and the [Mollie API](https://www.mollie.com/en/docs/overview) into your [Laravel](https://laravel.com/) or [Lumen](https://lumen.laravel.com/) project.
 
