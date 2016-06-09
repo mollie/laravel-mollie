@@ -42,8 +42,8 @@ return [
 
     // Place the following in the 'config/services.php'
     // 'mollie' => [
-    //     'client_id'     => env('MOLLIE_KEY'),
-    //     'client_secret' => env('MOLLIE_SECRET'),
+    //     'client_id'     => env('MOLLIE_CLIENT_ID', 'app_xxx'),
+    //     'client_secret' => env('MOLLIE_CLIENT_SECRET'),
     //     'redirect'      => env('MOLLIE_REDIRECT_URI'),
     // ],
 
