@@ -34,7 +34,7 @@ abstract class TestCase extends AbstractPackageTestCase
         $providers = [MollieServiceProvider::class];
 
         if (interface_exists('Laravel\Socialite\Contracts\Factory')) {
-            $providers[] = Laravel\Socialite\SocialiteServiceProvider::class;
+            $providers[] = \Laravel\Socialite\SocialiteServiceProvider::class;
         }
 
         return $providers;
