@@ -1,5 +1,5 @@
-/.idea
-/vendor
-/composer.lock
+.idea
+vendor
+composer.lock
 phpunit.xml
 .DS_Store
