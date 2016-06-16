@@ -174,6 +174,14 @@ class MollieApiWrapper
     }
 
     /**
+     * @return \Mollie_API_Resource_Customers_Subscriptions
+     */
+    public function customersSubscriptions()
+    {
+        return $this->client->customers_subscriptions;
+    }
+
+    /**
      * @return \Mollie_API_Resource_Permissions
      */
     public function permissions()
