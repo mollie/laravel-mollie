@@ -50,6 +50,28 @@ $ php artisan vendor:publish --provider="Mollie\Laravel\MollieServiceProvider"
 
 This will create a `config/mollie.php` file in your app that you can modify to set your configuration.
 
+### Mollie Connect with Laravel Socialite
+
+If you intend on using Mollie Connect, update `config/services.php` by adding this to the array:
+
+```php
+'mollie' => [
+    'client_id' => env('MOLLIE_CLIENT_ID', 'app_xxx'),
+    'client_secret' => env('MOLLIE_CLIENT_SECRET'),
+    'redirect' => env('MOLLIE_REDIRECT_URI'),
+],
+```
+
+To make sure Laravel Socialite can actually find the Mollie driver, use the following code snippet and paste it in the `boot()` method from your `AppServiceProvider.php`.
+
+```php
+Socialite::extend('mollie', function ($app) {
+    $config = $app['config']['services.mollie'];
+
+    return Socialite::buildProvider('Mollie\Laravel\MollieConnectProvider', $config);
+});
+```
+
 ## Usage
 
 Here you can see an example of just how simple this package is to use.
