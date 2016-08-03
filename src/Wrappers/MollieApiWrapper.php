@@ -61,14 +61,15 @@ class MollieApiWrapper
 
         $this->client = $client;
 
-        // Use only the 'live_' API key when the application/environment is set to 'production'.
-        if ($this->config->get('app.env') == 'production' || ! $this->config->get('mollie.test_mode')) {
-            if ($this->config->has('mollie.keys.live')) {
-                $this->setApiKey($this->config->get('mollie.keys.live'));
-            }
-        } else {
+        // Use `test_` API key when test_mode is enabled.
+        // Use `live_` API key when the application/environment is set to 'production'.
+        if ($this->config->get('mollie.test_mode')) {
             if ($this->config->has('mollie.keys.test')) {
                 $this->setApiKey($this->config->get('mollie.keys.test'));
+            }
+        } elseif($this->config->get('app.env') === 'production') {
+            if ($this->config->has('mollie.keys.live')) {
+                $this->setApiKey($this->config->get('mollie.keys.live'));
             }
         }
     }
