@@ -54,6 +54,8 @@ class MollieApiWrapper
      *
      * @param Repository $config
      * @param Mollie_API_Client $client
+     *
+     * @return void
      */
     public function __construct(Repository $config, Mollie_API_Client $client)
     {
@@ -62,7 +64,7 @@ class MollieApiWrapper
         $this->client = $client;
 
         // Use only the 'live_' API key when the application/environment is set to 'production'.
-        if ($this->config->get('app.env') == 'production' || ! $this->config->get('mollie.test_mode')) {
+        if ($this->config->get('app.env') === 'production' || ! $this->config->get('mollie.test_mode')) {
             if ($this->config->has('mollie.keys.live')) {
                 $this->setApiKey($this->config->get('mollie.keys.live'));
             }
@@ -75,6 +77,8 @@ class MollieApiWrapper
 
     /**
      * @param $url
+     *
+     * @return void
      */
     public function setApiEndpoint($url)
     {
@@ -92,6 +96,8 @@ class MollieApiWrapper
     /**
      * @param $api_key
      *
+     * @return void
+     *
      * @throws \Mollie_API_Exception
      */
     public function setApiKey($api_key)
@@ -101,6 +107,8 @@ class MollieApiWrapper
 
     /**
      * @param $access_token
+     *
+     * @return void
      *
      * @throws \Mollie_API_Exception
      */

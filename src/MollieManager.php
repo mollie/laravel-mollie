@@ -47,6 +47,8 @@ class MollieManager
      * MollieManager constructor.
      *
      * @param Container $app
+     *
+     * @return void
      */
     public function __construct(Container $app)
     {

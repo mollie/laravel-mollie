@@ -52,6 +52,8 @@ class MollieServiceProvider extends ServiceProvider
 
     /**
      * Boot the service provider.
+     *
+     * @return void
      */
     public function boot()
     {
@@ -61,6 +63,8 @@ class MollieServiceProvider extends ServiceProvider
 
     /**
      * Setup the config.
+     *
+     * @return void
      */
     protected function setupConfig()
     {
@@ -78,6 +82,8 @@ class MollieServiceProvider extends ServiceProvider
 
     /**
      * Extend the Laravel Socialite factory class, if available.
+     *
+     * @return void
      */
     protected function extendSocialite()
     {
@@ -94,6 +100,8 @@ class MollieServiceProvider extends ServiceProvider
 
     /**
      * Register the service provider.
+     *
+     * @return void
      */
     public function register()
     {
@@ -104,6 +112,8 @@ class MollieServiceProvider extends ServiceProvider
 
     /**
      * Register the Mollie API adapter class.
+     *
+     * @return void
      */
     protected function registerApiAdapter()
     {
@@ -118,6 +128,8 @@ class MollieServiceProvider extends ServiceProvider
 
     /**
      * Register the Mollie API Client.
+     *
+     * @return void
      */
     protected function registerApiClient()
     {
@@ -130,6 +142,8 @@ class MollieServiceProvider extends ServiceProvider
 
     /**
      * Register the manager class.
+     *
+     * @return void
      */
     public function registerManager()
     {
