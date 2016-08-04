@@ -43,5 +43,4 @@ class MollieTest extends TestCase
     {
         return MollieManager::class;
     }
-
 }

@@ -58,5 +58,4 @@ class MollieConnectProviderTest extends TestCase
         $provider = new MollieConnectProvider($request, 'client_id', 'client_secret', 'redirect');
         $user = $provider->user();
     }
-
 }

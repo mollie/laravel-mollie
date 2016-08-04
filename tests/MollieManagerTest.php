@@ -27,7 +27,6 @@ class MollieManagerTest extends TestCase
 
     public function testConstructor()
     {
-
         $this->assertInstanceOf(MollieManager::class, $this->manager);
     }
 

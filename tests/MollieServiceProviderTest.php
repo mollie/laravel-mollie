@@ -18,7 +18,7 @@ class MollieServiceProviderTest extends TestCase
         $this->assertIsInjectable(MollieManager::class);
     }
 
-    public  function testMollieApiWrapperIsInjectable()
+    public function testMollieApiWrapperIsInjectable()
     {
         $this->assertIsInjectable(MollieApiWrapper::class);
     }
@@ -27,5 +27,4 @@ class MollieServiceProviderTest extends TestCase
     {
         $this->assertIsInjectable(\Mollie_API_Client::class);
     }
-
 }
