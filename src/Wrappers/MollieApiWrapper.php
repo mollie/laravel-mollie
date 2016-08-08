@@ -206,6 +206,14 @@ class MollieApiWrapper
     }
 
     /**
+     * @return \Mollie_API_Resource_Refunds
+     */
+    public function refunds()
+    {
+        return $this->client->refunds;
+    }
+
+    /**
      * @return \Mollie_API_Resource_Settlements
      */
     public function settlements()
