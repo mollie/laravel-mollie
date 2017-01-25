@@ -18,8 +18,8 @@
   ],
   "require": {
     "php": "^5.5.9 || ^7.0",
-    "illuminate/contracts": "5.0.* || 5.1.* || 5.2.* || 5.3.*",
-    "illuminate/support": "5.0.* || 5.1.* || 5.2.* || 5.3.*",
+    "illuminate/contracts": "5.0.* || 5.1.* || 5.2.* || 5.3.* || 5.4.*",
+    "illuminate/support": "5.0.* || 5.1.* || 5.2.* || 5.3.* || 5.4.*",
     "mollie/mollie-api-php": "~1.0"
   },
   "require-dev": {
