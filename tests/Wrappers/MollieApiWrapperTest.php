@@ -50,10 +50,9 @@ class MollieApiWrapperTest extends TestCase
 
     public function testSetGoodApiKey()
     {
-        $this->api->expects($this->once())->method('setApiKey')->with('live_xxx');
+        $this->api->expects($this->once())->method('setApiKey')->with('test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
 
-        $wrapper = new MollieApiWrapper($this->app['config'], $this->api);
-        $wrapper->setApiKey('live_xxx');
+        new MollieApiWrapper($this->app['config'], $this->api);
     }
 
     /**
