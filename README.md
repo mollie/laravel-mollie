@@ -111,6 +111,58 @@ Route::get('login_callback', function () {
 });
 ```
 
+## Mollie Recurring
+
+Here you can see an example of how easy it is to use Mollie recurring payments.
+
+### Create a customer
+
+First of all you need to create a new customer, this is pretty straight forward
+
+```php
+$customer = Mollie::api()->customers()->create([
+    "name"  => "John Doe",
+    "email" => "john@doe.com",
+]);
+```
+
+### Initial Payment
+
+After creating the user, you can start a payment, it's important to set `recurrintType` to `first`, this will generate a mandate on Mollie's end that can be used to do direct charges. Without setting the `method` the payment screen of Mollie will display your methods that support recurring payments.
+
+```php
+$payment = mollie::api()->payments()->create([
+    'amount'        => 25.00,
+    'customerId'    => $customer->id,
+    'recurringType' => 'first',
+    'description'   => 'My Initial Payment',
+    'redirectUrl'   => https://domain.com/return,
+]);
+```
+
+### Direct Charge
+
+After doing the initial payment, you may charge the users card/account directly. Make sure there's a valid mandate connected to the customer. In case there are multiple mandates at least one should have `status` set to `valid`. Checking mandates is easy:
+
+```php
+$mandates = Mollie::api()->customersMandates()->withParentId($customer->id)->all();
+```
+
+If any of the mandates is valid, charging the user is a piece of cake. Make sure `recurringType` is set to `recurring`.
+
+
+```php
+ $payment = mollie::api()->payments()->create([
+    'amount'        => 25.00,
+    'customerId'    => $customer->id,
+    'recurringType' => 'recurring',
+    'description'   => 'Direct Charge',
+]);
+```
+
+Like any other payments, Mollie will call your webhook to register the payment status so don't forget to save the transaction id to your database.
+
+
 ## Possible problems
 
 #### Webhook cannot be reached, because of CSRF protection
