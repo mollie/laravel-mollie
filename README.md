@@ -113,11 +113,11 @@ Route::get('login_callback', function () {
 
 ## Mollie Recurring
 
-Here you can see an example of how easy it is to use Mollie recurring payments.
+Here you can see an example of how easy it is to use [Mollie recurring](https://www.mollie.com/nl/docs/recurring) payments.
 
 ### Create a customer
 
-First of all you need to create a new customer, this is pretty straight forward
+First of all you need to [create a new customer](https://www.mollie.com/nl/docs/recurring#first-payment) (step 1), this is pretty straight forward
 
 ```php
 $customer = Mollie::api()->customers()->create([
@@ -128,7 +128,7 @@ $customer = Mollie::api()->customers()->create([
 
 ### Initial Payment
 
-After creating the user, you can start a payment, it's important to set `recurrintType` to `first`, this will generate a mandate on Mollie's end that can be used to do direct charges. Without setting the `method` the payment screen of Mollie will display your methods that support recurring payments.
+After creating the user, you can [start a payment](https://www.mollie.com/nl/docs/recurring#first-payment) (step 3), it's important to set `recurringType` to `first`, this will generate a mandate on Mollie's end that can be used to do direct charges. Without setting the `method` the payment screen of Mollie will display your methods that support recurring payments.
 
 ```php
 $payment = mollie::api()->payments()->create([
@@ -142,7 +142,7 @@ $payment = mollie::api()->payments()->create([
 
 ### Direct Charge
 
-After doing the initial payment, you may charge the users card/account directly. Make sure there's a valid mandate connected to the customer. In case there are multiple mandates at least one should have `status` set to `valid`. Checking mandates is easy:
+After doing the initial payment, you may [charge the users card/account directly](https://www.mollie.com/nl/docs/recurring#on-demand). Make sure there's a valid mandate connected to the customer. In case there are multiple mandates at least one should have `status` set to `valid`. Checking mandates is easy:
 
 ```php
 $mandates = Mollie::api()->customersMandates()->withParentId($customer->id)->all();
