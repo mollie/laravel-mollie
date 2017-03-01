@@ -136,7 +136,7 @@ $payment = mollie::api()->payments()->create([
     'customerId'    => $customer->id,
     'recurringType' => 'first',
     'description'   => 'My Initial Payment',
-    'redirectUrl'   => https://domain.com/return,
+    'redirectUrl'   => 'https://domain.com/return',
 ]);
 ```
 
