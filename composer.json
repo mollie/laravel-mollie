@@ -40,5 +40,15 @@
     }
   },
   "minimum-stability": "dev",
-  "prefer-stable": true
+  "prefer-stable": true,
+  "extra": {
+      "laravel": {
+          "providers": [
+            "Mollie\\Laravel\\MollieServiceProvider"
+          ],
+          "aliases": {
+            "Mollie": "Mollie\\Laravel\\Facades\\Mollie"
+          }
+      }
+  }
 }
