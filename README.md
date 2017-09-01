@@ -24,7 +24,10 @@ Or add it to `composer.json` manually:
 }
 ```
 
-Register the service provider by adding it to the `providers` key in `config/app.php`. Also register the facade by adding it to the `aliases` key in `config/app.php`.
+Laravel 5.5+ will use the auto-discovery function.
+
+
+In Laravel 5.4 (or if you are not using auto-discovery) register the service provider by adding it to the `providers` key in `config/app.php`. Also register the facade by adding it to the `aliases` key in `config/app.php`.
 
 ```php
 'providers' => [
