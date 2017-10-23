@@ -155,7 +155,7 @@ If any of the mandates is valid, charging the user is a piece of cake. Make sure
 
 
 ```php
- $payment = mollie::api()->payments()->create([
+ $payment = Mollie::api()->payments()->create([
     'amount'        => 25.00,
     'customerId'    => $customer->id,
     'recurringType' => 'recurring',
