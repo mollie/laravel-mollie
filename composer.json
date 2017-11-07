@@ -24,7 +24,7 @@
   "require-dev": {
     "graham-campbell/testbench": "^3.1",
     "phpunit/phpunit": "^4.8 || ^5.0",
-    "mockery/mockery": "^0.9.5"
+    "mockery/mockery": "^0.9.5 || ^1.0"
   },
   "suggest": {
     "laravel/socialite": "Use Mollie Connect (OAuth) to authenticate via Laravel Socialite with the Mollie API. This is needed for some endpoints."
