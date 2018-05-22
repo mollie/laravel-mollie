@@ -134,7 +134,7 @@ $customer = Mollie::api()->customers()->create([
 After creating the user, you can [start a payment](https://www.mollie.com/nl/docs/recurring#first-payment) (step 3), it's important to set `recurringType` to `first`, this will generate a mandate on Mollie's end that can be used to do direct charges. Without setting the `method` the payment screen of Mollie will display your methods that support recurring payments.
 
 ```php
-$payment = mollie::api()->payments()->create([
+$payment = Mollie::api()->payments()->create([
     'amount'        => 25.00,
     'customerId'    => $customer->id,
     'recurringType' => 'first',
