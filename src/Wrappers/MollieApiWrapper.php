@@ -228,4 +228,12 @@ class MollieApiWrapper
     {
         return $this->client->settlements;
     }
+
+    /**
+     * @return \Mollie_API_Resource_Invoices
+     */
+    public function invoices()
+    {
+        return $this->client->invoices;
+    }
 }
