@@ -32,6 +32,7 @@
 namespace Mollie\Laravel\Wrappers;
 
 use Illuminate\Contracts\Config\Repository;
+use Mollie\Api\MollieApiClient;
 use Mollie_API_Client;
 
 /**
@@ -57,7 +58,7 @@ class MollieApiWrapper
      *
      * @return void
      */
-    public function __construct(Repository $config, Mollie_API_Client $client)
+    public function __construct(Repository $config, MollieApiClient $client)
     {
         $this->config = $config;
 

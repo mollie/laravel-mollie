@@ -2,8 +2,7 @@
 
 namespace Mollie\Laravel\Tests\Wrappers;
 
-use Mollie_API_Client;
-use Mollie_API_Exception;
+use Mollie\Api\MollieApiClient;
 use Mollie\Laravel\Tests\TestCase;
 use Mollie\Laravel\Wrappers\MollieApiWrapper;
 
@@ -26,14 +25,14 @@ class MollieApiWrapperTest extends TestCase
      */
     protected function setUpApi()
     {
-        $this->api = $this->getMockBuilder(Mollie_API_Client::class)
+        $this->api = $this->getMockBuilder(MollieApiClient::class)
             ->disableOriginalConstructor()
             ->getMock();
     }
 
     public function testConstruct()
     {
-        $wrapper = new MollieApiWrapper($this->app['config'], $this->app[Mollie_API_Client::class]);
+        $wrapper = new MollieApiWrapper($this->app['config'], $this->app[MollieApiClient::class]);
         $this->assertInstanceOf(MollieApiWrapper::class, $wrapper);
     }
 
@@ -57,12 +56,12 @@ class MollieApiWrapperTest extends TestCase
     }
 
     /**
-     * @expectedException Mollie_API_Exception
-     * @expectedExceptionMessage Invalid API key: 'live_'. An API key must start with 'test_' or 'live_'.
+     * @expectedException Mollie\Api\Exceptions\ApiException
+     * @expectedExceptionMessage Invalid API key: 'live_'. An API key must start with 'test_' or 'live_' and must be at least 30 characters long.
      */
     public function testSetBadApiKey()
     {
-        $wrapper = new MollieApiWrapper($this->app['config'], $this->app[Mollie_API_Client::class]);
+        $wrapper = new MollieApiWrapper($this->app['config'], $this->app[MollieApiClient::class]);
         $wrapper->setApiKey('live_');
     }
 
@@ -75,12 +74,12 @@ class MollieApiWrapperTest extends TestCase
     }
 
     /**
-     * @expectedException Mollie_API_Exception
+     * @expectedException Mollie\Api\Exceptions\ApiException
      * @expectedExceptionMessage Invalid OAuth access token: 'BAD'. An access token must start with 'access_'.
      */
     public function testSetBadToken()
     {
-        $wrapper = new MollieApiWrapper($this->app['config'], $this->app[Mollie_API_Client::class]);
+        $wrapper = new MollieApiWrapper($this->app['config'], $this->app[MollieApiClient::class]);
         $wrapper->setAccessToken('BAD');
     }
 }
