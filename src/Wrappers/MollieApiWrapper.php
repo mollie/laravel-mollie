@@ -61,19 +61,9 @@ class MollieApiWrapper
     public function __construct(Repository $config, MollieApiClient $client)
     {
         $this->config = $config;
-
         $this->client = $client;
 
-        // Use only the 'live_' API key when 'test_mode' is DISABLED.
-        if (! $this->config->get('mollie.test_mode')) {
-            if ($this->config->has('mollie.keys.live')) {
-                $this->setApiKey($this->config->get('mollie.keys.live'));
-            }
-        } else {
-            if ($this->config->has('mollie.keys.test')) {
-                $this->setApiKey($this->config->get('mollie.keys.test'));
-            }
-        }
+        $this->setApiKey($this->config->get('mollie.key'));
     }
 
     /**
