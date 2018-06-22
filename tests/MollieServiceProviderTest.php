@@ -3,6 +3,7 @@
 namespace Mollie\Laravel\Tests;
 
 use GrahamCampbell\TestBenchCore\ServiceProviderTrait;
+use Mollie\Api\MollieApiClient;
 use Mollie\Laravel\MollieManager;
 use Mollie\Laravel\Wrappers\MollieApiWrapper;
 
@@ -22,9 +23,9 @@ class MollieServiceProviderTest extends TestCase
     {
         $this->assertIsInjectable(MollieApiWrapper::class);
     }
-    
+
     public function testMollieApiClientIsInjectable()
     {
-        $this->assertIsInjectable(\Mollie_API_Client::class);
+        $this->assertIsInjectable(MollieApiClient::class);
     }
 }
