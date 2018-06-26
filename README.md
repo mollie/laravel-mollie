@@ -21,7 +21,7 @@ Accepting [iDEAL](https://www.mollie.com/en/payments/ideal/), [Bancontact/Mister
 * [Laravel Socialite](https://github.com/laravel/socialite) >= 3.0 (if you intend on using [Mollie Connect](https://docs.mollie.com/oauth/overview))
 
 ## Upgrading from v1.x?
-To support the enhanced Mollie API, some breaking changes were introduced. Make sure to follow the instructions in the [package migration guide](docs/migration_instructions_v1_to_v2.md) and the [api migration guide](https://docs.mollie.com/migrating-v1-to-v2).
+To support the enhanced Mollie API, some breaking changes were introduced. Make sure to follow the instructions in the [package migration guide](docs/migration_instructions_v1_to_v2.md).
 
 Not ready to upgrade? The [Laravel-Mollie v1 branch](https://github.com/mollie/laravel-mollie/tree/v1) will remain supported for now.
 
