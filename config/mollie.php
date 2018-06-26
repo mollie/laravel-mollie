@@ -31,15 +31,6 @@
  */
 return [
 
-    // 'test_mode' => env('MOLLIE_TEST_MODE', true),
-
-    // 'keys' => [
-
-    //     'live' => env('MOLLIE_KEY_LIVE', 'live_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'),
-    //     'test' => env('MOLLIE_KEY_TEST', 'test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'),
-
-    // ],
-
     'key' => env('MOLLIE_KEY', 'test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'),
 
     // If you intend on using Mollie Connect, place the following in the 'config/services.php'
