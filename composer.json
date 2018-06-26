@@ -16,7 +16,7 @@
     "laravel", "lumen", "socialite"
   ],
   "require": {
-    "php": "^7.1",
+    "php": ">=7.0.0",
     "illuminate/support": "^5.5",
     "mollie/mollie-api-php": "^2.0"
   },
