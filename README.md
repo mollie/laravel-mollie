@@ -23,7 +23,7 @@ Accepting [iDEAL](https://www.mollie.com/en/payments/ideal/), [Bancontact/Mister
 ## Upgrading from v1.x?
 To support the enhanced Mollie API, some breaking changes were introduced. Make sure to follow the instructions in the [package migration guide](docs/migration_instructions_v1_to_v2.md).
 
-Not ready to upgrade? The [Laravel-Mollie v1 branch](https://github.com/mollie/laravel-mollie/tree/v1) will remain supported for now.
+Not ready to upgrade? The [Laravel-Mollie client v1](https://github.com/mollie/laravel-mollie/tree/v1) will remain supported for now.
 
 Fresh install? Continue with the installation guide below.
 
