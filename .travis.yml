@@ -13,7 +13,7 @@ cache:
         - $HOME/.composer/cache
 
 install:
-  - travis_wait 30 composer install -vvv --no-interaction
+  - travis_wait 30 composer install -vvv
 
 script:
   - composer validate --strict
