@@ -12,8 +12,14 @@ cache:
         - vendor
         - $HOME/.composer/cache
 
-install:
-  - travis_wait 30 composer install --no-interaction
+env:
+  matrix:
+    - COMPOSER_FLAGS="--prefer-lowest"
+    - COMPOSER_FLAGS=""
+
+before_script:
+  - travis_retry composer self-update
+  - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-source
 
 script:
   - composer validate --strict
