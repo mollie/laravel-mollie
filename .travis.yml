@@ -19,7 +19,7 @@ env:
 
 before_script:
   - travis_retry composer self-update
-  - travis_retry composer update ${COMPOSER_FLAGS} -vvv --no-interaction --prefer-source
+  - travis_wait 30 composer update ${COMPOSER_FLAGS} -vvv --no-interaction --prefer-source
 
 script:
   - composer validate --strict
