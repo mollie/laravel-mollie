@@ -35,8 +35,8 @@ use Illuminate\Contracts\Container\Container;
 use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Lumen\Application as LumenApplication;
+use Mollie\Api\MollieApiClient;
 use Mollie\Laravel\Wrappers\MollieApiWrapper;
-use Mollie_API_Client;
 
 /**
  * Class MollieServiceProvider.
@@ -134,10 +134,10 @@ class MollieServiceProvider extends ServiceProvider
     protected function registerApiClient()
     {
         $this->app->singleton('mollie.api.client', function () {
-            return new Mollie_API_Client();
+            return new MollieApiClient();
         });
 
-        $this->app->alias('mollie.api.client', Mollie_API_Client::class);
+        $this->app->alias('mollie.api.client', MollieApiClient::class);
     }
 
     /**

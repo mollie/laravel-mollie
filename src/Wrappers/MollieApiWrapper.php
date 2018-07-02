@@ -32,7 +32,7 @@
 namespace Mollie\Laravel\Wrappers;
 
 use Illuminate\Contracts\Config\Repository;
-use Mollie_API_Client;
+use Mollie\Api\MollieApiClient;
 
 /**
  * Class MollieApiWrapper.
@@ -45,7 +45,7 @@ class MollieApiWrapper
     protected $config;
 
     /**
-     * @var Mollie_API_Client
+     * @var MollieApiClient
      */
     protected $client;
 
@@ -53,32 +53,20 @@ class MollieApiWrapper
      * MollieApiWrapper constructor.
      *
      * @param Repository $config
-     * @param Mollie_API_Client $client
+     * @param MollieApiClient $client
      *
      * @return void
      */
-    public function __construct(Repository $config, Mollie_API_Client $client)
+    public function __construct(Repository $config, MollieApiClient $client)
     {
         $this->config = $config;
-
         $this->client = $client;
 
-        // Use only the 'live_' API key when 'test_mode' is DISABLED.
-        if (! $this->config->get('mollie.test_mode')) {
-            if ($this->config->has('mollie.keys.live')) {
-                $this->setApiKey($this->config->get('mollie.keys.live'));
-            }
-        } else {
-            if ($this->config->has('mollie.keys.test')) {
-                $this->setApiKey($this->config->get('mollie.keys.test'));
-            }
-        }
+        $this->setApiKey($this->config->get('mollie.key'));
     }
 
     /**
-     * @param $url
-     *
-     * @return void
+     * @param string $url
      */
     public function setApiEndpoint($url)
     {
@@ -94,11 +82,8 @@ class MollieApiWrapper
     }
 
     /**
-     * @param $api_key
-     *
-     * @return void
-     *
-     * @throws \Mollie_API_Exception
+     * @param string $apiKey The Mollie API key, starting with 'test_' or 'live_'
+     * @throws ApiException
      */
     public function setApiKey($api_key)
     {
@@ -106,11 +91,8 @@ class MollieApiWrapper
     }
 
     /**
-     * @param $access_token
-     *
-     * @return void
-     *
-     * @throws \Mollie_API_Exception
+     * @param string $accessToken OAuth access token, starting with 'access_'
+     * @throws ApiException
      */
     public function setAccessToken($access_token)
     {
@@ -126,7 +108,7 @@ class MollieApiWrapper
     }
 
     /**
-     * @return \Mollie_API_Resource_Payments
+     * @return Mollie\Api\Endpoints\PaymentEndpoint
      */
     public function payments()
     {
@@ -134,23 +116,7 @@ class MollieApiWrapper
     }
 
     /**
-     * @return \Mollie_API_Resource_Payments_Refunds
-     */
-    public function paymentsRefunds()
-    {
-        return $this->client->payments_refunds;
-    }
-
-    /**
-     * @return \Mollie_API_Resource_Issuers
-     */
-    public function issuers()
-    {
-        return $this->client->issuers;
-    }
-
-    /**
-     * @return \Mollie_API_Resource_Methods
+     * @return Mollie\Api\Endpoints\MethodEndpoint
      */
     public function methods()
     {
@@ -158,7 +124,7 @@ class MollieApiWrapper
     }
 
     /**
-     * @return \Mollie_API_Resource_Customers
+     * @return Mollie\Api\Endpoints\CustomerEndpoint
      */
     public function customers()
     {
@@ -166,47 +132,47 @@ class MollieApiWrapper
     }
 
     /**
-     * @return \Mollie_API_Resource_Customers_Payments
+     * @return Mollie\Api\Endpoints\SettlementsEndpoint
      */
-    public function customersPayments()
+    public function settlements()
     {
-        return $this->client->customers_payments;
+        return $this->client->settlements;
     }
 
     /**
-     * @return \Mollie_API_Resource_Customers_Mandates
+     * @return Mollie\Api\Endpoints\SubscriptionEndpoint
      */
-    public function customersMandates()
+    public function subscriptions()
     {
-        return $this->client->customers_mandates;
+        return $this->client->subscriptions;
     }
 
     /**
-     * @return \Mollie_API_Resource_Customers_Subscriptions
+     * @return Mollie\Api\Endpoints\CustomerPaymentsEndpoint
      */
-    public function customersSubscriptions()
+    public function customerPayments()
     {
-        return $this->client->customers_subscriptions;
+        return $this->client->customerPayments;
     }
 
     /**
-     * @return \Mollie_API_Resource_Permissions
+     * @return Mollie\Api\Endpoints\MandateEndpoint
      */
-    public function permissions()
+    public function mandates()
     {
-        return $this->client->permissions;
+        return $this->client->mandates;
     }
 
     /**
-     * @return \Mollie_API_Resource_Organizations
+     * @return Mollie\Api\Endpoints\CustomerPaymentsEndpoint
      */
-    public function organizations()
+    public function invoices()
     {
-        return $this->client->organizations;
+        return $this->client->invoices;
     }
 
     /**
-     * @return \Mollie_API_Resource_Profiles
+     * @return Mollie\Api\Endpoints\ProfileEndpoint
      */
     public function profiles()
     {
@@ -214,18 +180,10 @@ class MollieApiWrapper
     }
 
     /**
-     * @return \Mollie_API_Resource_Refunds
+     * @return Mollie\Api\Endpoints\RefundEndpoint
      */
     public function refunds()
     {
         return $this->client->refunds;
-    }
-
-    /**
-     * @return \Mollie_API_Resource_Settlements
-     */
-    public function settlements()
-    {
-        return $this->client->settlements;
     }
 }

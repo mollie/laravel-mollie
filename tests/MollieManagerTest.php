@@ -17,22 +17,21 @@ class MollieManagerTest extends TestCase
      */
     protected $manager;
 
-    /**
-     * @before
-     */
-    public function setUpManagerInstance()
-    {
-        $this->manager = new MollieManager($this->app);
-    }
-
     public function testConstructor()
     {
+        $this->setUpManagerInstance();
         $this->assertInstanceOf(MollieManager::class, $this->manager);
     }
 
     public function testApiMethod()
     {
+        $this->setUpManagerInstance();
         $this->assertInstanceOf(MollieApiWrapper::class, $this->manager->api());
         $this->assertSame($this->app['mollie.api'], $this->manager->api());
+    }
+
+    public function setUpManagerInstance()
+    {
+        $this->manager = new MollieManager($this->app);
     }
 }

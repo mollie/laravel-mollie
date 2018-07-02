@@ -45,7 +45,7 @@ class MollieConnectProvider extends AbstractProvider implements ProviderInterfac
      *
      * @const string
      */
-    const MOLLIE_API_URL = 'https://api.mollie.nl';
+    const MOLLIE_API_URL = 'https://api.mollie.com';
 
     /**
      * The base url to the Mollie web application.
@@ -131,7 +131,6 @@ class MollieConnectProvider extends AbstractProvider implements ProviderInterfac
      */
     protected function getRefreshTokenFields($refresh_token)
     {
-        
         return [
             'client_id' => $this->clientId,
             'client_secret' => $this->clientSecret,
@@ -161,7 +160,7 @@ class MollieConnectProvider extends AbstractProvider implements ProviderInterfac
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get(static::MOLLIE_API_URL.'/v1/organizations/me', [
+        $response = $this->getHttpClient()->get(static::MOLLIE_API_URL.'/v2/organizations/me', [
             'headers' => ['Authorization' => 'Bearer '.$token],
         ]);
 

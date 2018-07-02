@@ -25,7 +25,7 @@ class MollieConnectProviderTest extends TestCase
     {
         $request = Request::create('foo');
         $request->setSession($session = m::mock('Symfony\Component\HttpFoundation\Session\SessionInterface'));
-        $session->shouldReceive('set')->once();
+        $session->shouldReceive('put')->once();
         $provider = new MollieConnectProvider($request, 'client_id', 'client_secret', 'redirect');
         $response = $provider->redirect();
         $this->assertInstanceOf('Symfony\Component\HttpFoundation\RedirectResponse', $response);
