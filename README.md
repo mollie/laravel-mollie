@@ -53,25 +53,11 @@ You'll only need to add the `MOLLIE_KEY` variable to your `.env` file.
 MOLLIE_KEY=test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ```
 
-### Mollie Connect with Laravel Socialite
-
-If you intend on using [Mollie Connect](https://docs.mollie.com/oauth/overview), update `config/services.php` by adding this to the array:
-
-```php
-'mollie' => [
-    'client_id' => env('MOLLIE_CLIENT_ID', 'app_xxx'),
-    'client_secret' => env('MOLLIE_CLIENT_SECRET'),
-    'redirect' => env('MOLLIE_REDIRECT_URI'),
-],
-```
-
-Then add the corresponding credentials (`MOLLIE_CLIENT_ID`, `MOLLIE_CLIENT_SECRET`, `MOLLIE_REDIRECT_URI`) to your `.env` file.
-
-## Usage
+## Example usage
 
 Here you can see an example of just how simple this package is to use.
 
-### Mollie API
+### A payment using the Mollie API
 
 ```php
 $payment = Mollie::api()->payments()->create([
@@ -91,106 +77,11 @@ if ($payment->isPaid())
 }
 ```
 
-### Mollie Connect with Laravel Socialite
+## Other examples
 
-```php
-Route::get('login', function () {
-    return Socialite::with('mollie')
-        ->scopes(['profiles.read']) // Additional permission: profiles.read
-        ->redirect();
-});
-
-Route::get('login_callback', function () {
-    $user = Socialite::with('mollie')->user();
-
-    Mollie::api()->setAccessToken($user->token);
-
-    return Mollie::api()->profiles()->all(); // Retrieve all payment profiles available on the obtained Mollie account
-});
-```
-
-## Mollie Recurring
-
-Here you can see an example of how easy it is to use [Mollie recurring](https://www.mollie.com/nl/docs/recurring) payments.
-
-### Create a customer
-
-First of all you need to [create a new customer](https://www.mollie.com/nl/docs/recurring#first-payment) (step 1), this is pretty straight forward
-
-```php
-$customer = Mollie::api()->customers()->create([
-    "name"  => "John Doe",
-    "email" => "john@doe.com",
-]);
-```
-
-### Initial Payment
-
-After creating the user, you can [start a payment](https://www.mollie.com/nl/docs/recurring#first-payment) (step 3), it's important to set `sequenceType` to `first`, this will generate a mandate on Mollie's end that can be used to do direct charges. Without setting the `method` the payment screen of Mollie will display your methods that support recurring payments.
-
-```php
-$payment = Mollie::api()->payments()->create([
-    'amount' => [
-        'currency' => 'EUR',
-        'value' => '25.00', // You must send the correct number of decimals, thus we enforce the use of strings
-    ],
-    'customerId'    => $customer->id,
-    'sequenceType' => 'first',
-    'description'   => 'My Initial Payment',
-    'redirectUrl'   => 'https://domain.com/return',
-]);
-```
-
-### Direct Charge
-
-After doing the initial payment, you may [charge the users card/account directly](https://www.mollie.com/nl/docs/recurring#on-demand). Make sure there's a valid mandate connected to the customer. In case there are multiple mandates at least one should have `status` set to `valid`. Checking mandates is easy:
-
-```php
-$mandates = Mollie::api()->mandates()->listFor($customer);
-```
-
-If any of the mandates is valid, charging the user is a piece of cake. Make sure `sequenceType` is set to `recurring`.
-
-
-```php
- $payment = Mollie::api()->payments()->create([
-    'amount' => [
-        'currency' => 'EUR',
-        'value' => '25.00', // You must send the correct number of decimals, thus we enforce the use of strings
-    ],
-    'customerId'    => $customer->id,
-    'sequenceType' => 'recurring',
-    'description'   => 'Direct Charge',
-]);
-```
-
-Like any other payment, Mollie will call your webhook to register the payment status so don't forget to save the transaction id to your database.
-
-
-## Possible problems
-
-#### Webhook cannot be reached, because of CSRF protection
-
-The `VerifyCsrfToken` middleware, which is included in the `web` middleware group by default, is the troublemaker if your webhook route is in the same middleware group in the `app/Http/routes.php` file.
-
-```php
-Route::post('webhooks/mollie', function ($paymentId) { /** Your logic... */ });
-```
-
-You can exclude URIs from the CSRF protection in the `app/Http/Middleware/VerifyCsrfToken.php` file:
-
-```php
-/**
- * The URIs that should be excluded from CSRF verification.
- *
- * @var array
- */
-protected $except = [
-    'webhooks/mollie'
-];
-```
-
-If this solution does not work, open an [issue](https://github.com/mollie/laravel-mollie/issues) so we can assist you.
+- [Process realtime status updates with a webhook](docs/webhook.md)
+- [Recurring payments and direct charges](docs/recurring_and_direct_charge.md)
+- [Using Mollie Connect with Laravel Socialite (OAuth)](docs/mollie_connect.md) (Leverage the Mollie platform for advanced payment use cases)
 
 ## Roadmap
 
