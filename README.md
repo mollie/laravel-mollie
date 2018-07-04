@@ -67,16 +67,6 @@ If you intend on using [Mollie Connect](https://docs.mollie.com/oauth/overview),
 
 Then add the corresponding credentials (`MOLLIE_CLIENT_ID`, `MOLLIE_CLIENT_SECRET`, `MOLLIE_REDIRECT_URI`) to your `.env` file.
 
-To make sure Laravel Socialite can actually find the Mollie driver, use the following code snippet and paste it in the `boot()` method of your `AppServiceProvider.php`.
-
-```php
-Socialite::extend('mollie', function ($app) {
-    $config = $app['config']['services.mollie'];
-
-    return Socialite::buildProvider('Mollie\Laravel\MollieConnectProvider', $config);
-});
-```
-
 ## Usage
 
 Here you can see an example of just how simple this package is to use.
