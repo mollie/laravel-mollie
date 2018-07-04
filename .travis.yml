@@ -7,7 +7,6 @@ php:
   - 7.0
   - 7.1
   - 7.2
-  - hhvm
   - nightly
 
 cache:
@@ -17,7 +16,6 @@ cache:
 
 env:
   matrix:
-    - COMPOSER_FLAGS="--prefer-lowest"
     - COMPOSER_FLAGS=""
 
 before_script:
