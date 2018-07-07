@@ -1,5 +1,4 @@
 dist: trusty
-sudo: required
 
 language: php
 
@@ -11,8 +10,7 @@ php:
 
 cache:
     directories:
-        - vendor
-        - $HOME/.composer/cache
+        - "$HOME/.composer/cache"
 
 env:
   matrix:
