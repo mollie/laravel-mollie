@@ -19,8 +19,7 @@ env:
     - COMPOSER_FLAGS=""
 
 before_script:
-  - travis_retry composer self-update
-  - travis_wait 30 composer update ${COMPOSER_FLAGS} -vvv --no-interaction --prefer-dist
+  - travis_wait 30 composer install ${COMPOSER_FLAGS} -vvv --no-interaction
 
 script:
   - composer validate --strict
