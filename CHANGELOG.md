@@ -9,5 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 <!-- ### Changed -->
 <!-- ### Removed -->
 
-## [2.0.0 beta 1] - 2018-06-27
-Version 2.0.0 beta is here! See the [migration instructions](docs/migration_instructions_v1_to_v2.md) on how to upgrade from v1.
+## 2.0.0 - 2018-07-09
+Version 2.0.0 is here! See the [migration instructions](docs/migration_instructions_v1_to_v2.md) on how to upgrade from v1.
+
+This release leverages the V2 mollie-api-php client.

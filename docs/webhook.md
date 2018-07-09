@@ -13,7 +13,7 @@ $payment = Mollie::api()->payments()->create([
     ],
     "description" => "My first API payment",
     "redirectUrl" => "https://webshop.example.org/order/12345/",
-    'webhookUrl'   => 'https://domain.com/webhooks/mollie',
+    'webhookUrl'   => route('webhooks.mollie'),
 ]);
 ```
 

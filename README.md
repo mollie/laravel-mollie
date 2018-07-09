@@ -32,7 +32,7 @@ Fresh install? Continue with the installation guide below.
 Add Laravel-Mollie to your composer file via the `composer require` command:
 
 ```bash
-$ composer require mollie/laravel-mollie:2.0.*
+$ composer require mollie/laravel-mollie:^2.0
 ```
 
 Or add it to `composer.json` manually:
@@ -66,7 +66,7 @@ $payment = Mollie::api()->payments()->create([
         'value' => '10.00', // You must send the correct number of decimals, thus we enforce the use of strings
     ],
     "description" => "My first API payment",
-    "redirectUrl" => "https://webshop.example.org/order/12345/",
+    'webhookUrl'   => route('webhooks.mollie'),
 ]);
 
 $payment = Mollie::api()->payments()->get($payment->id);
