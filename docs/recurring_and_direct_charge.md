@@ -29,6 +29,7 @@ $payment = Mollie::api()->payments()->create([
     'sequenceType' => 'first',
     'description'   => 'My Initial Payment',
     'redirectUrl'   => 'https://domain.com/return',
+    'webhookUrl'   => route('webhooks.mollie'),
 ]);
 ```
 
@@ -52,6 +53,7 @@ If any of the mandates is valid, charging the user is a piece of cake. Make sure
     'customerId'    => $customer->id,
     'sequenceType' => 'recurring',
     'description'   => 'Direct Charge',
+    'webhookUrl'   => route('webhooks.mollie'),
 ]);
 ```
 
