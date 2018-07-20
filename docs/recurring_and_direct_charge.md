@@ -31,6 +31,9 @@ $payment = Mollie::api()->payments()->create([
     'redirectUrl'   => 'https://domain.com/return',
     'webhookUrl'   => route('webhooks.mollie'),
 ]);
+
+// Redirect the user to Mollie's payment screen.
+redirect($payment->getCheckoutUrl(), 303);
 ```
 
 ## Direct Charge
