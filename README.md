@@ -60,20 +60,32 @@ Here you can see an example of just how simple this package is to use.
 ### A payment using the Mollie API
 
 ```php
-$payment = Mollie::api()->payments()->create([
+public function preparePayment()
+{
+    $payment = Mollie::api()->payments()->create([
     'amount' => [
         'currency' => 'EUR',
         'value' => '10.00', // You must send the correct number of decimals, thus we enforce the use of strings
     ],
     "description" => "My first API payment",
     'webhookUrl'   => route('webhooks.mollie'),
-]);
+    ]);
 
-$payment = Mollie::api()->payments()->get($payment->id);
+    $payment = Mollie::api()->payments()->get($payment->id);
 
+    // redirect customer to Mollie checkout page
+    return redirect($payment->getCheckoutUrl(), 303);
+}
+
+/**
+ * After the customer has completed the transaction,
+ * you can fetch, check and process the payment.
+ * (See the webhook docs for more information.)
+ */
 if ($payment->isPaid())
 {
     echo "Payment received.";
+    // Do your thing ...
 }
 ```
 
