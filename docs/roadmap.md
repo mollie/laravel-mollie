@@ -6,8 +6,15 @@ This roadmap lists all current and upcoming activity for the Laravel-Mollie pack
 
 Please submit an [issue](https://github.com/mollie/laravel-mollie/issues) if you have a suggestion for Laravel-Mollie specific functionality.
 
-## [ ] Research Laravel Cashier support
+## [ ] Research Laravel Cashier support ("Laravel/Cashier-Mollie")
 Laravel Cashier is a very popular package for easily adding recurring payments to your Laravel application. We are researching whether it's possible for Laravel Cashier to support Mollie. You can join the discussion [here](https://github.com/mollie/laravel-mollie/issues/41).
+
+## [ ] Research Laravel Spark support
+[Laravel Spark](https://spark.laravel.com/) is a commercial SAAS starter kit. By adding Cashier-Mollie support, new SAAS projects can be built rapidly on top of Mollie's subscription services.
+
+Laravel Spark leverages Laravel/Cashier for subscription billing.
+
+When/If Cashier-Mollie is implemented, support for Laravel Spark would be a logical next topic for research.
 
 ## [ ] Default webhook
 The Laravel-Mollie package makes it easy to set up a new Mollie payment in your Laravel application. But right now, you'll need to implement the webhook yourself. We plan on providing a default webhook, which will trigger an Event when a payment status has been updated. This way, you'll only need to listen for the PaymentUpdatedEvent.
