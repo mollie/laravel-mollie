@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 <!-- ### Changed -->
 <!-- ### Removed -->
 
+## 2.1.0 - 2018-07-30
+### Added
+- Introducing the global helper method `mollie()`. A convenient shortcut you can use anywhere in your Laravel application instead of `Mollie::api()`.
+
 ## 2.0.0 - 2018-07-09
 Version 2.0.0 is here! See the [migration instructions](docs/migration_instructions_v1_to_v2.md) on how to upgrade from v1.
 
