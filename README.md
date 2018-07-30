@@ -89,6 +89,17 @@ if ($payment->isPaid())
 }
 ```
 
+### Global helper method
+For your convencience we've added the global `mollie()` helper function. It's an easy shortcut to the `Mollie::api()` facade accessor.
+
+```php
+// Using facade accessor
+$payment = Mollie::api()->payments()->get($payment_id);
+
+// Using global helper function
+$payment = mollie()->payments()->get($payment_id);
+```
+
 ## Other examples
 
 - [Process realtime status updates with a webhook](docs/webhook.md)
