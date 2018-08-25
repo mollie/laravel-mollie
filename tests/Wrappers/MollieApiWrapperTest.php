@@ -82,4 +82,47 @@ class MollieApiWrapperTest extends TestCase
         $wrapper = new MollieApiWrapper($this->app['config'], $this->app[MollieApiClient::class]);
         $wrapper->setAccessToken('BAD');
     }
+
+    public function testWrappedEndpoints()
+    {
+        $endpoints = [
+            'customerPayments',
+            'customers',
+            'customers',
+            'invoices',
+            'mandates',
+            'methods',
+            'payments',
+            'profiles',
+            'refunds',
+            'settlements',
+            'subscriptions',
+        ];
+
+        $client = $this->app[MollieApiClient::class];
+        $wrapper = new MollieApiWrapper(
+            $this->app['config'],
+            $client
+        );
+
+        foreach ($endpoints as $endpoint) {
+            $this->assertWrappedEndpoint($client, $wrapper, $endpoint);
+        }
+    }
+
+    /**
+     * Asserts that the referenced wrapper method matches the client attribute
+     * I.e. $wrapper->payments() returns the same as $client->payments.
+     *
+     * @param  MollieApiClient $client
+     * @param  MollieApiWrapper $wrapper
+     * @param  string $reference
+     * @return null
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    protected function assertWrappedEndpoint($client, $wrapper, $reference)
+    {
+        $this->assertEquals($client->$reference, $wrapper->$reference());
+    }
 }
