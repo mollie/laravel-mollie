@@ -164,6 +164,22 @@ class MollieApiWrapper
     }
 
     /**
+     * @return Mollie\Api\Endpoints\OrganizationEndpoint
+     */
+    public function organizations()
+    {
+        return $this->client->organizations;
+    }
+
+    /**
+     * @return Mollie\Api\Endpoints\PermissionEndpoint
+     */
+    public function permissions()
+    {
+        return $this->client->permissions;
+    }
+
+    /**
      * @return Mollie\Api\Endpoints\CustomerPaymentsEndpoint
      */
     public function invoices()
