@@ -86,12 +86,14 @@ class MollieApiWrapperTest extends TestCase
     public function testWrappedEndpoints()
     {
         $endpoints = [
+            'customers',
             'customerPayments',
-            'customers',
-            'customers',
             'invoices',
             'mandates',
             'methods',
+            'mandates',
+            'organizations',
+            'permissions',
             'payments',
             'profiles',
             'refunds',
