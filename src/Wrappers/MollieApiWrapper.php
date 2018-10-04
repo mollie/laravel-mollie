@@ -202,4 +202,12 @@ class MollieApiWrapper
     {
         return $this->client->refunds;
     }
+
+    /**
+     * @return Mollie\Api\Endpoints\OrderEndpoint
+     */
+    public function orders()
+    {
+        return $this->client->orders;
+    }
 }
