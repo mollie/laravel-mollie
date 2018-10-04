@@ -9,9 +9,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 <!-- ### Changed -->
 <!-- ### Removed -->
 
+## 2.3.0 - 2018-10-04
+### Added
+- You can now process your Orders, Shipments and Captures using the latest Laravel Mollie client. See [Mollie's guides](https://docs.mollie.com/orders/overview) for more information about these brand new features.
+
+### Changed
+- Bumped mollie core client dependency to from `^2.0` to `^2.1`.
+
 ## 2.2.0 - 2018-09-18
 ### Added
-- Added support for the Organizations and Permissions endpoints. For advanced (Oauth) users.
+- Added support for the Organizations and Permissions endpoints. Advanced (OAuth) users, this one is for you.
 
 ## 2.1.0 - 2018-07-30
 ### Added
