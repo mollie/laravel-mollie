@@ -63,30 +63,35 @@ Here you can see an example of just how simple this package is to use.
 public function preparePayment()
 {
     $payment = Mollie::api()->payments()->create([
-    'amount' => [
-        'currency' => 'EUR',
-        'value' => '10.00', // You must send the correct number of decimals, thus we enforce the use of strings
-    ],
-    'description' => 'My first API payment',
-    'webhookUrl' => route('webhooks.mollie'),
-    'redirectUrl' => route('order.success'),
+        'amount' => [
+            'currency' => 'EUR',
+            'value' => '10.00', // You must send the correct number of decimals, thus we enforce the use of strings
+        ],
+        'description' => 'My first API payment',
+        'webhookUrl' => route('webhooks.mollie'),
+        'redirectUrl' => route('order.success'),
     ]);
-
-    $payment = Mollie::api()->payments()->get($payment->id);
 
     // redirect customer to Mollie checkout page
     return redirect($payment->getCheckoutUrl(), 303);
 }
+```
 
-/**
- * After the customer has completed the transaction,
- * you can fetch, check and process the payment.
- * (See the webhook docs for more information.)
- */
-if ($payment->isPaid())
+Your [webhook](https://docs.mollie.com/guides/webhooks) will receive a POST request when a payment status changes:
+```php
+public function mollieWebhook(Request $request)
 {
-    echo "Payment received.";
-    // Do your thing ...
+    $request->validate([
+        'id' => 'required|string',
+    ]);
+    
+    $paymentId = $request->get('id');
+
+    $payment = Mollie::api()->payments()->get($paymentId);
+    
+    if ($payment->isPaid()) {    
+        // Do your thing ...
+    }
 }
 ```
 
