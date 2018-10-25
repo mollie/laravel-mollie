@@ -67,8 +67,9 @@ public function preparePayment()
         'currency' => 'EUR',
         'value' => '10.00', // You must send the correct number of decimals, thus we enforce the use of strings
     ],
-    "description" => "My first API payment",
-    'webhookUrl'   => route('webhooks.mollie'),
+    'description' => 'My first API payment',
+    'webhookUrl' => route('webhooks.mollie'),
+    'redirectUrl' => route('order.success'),
     ]);
 
     $payment = Mollie::api()->payments()->get($payment->id);
