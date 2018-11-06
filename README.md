@@ -1,6 +1,9 @@
-![Mollie](https://www.mollie.nl/files/Mollie-Logo-Style-Small.png)
+<p align="center">
+  <img src="https://info.mollie.com/hubfs/github/laravel/logo.png" width="128" height="128"/>
+</p>
+<h1 align="center">Mollie for Laravel</h1>
 
-# Laravel-Mollie
+<img src="https://info.mollie.com/hubfs/github/laravel/editor.png" />
 
 Laravel-Mollie incorporates the [Mollie API](https://www.mollie.com/en/docs/overview) and [Mollie Connect](https://www.mollie.com/en/connect) into your [Laravel](https://laravel.com/) or [Lumen](https://lumen.laravel.com/) project.
 
