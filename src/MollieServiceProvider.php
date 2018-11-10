@@ -44,13 +44,6 @@ use Mollie\Laravel\Wrappers\MollieApiWrapper;
 class MollieServiceProvider extends ServiceProvider
 {
     /**
-     * Indicates if loading of the provider is deferred.
-     *
-     * @var bool
-     */
-    protected $defer = true;
-
-    /**
      * Boot the service provider.
      *
      * @return void
