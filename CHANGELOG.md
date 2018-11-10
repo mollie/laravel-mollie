@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 <!-- ### Changed -->
 <!-- ### Removed -->
 
+## 2.3.1 - 2018-11-10
+### Changed
+- Bug fix for using Socialite with Laravel Mollie. See [issue #73](https://github.com/mollie/laravel-mollie/issues/73) for more information.
+
 ## 2.3.0 - 2018-10-04
 ### Added
 - You can now process your Orders, Shipments and Captures using the latest Laravel Mollie client. See [Mollie's guides](https://docs.mollie.com/orders/overview) for more information about these brand new features.
