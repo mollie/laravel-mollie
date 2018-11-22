@@ -204,6 +204,14 @@ class MollieApiWrapper
     }
 
     /**
+     * @return Mollie\Api\Endpoints\ChargebackEndpoint
+     */
+    public function chargebacks()
+    {
+        return $this->client->chargebacks;
+    }
+
+    /**
      * @return Mollie\Api\Endpoints\OrderEndpoint
      */
     public function orders()
