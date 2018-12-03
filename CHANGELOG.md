@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 <!-- ### Changed -->
 <!-- ### Removed -->
 
+## 2.4.1 - 2018-12-02
+### Changed
+- Laravel-mollie now depends on [mollie-api-php](https://github.com/mollie/mollie-api-php) version 2.2.0 and up.
+
+## 2.4.0 - 2018-11-22
+### Added
+- You can now list chargebacks across all payments on the payment profile using `mollie()->chargebacks()->page()`.
+
 ## 2.3.1 - 2018-11-10
 ### Changed
 - Bug fix for using Socialite with Laravel Mollie. See [issue #73](https://github.com/mollie/laravel-mollie/issues/73) for more information.
