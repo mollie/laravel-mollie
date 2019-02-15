@@ -83,21 +83,21 @@ class MollieApiWrapper
     }
 
     /**
-     * @param string $apiKey The Mollie API key, starting with 'test_' or 'live_'
+     * @param string $api_key The Mollie API key, starting with 'test_' or 'live_'
      * @throws ApiException
      */
-    public function setApiKey($apiKey)
+    public function setApiKey($api_key)
     {
-        $this->client->setApiKey($apiKey);
+        $this->client->setApiKey($api_key);
     }
 
     /**
-     * @param string $accessToken OAuth access token, starting with 'access_'
+     * @param string $access_token OAuth access token, starting with 'access_'
      * @throws ApiException
      */
-    public function setAccessToken($accessToken)
+    public function setAccessToken($access_token)
     {
-        $this->client->setAccessToken($accessToken);
+        $this->client->setAccessToken($access_token);
     }
 
     /**
