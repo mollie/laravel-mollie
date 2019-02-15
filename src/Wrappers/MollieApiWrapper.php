@@ -33,6 +33,7 @@ namespace Mollie\Laravel\Wrappers;
 
 use Illuminate\Contracts\Config\Repository;
 use Mollie\Api\MollieApiClient;
+use Mollie\Api\Exceptions\ApiException;
 
 /**
  * Class MollieApiWrapper.
@@ -85,18 +86,18 @@ class MollieApiWrapper
      * @param string $apiKey The Mollie API key, starting with 'test_' or 'live_'
      * @throws ApiException
      */
-    public function setApiKey($api_key)
+    public function setApiKey($apiKey)
     {
-        $this->client->setApiKey($api_key);
+        $this->client->setApiKey($apiKey);
     }
 
     /**
      * @param string $accessToken OAuth access token, starting with 'access_'
      * @throws ApiException
      */
-    public function setAccessToken($access_token)
+    public function setAccessToken($accessToken)
     {
-        $this->client->setAccessToken($access_token);
+        $this->client->setAccessToken($accessToken);
     }
 
     /**
@@ -108,7 +109,7 @@ class MollieApiWrapper
     }
 
     /**
-     * @return Mollie\Api\Endpoints\PaymentEndpoint
+     * @return \Mollie\Api\Endpoints\PaymentEndpoint
      */
     public function payments()
     {
@@ -116,7 +117,7 @@ class MollieApiWrapper
     }
 
     /**
-     * @return Mollie\Api\Endpoints\MethodEndpoint
+     * @return \Mollie\Api\Endpoints\MethodEndpoint
      */
     public function methods()
     {
@@ -124,7 +125,7 @@ class MollieApiWrapper
     }
 
     /**
-     * @return Mollie\Api\Endpoints\CustomerEndpoint
+     * @return \Mollie\Api\Endpoints\CustomerEndpoint
      */
     public function customers()
     {
@@ -132,7 +133,7 @@ class MollieApiWrapper
     }
 
     /**
-     * @return Mollie\Api\Endpoints\SettlementsEndpoint
+     * @return \Mollie\Api\Endpoints\SettlementsEndpoint
      */
     public function settlements()
     {
@@ -140,7 +141,7 @@ class MollieApiWrapper
     }
 
     /**
-     * @return Mollie\Api\Endpoints\SubscriptionEndpoint
+     * @return \Mollie\Api\Endpoints\SubscriptionEndpoint
      */
     public function subscriptions()
     {
@@ -148,7 +149,7 @@ class MollieApiWrapper
     }
 
     /**
-     * @return Mollie\Api\Endpoints\CustomerPaymentsEndpoint
+     * @return \Mollie\Api\Endpoints\CustomerPaymentsEndpoint
      */
     public function customerPayments()
     {
@@ -156,7 +157,7 @@ class MollieApiWrapper
     }
 
     /**
-     * @return Mollie\Api\Endpoints\MandateEndpoint
+     * @return \Mollie\Api\Endpoints\MandateEndpoint
      */
     public function mandates()
     {
@@ -164,7 +165,7 @@ class MollieApiWrapper
     }
 
     /**
-     * @return Mollie\Api\Endpoints\OrganizationEndpoint
+     * @return \Mollie\Api\Endpoints\OrganizationEndpoint
      */
     public function organizations()
     {
@@ -172,7 +173,7 @@ class MollieApiWrapper
     }
 
     /**
-     * @return Mollie\Api\Endpoints\PermissionEndpoint
+     * @return \Mollie\Api\Endpoints\PermissionEndpoint
      */
     public function permissions()
     {
@@ -180,7 +181,7 @@ class MollieApiWrapper
     }
 
     /**
-     * @return Mollie\Api\Endpoints\CustomerPaymentsEndpoint
+     * @return \Mollie\Api\Endpoints\InvoiceEndpoint
      */
     public function invoices()
     {
@@ -188,7 +189,7 @@ class MollieApiWrapper
     }
 
     /**
-     * @return Mollie\Api\Endpoints\ProfileEndpoint
+     * @return \Mollie\Api\Endpoints\ProfileEndpoint
      */
     public function profiles()
     {
@@ -196,7 +197,7 @@ class MollieApiWrapper
     }
 
     /**
-     * @return Mollie\Api\Endpoints\RefundEndpoint
+     * @return \Mollie\Api\Endpoints\RefundEndpoint
      */
     public function refunds()
     {
@@ -204,7 +205,7 @@ class MollieApiWrapper
     }
 
     /**
-     * @return Mollie\Api\Endpoints\ChargebackEndpoint
+     * @return \Mollie\Api\Endpoints\ChargebackEndpoint
      */
     public function chargebacks()
     {
@@ -212,7 +213,7 @@ class MollieApiWrapper
     }
 
     /**
-     * @return Mollie\Api\Endpoints\OrderEndpoint
+     * @return \Mollie\Api\Endpoints\OrderEndpoint
      */
     public function orders()
     {
