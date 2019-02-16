@@ -172,7 +172,7 @@ class MollieConnectProvider extends AbstractProvider implements ProviderInterfac
      *
      * @param array $user
      *
-     * @return \Laravel\Socialite\User
+     * @return \Laravel\Socialite\AbstractUser
      */
     protected function mapUserToObject(array $user)
     {
