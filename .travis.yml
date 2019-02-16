@@ -1,29 +1,54 @@
-dist: trusty
-
 language: php
 
-php:
-  - 7.0
-  - 7.1
-  - 7.2
-  - 7.3
-  - nightly
+sudo: false
 
-cache:
-    directories:
-        - "$HOME/.composer/cache"
+php:
+- 7.1
+- 7.2
+- 7.3
+- nightly
 
 env:
+  global:
+  - COVERAGE=0
   matrix:
-    - COMPOSER_FLAGS=""
+  - LARAVEL='5.5.*' TESTBENCH='3.5.*'
+  - LARAVEL='5.6.*' TESTBENCH='3.6.*'
+  - LARAVEL='5.7.*' TESTBENCH='3.7.*'
+
+cache:
+  directories:
+  - "$HOME/.composer/cache"
+
+matrix:
+  fast_finish: true
+  allow_failures:
+  - php: nightly
+  include:
+  - php: 7.3
+    env: COVERAGE=1 LARAVEL='5.7.*' TESTBENCH='3.7.*'
+  exclude:
+  - php: 7.3
+    env: LARAVEL='5.7.*' TESTBENCH='3.7.*'
+
 
 before_script:
-  - travis_wait 30 composer install ${COMPOSER_FLAGS} -vvv --no-interaction
+- composer config discard-changes true
+
+
+before_install:
+- travis_retry composer self-update
+- travis_retry composer require "illuminate/support:${LARAVEL}" "illuminate/database:${LARAVEL}" "orchestra/testbench:${TESTBENCH}" --no-interaction --no-update
+
+
+install:
+- travis_retry composer install --prefer-dist --no-interaction --no-suggest
+
 
 script:
-  - composer validate --strict
-  - vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+- if [[ $COVERAGE = '0' ]]; then vendor/bin/phpunit; fi
+- if [[ $COVERAGE = '1' ]]; then vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover; fi
+
 
 after_script:
-  - wget https://scrutinizer-ci.com/ocular.phar
-  - php ocular.phar code-coverage:upload --format=php-clover build/logs/clover.xml
+- if [[ $COVERAGE = '1' ]]; then php vendor/bin/ocular code-coverage:upload --format=php-clover coverage.clover; fi
