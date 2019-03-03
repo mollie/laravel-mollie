@@ -56,6 +56,7 @@ class MollieApiWrapper
      * @param Repository $config
      * @param MollieApiClient $client
      *
+     * @throws \Mollie\Api\Exceptions\ApiException
      * @return void
      */
     public function __construct(Repository $config, MollieApiClient $client)
@@ -106,6 +107,17 @@ class MollieApiWrapper
     public function usesOAuth()
     {
         return $this->client->usesOAuth();
+    }
+
+    /**
+     * @param $version_string
+     * @return \Mollie\Laravel\Wrappers\MollieApiWrapper
+     */
+    public function addVersionString($version_string)
+    {
+        $this->client->addVersionString($version_string);
+
+        return $this;
     }
 
     /**

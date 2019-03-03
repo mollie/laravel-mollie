@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 <!-- ### Changed -->
 <!-- ### Removed -->
 
+## 2.5.0 2019-03-03
+### Added
+- A method to record the User Agent (UA) string when calling the Mollie API: `mollie()->addVersionString()`.
+If you're using this package withing another package, this one is for you. 
+
 ## 2.4.1 - 2018-12-02
 ### Changed
 - Laravel-mollie now depends on [mollie-api-php](https://github.com/mollie/mollie-api-php) version 2.2.0 and up.
