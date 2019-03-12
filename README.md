@@ -63,6 +63,8 @@ Here you can see an example of just how simple this package is to use.
 ### A payment using the Mollie API
 
 ```php
+use Mollie\Laravel\Facades\Mollie;
+
 public function preparePayment()
 {
     $payment = Mollie::api()->payments()->create([
