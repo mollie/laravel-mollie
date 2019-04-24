@@ -231,4 +231,12 @@ class MollieApiWrapper
     {
         return $this->client->orders;
     }
+
+    /**
+     * @return \Mollie\Api\Endpoints\OnboardingEndpoint
+     */
+    public function onboarding()
+    {
+        return $this->client->onboarding;
+    }
 }

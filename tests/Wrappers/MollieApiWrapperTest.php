@@ -93,6 +93,7 @@ class MollieApiWrapperTest extends TestCase
             'mandates',
             'methods',
             'mandates',
+            'onboarding',
             'orders',
             'organizations',
             'permissions',

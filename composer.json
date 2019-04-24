@@ -18,7 +18,7 @@
   "require": {
     "php": ">=7.0.0",
     "illuminate/support": "^5.5",
-    "mollie/mollie-api-php": "^2.2"
+    "mollie/mollie-api-php": "^2.9"
   },
   "require-dev": {
     "graham-campbell/testbench": "^4.0|^5.0",
