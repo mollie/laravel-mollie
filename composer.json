@@ -11,8 +11,8 @@
   ],
   "keywords": [
     "mollie", "payment", "service", "ideal", "creditcard", "mistercash", "bancontact", "sofort", "sofortbanking",
-    "sepa", "bitcoin", "paypal", "paysafecard", "podiumcadeaukaart", "banktransfer", "direct debit", "belfius",
-    "belfius direct net", "refunds", "api", "payments", "gateway", "subscriptions", "recurring", "charges",
+    "sepa", "paypal", "paysafecard", "podiumcadeaukaart", "banktransfer", "direct debit", "belfius",
+    "belfius direct net", "przelewy24", "refunds", "api", "payments", "gateway", "subscriptions", "recurring", "charges",
     "laravel", "lumen", "socialite"
   ],
   "require": {
