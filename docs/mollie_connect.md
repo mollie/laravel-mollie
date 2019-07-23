@@ -46,7 +46,7 @@ Route::get('login_callback', function () {
 
     Mollie::api()->setAccessToken($user->token);
 
-    return Mollie::api()->profiles()->all(); // Retrieve all payment profiles available on the obtained Mollie account
+    return Mollie::api()->profiles()->page(); // Retrieve payment profiles available on the obtained Mollie account
 });
 ```
 
