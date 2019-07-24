@@ -50,6 +50,13 @@ Or add it to `composer.json` manually:
 
 Laravel-Mollie's service providers will be automatically registered using Laravel's auto-discovery feature.
 
+Note: For Lumen you have to add the Mollie facade and service provider manually to: `bootstrap/app.php` :
+```php
+$app->withFacades(true, ["Mollie\Laravel\Facades\Mollie" => "Mollie"]);
+
+$app->register(Mollie\Laravel\MollieServiceProvider::class);
+```
+
 ## Configuration
 
 You'll only need to add the `MOLLIE_KEY` variable to your `.env` file.
