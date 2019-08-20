@@ -36,7 +36,7 @@ class MollieWebhookController extends Controller {
 
         $payment = Mollie::api()->payments()->get($request->id);
 
-        if($payment->isPaid()) {
+        if ($payment->isPaid()) {
             // do your thing...
         }
     }
