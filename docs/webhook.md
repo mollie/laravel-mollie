@@ -11,8 +11,8 @@ $payment = Mollie::api()->payments()->create([
         'currency' => 'EUR',
         'value' => '10.00', // You must send the correct number of decimals, thus we enforce the use of strings
     ],
-    "description" => "My first API payment",
-    "redirectUrl" => "https://webshop.example.org/order/12345/",
+    'description' => 'My first API payment',
+    'redirectUrl' => 'https://webshop.example.org/order/12345/',
     'webhookUrl'   => route('webhooks.mollie'),
 ]);
 ```
