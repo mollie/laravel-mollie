@@ -55,12 +55,10 @@ class MollieApiWrapperTest extends TestCase
         $wrapper->setApiKey('test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
     }
 
-    /**
-     * @expectedException Mollie\Api\Exceptions\ApiException
-     * @expectedExceptionMessage Invalid API key: 'live_'. An API key must start with 'test_' or 'live_' and must be at least 30 characters long.
-     */
     public function testSetBadApiKey()
     {
+        $this->expectException(\Mollie\Api\Exceptions\ApiException::class);
+        $this->expectExceptionMessage("Invalid API key: 'live_'. An API key must start with 'test_' or 'live_' and must be at least 30 characters long.");
         $wrapper = new MollieApiWrapper($this->app['config'], $this->app[MollieApiClient::class]);
         $wrapper->setApiKey('live_');
     }
@@ -73,12 +71,10 @@ class MollieApiWrapperTest extends TestCase
         $wrapper->setAccessToken('access_xxx');
     }
 
-    /**
-     * @expectedException Mollie\Api\Exceptions\ApiException
-     * @expectedExceptionMessage Invalid OAuth access token: 'BAD'. An access token must start with 'access_'.
-     */
     public function testSetBadToken()
     {
+        $this->expectException(\Mollie\Api\Exceptions\ApiException::class);
+        $this->expectExceptionMessage("Invalid OAuth access token: 'BAD'. An access token must start with 'access_'.");
         $wrapper = new MollieApiWrapper($this->app['config'], $this->app[MollieApiClient::class]);
         $wrapper->setAccessToken('BAD');
     }
