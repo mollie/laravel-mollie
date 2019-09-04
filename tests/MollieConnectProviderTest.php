@@ -29,17 +29,15 @@ class MollieConnectProviderTest extends TestCase
         $provider = new MollieConnectProvider($request, 'client_id', 'client_secret', 'redirect');
         $response = $provider->redirect();
         $this->assertInstanceOf('Symfony\Component\HttpFoundation\RedirectResponse', $response);
-        $this->assertContains(
+        $this->assertStringStartsWith(
             'https://www.mollie.com/oauth2/authorize?client_id=client_id&redirect_uri=redirect&scope=organizations.read&response_type=code&state=',
             $response->getTargetUrl()
         );
     }
 
-    /**
-     * @expectedException \Laravel\Socialite\Two\InvalidStateException
-     */
     public function testExceptionIsThrownIfStateIsInvalid()
     {
+        $this->expectException(\Laravel\Socialite\Two\InvalidStateException::class);
         $request = Request::create('foo', 'GET', ['state' => str_repeat('B', 40), 'code' => 'code']);
         $request->setSession($session = m::mock('Symfony\Component\HttpFoundation\Session\SessionInterface'));
         $session->shouldReceive('pull')->once()->with('state')->andReturn(str_repeat('A', 40));
@@ -47,11 +45,9 @@ class MollieConnectProviderTest extends TestCase
         $user = $provider->user();
     }
 
-    /**
-     * @expectedException \Laravel\Socialite\Two\InvalidStateException
-     */
     public function testExceptionIsThrownIfStateIsNotSet()
     {
+        $this->expectException(\Laravel\Socialite\Two\InvalidStateException::class);
         $request = Request::create('foo', 'GET', ['state' => 'state', 'code' => 'code']);
         $request->setSession($session = m::mock('Symfony\Component\HttpFoundation\Session\SessionInterface'));
         $session->shouldReceive('pull')->once()->with('state');
