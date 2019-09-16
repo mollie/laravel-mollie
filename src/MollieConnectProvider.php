@@ -31,6 +31,7 @@
  */
 namespace Mollie\Laravel;
 
+use Illuminate\Support\Arr;
 use Laravel\Socialite\Two\AbstractProvider;
 use Laravel\Socialite\Two\ProviderInterface;
 use Laravel\Socialite\Two\User;
@@ -148,7 +149,7 @@ class MollieConnectProvider extends AbstractProvider implements ProviderInterfac
      */
     public function getTokenFields($code)
     {
-        return array_add(parent::getTokenFields($code), 'grant_type', 'authorization_code');
+        return Arr::add(parent::getTokenFields($code), 'grant_type', 'authorization_code');
     }
 
     /**
