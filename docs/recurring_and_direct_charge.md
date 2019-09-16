@@ -10,8 +10,8 @@ First of all you need to [create a new customer](https://docs.mollie.com/payment
 
 ```php
 $customer = Mollie::api()->customers()->create([
-    "name"  => "John Doe",
-    "email" => "john@doe.com",
+    'name'  => 'John Doe',
+    'email' => 'john@doe.com',
 ]);
 ```
 
@@ -23,12 +23,12 @@ After creating the user, you can [start a payment](https://docs.mollie.com/payme
 $payment = Mollie::api()->payments()->create([
     'amount' => [
         'currency' => 'EUR',
-        'value' => '25.00', // You must send the correct number of decimals, thus we enforce the use of strings
+        'value'    => '25.00', // You must send the correct number of decimals, thus we enforce the use of strings
     ],
-    'customerId'    => $customer->id,
+    'customerId'   => $customer->id,
     'sequenceType' => 'first',
-    'description'   => 'My Initial Payment',
-    'redirectUrl'   => 'https://domain.com/return',
+    'description'  => 'My Initial Payment',
+    'redirectUrl'  => 'https://domain.com/return',
     'webhookUrl'   => route('webhooks.mollie'),
 ]);
 
@@ -51,11 +51,11 @@ If any of the mandates is valid, charging the user is a piece of cake. Make sure
  $payment = Mollie::api()->payments()->create([
     'amount' => [
         'currency' => 'EUR',
-        'value' => '25.00', // You must send the correct number of decimals, thus we enforce the use of strings
+        'value'    => '25.00', // You must send the correct number of decimals, thus we enforce the use of strings
     ],
-    'customerId'    => $customer->id,
+    'customerId'   => $customer->id,
     'sequenceType' => 'recurring',
-    'description'   => 'Direct Charge',
+    'description'  => 'Direct Charge',
     'webhookUrl'   => route('webhooks.mollie'),
 ]);
 ```

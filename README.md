@@ -52,7 +52,7 @@ Laravel-Mollie's service providers will be automatically registered using Larave
 
 Note: For Lumen you have to add the Mollie facade and service provider manually to: `bootstrap/app.php` :
 ```php
-$app->withFacades(true, ["Mollie\Laravel\Facades\Mollie" => "Mollie"]);
+$app->withFacades(true, ['Mollie\Laravel\Facades\Mollie' => 'Mollie']);
 
 $app->register(Mollie\Laravel\MollieServiceProvider::class);
 ```
@@ -99,7 +99,7 @@ public function preparePayment()
  */
 if ($payment->isPaid())
 {
-    echo "Payment received.";
+    echo 'Payment received.';
     // Do your thing ...
 }
 ```
