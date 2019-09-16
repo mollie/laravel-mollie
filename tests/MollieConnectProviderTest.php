@@ -54,4 +54,20 @@ class MollieConnectProviderTest extends TestCase
         $provider = new MollieConnectProvider($request, 'client_id', 'client_secret', 'redirect');
         $user = $provider->user();
     }
+
+    public function testGetTokenFields()
+    {
+        $request = Request::create('foo');
+        $provider = new MollieConnectProvider($request, 'client_id', 'client_secret', 'redirect');
+        $this->assertEquals(
+            [
+                'client_id' => 'client_id',
+                'client_secret' => 'client_secret',
+                'code' => 'dummy_code',
+                'redirect_uri' => 'redirect',
+                'grant_type' => 'authorization_code',
+            ],
+            $provider->getTokenFields('dummy_code')
+        );
+    }
 }
