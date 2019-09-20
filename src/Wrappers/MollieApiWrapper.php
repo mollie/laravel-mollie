@@ -239,4 +239,12 @@ class MollieApiWrapper
     {
         return $this->client->onboarding;
     }
+
+    /**
+     * @return \Mollie\Api\Endpoints\WalletEndpoint
+     */
+    public function wallets()
+    {
+        return $this->client->wallets;
+    }
 }
