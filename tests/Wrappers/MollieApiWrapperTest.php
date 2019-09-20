@@ -98,6 +98,7 @@ class MollieApiWrapperTest extends TestCase
             'refunds',
             'settlements',
             'subscriptions',
+            'wallets',
         ];
 
         $client = $this->app[MollieApiClient::class];
