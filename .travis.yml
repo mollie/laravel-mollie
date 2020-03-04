@@ -6,6 +6,7 @@ php:
 - 7.1
 - 7.2
 - 7.3
+- 7.4
 - nightly
 
 env:
@@ -14,6 +15,7 @@ env:
   matrix:
   - LARAVEL='5.8.*' TESTBENCH='3.8.*'
   - LARAVEL='6.*' TESTBENCH='4.*'
+  - LARAVEL='7.*' TESTBENCH='5.*'
 
 cache:
   directories:
@@ -24,8 +26,8 @@ matrix:
   allow_failures:
   - php: nightly
   include:
-  - php: 7.3
-    env: COVERAGE=1 LARAVEL='6.*' TESTBENCH='4.*'
+  - php: 7.4
+    env: COVERAGE=1 LARAVEL='7.*' TESTBENCH='5.*'
   exclude:
   - php: 7.1
     env: LARAVEL='6.*' TESTBENCH='4.*'
