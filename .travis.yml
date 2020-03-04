@@ -33,6 +33,10 @@ matrix:
     env: LARAVEL='6.*' TESTBENCH='4.*'
   - php: 7.3
     env: LARAVEL='6.*' TESTBENCH='4.*'
+  - php: 7.1
+    env: LARAVEL='7.*' TESTBENCH='5.*'
+  - php: 7.4
+    env: LARAVEL='7.*' TESTBENCH='5.*'
 
 
 before_script:
