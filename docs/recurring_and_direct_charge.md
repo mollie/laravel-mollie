@@ -33,7 +33,7 @@ $payment = Mollie::api()->payments()->create([
 ]);
 
 // Redirect the user to Mollie's payment screen.
-redirect($payment->getCheckoutUrl(), 303);
+return redirect($payment->getCheckoutUrl(), 303);
 ```
 
 ## Direct Charge
