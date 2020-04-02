@@ -104,6 +104,15 @@ if ($payment->isPaid())
 }
 ```
 
+instead of using any method i.e.
+```php
+Mollie::api()->payments();
+```
+you could also access it like in the core api via the property
+```php
+Mollie::api()->payments;
+```
+
 ### Global helper method
 For your convencience we've added the global `mollie()` helper function. It's an easy shortcut to the `Mollie::api()` facade accessor.
 
