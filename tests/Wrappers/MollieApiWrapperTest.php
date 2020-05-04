@@ -125,6 +125,34 @@ class MollieApiWrapperTest extends TestCase
         }
     }
 
+    public function testUnknownWrappedEndpoint()
+    {
+        $client = $this->app[MollieApiClient::class];
+        $wrapper = new MollieApiWrapper(
+            $this->app['config'],
+            $client
+        );
+
+        $this->expectException(\Error::class, );
+        $this->expectExceptionMessage('Call to undefined method Mollie\Laravel\Wrappers\MollieApiWrapper::unknown()');
+
+        $wrapper->unknown();
+    }
+
+    public function testUnknownWrappedPropertyEndpoint()
+    {
+        $client = $this->app[MollieApiClient::class];
+        $wrapper = new MollieApiWrapper(
+            $this->app['config'],
+            $client
+        );
+
+        $this->expectException(\Exception::class, );
+        $this->expectExceptionMessage('Mollie\Laravel\Wrappers\MollieApiWrapper does not respond to the "unknown" property or method.');
+
+        $wrapper->unknown;
+    }
+
     /**
      * Asserts that the referenced wrapper method matches the client attribute
      * I.e. $wrapper->payments() returns the same as $client->payments.
