@@ -147,8 +147,8 @@ class MollieApiWrapperTest extends TestCase
             $client
         );
 
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('Mollie\Laravel\Wrappers\MollieApiWrapper does not respond to the "unknown" property or method.');
+        $this->expectException(\Error::class);
+        $this->expectExceptionMessage('Mollie\Laravel\Wrappers\MollieApiWrapper has no property or method "unknown".');
 
         $wrapper->unknown;
     }

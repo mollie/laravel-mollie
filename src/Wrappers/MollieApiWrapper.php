@@ -260,9 +260,9 @@ class MollieApiWrapper
             return call_user_func([$this, $property]);
         }
 
-        $message = '%s does not respond to the "%s" property or method.';
+        $message = '%s has no property or method "%s".';
 
-        throw new \Exception(
+        throw new \Error(
             sprintf($message, static::class, $property)
         );
     }
