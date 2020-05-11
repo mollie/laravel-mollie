@@ -247,4 +247,23 @@ class MollieApiWrapper
     {
         return $this->client->wallets;
     }
+
+    /**
+     * Handle dynamic property calls.
+     *
+     * @param  string $property
+     * @return mixed
+     */
+    public function __get($property)
+    {
+        if (method_exists($this, $property)) {
+            return call_user_func([$this, $property]);
+        }
+
+        $message = '%s has no property or method "%s".';
+
+        throw new \Error(
+            sprintf($message, static::class, $property)
+        );
+    }
 }

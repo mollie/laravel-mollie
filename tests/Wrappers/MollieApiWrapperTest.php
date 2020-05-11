@@ -20,6 +20,26 @@ class MollieApiWrapperTest extends TestCase
      */
     protected $api;
 
+    protected $endpoints = [
+        'chargebacks',
+        'customers',
+        'customerPayments',
+        'invoices',
+        'mandates',
+        'methods',
+        'mandates',
+        'onboarding',
+        'orders',
+        'organizations',
+        'permissions',
+        'payments',
+        'profiles',
+        'refunds',
+        'settlements',
+        'subscriptions',
+        'wallets',
+    ];
+
     /**
      * @before
      */
@@ -81,35 +101,56 @@ class MollieApiWrapperTest extends TestCase
 
     public function testWrappedEndpoints()
     {
-        $endpoints = [
-            'chargebacks',
-            'customers',
-            'customerPayments',
-            'invoices',
-            'mandates',
-            'methods',
-            'mandates',
-            'onboarding',
-            'orders',
-            'organizations',
-            'permissions',
-            'payments',
-            'profiles',
-            'refunds',
-            'settlements',
-            'subscriptions',
-            'wallets',
-        ];
-
         $client = $this->app[MollieApiClient::class];
         $wrapper = new MollieApiWrapper(
             $this->app['config'],
             $client
         );
 
-        foreach ($endpoints as $endpoint) {
+        foreach ($this->endpoints as $endpoint) {
             $this->assertWrappedEndpoint($client, $wrapper, $endpoint);
         }
+    }
+
+    public function testWrappedPropertyEndpoints()
+    {
+        $client = $this->app[MollieApiClient::class];
+        $wrapper = new MollieApiWrapper(
+            $this->app['config'],
+            $client
+        );
+
+        foreach ($this->endpoints as $endpoint) {
+            $this->assertWrappedPropertyEndpoint($client, $wrapper, $endpoint);
+        }
+    }
+
+    public function testUnknownWrappedEndpoint()
+    {
+        $client = $this->app[MollieApiClient::class];
+        $wrapper = new MollieApiWrapper(
+            $this->app['config'],
+            $client
+        );
+
+        $this->expectException(\Error::class);
+        $this->expectExceptionMessage('Call to undefined method Mollie\Laravel\Wrappers\MollieApiWrapper::unknown()');
+
+        $wrapper->unknown();
+    }
+
+    public function testUnknownWrappedPropertyEndpoint()
+    {
+        $client = $this->app[MollieApiClient::class];
+        $wrapper = new MollieApiWrapper(
+            $this->app['config'],
+            $client
+        );
+
+        $this->expectException(\Error::class);
+        $this->expectExceptionMessage('Mollie\Laravel\Wrappers\MollieApiWrapper has no property or method "unknown".');
+
+        $wrapper->unknown;
     }
 
     /**
@@ -126,5 +167,21 @@ class MollieApiWrapperTest extends TestCase
     protected function assertWrappedEndpoint($client, $wrapper, $reference)
     {
         $this->assertEquals($client->$reference, $wrapper->$reference());
+    }
+
+    /**
+     * Asserts that the referenced wrapper property matches the client attribute
+     * I.e. $wrapper->payments returns the same as $client->payments.
+     *
+     * @param  MollieApiClient $client
+     * @param  MollieApiWrapper $wrapper
+     * @param  string $reference
+     * @return null
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    protected function assertWrappedPropertyEndpoint($client, $wrapper, $reference)
+    {
+        $this->assertEquals($client->$reference, $wrapper->$reference);
     }
 }
