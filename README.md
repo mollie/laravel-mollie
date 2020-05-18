@@ -76,17 +76,20 @@ use Mollie\Laravel\Facades\Mollie;
 
 public function preparePayment()
 {
-    $payment = Mollie::api()->payments()->create([
-    'amount' => [
-        'currency' => 'EUR',
-        'value' => '10.00', // You must send the correct number of decimals, thus we enforce the use of strings
-    ],
-    'description' => 'My first API payment',
-    'webhookUrl' => route('webhooks.mollie'),
-    'redirectUrl' => route('order.success'),
+    $payment = Mollie::api()->payments->create([[
+        "amount" => [
+            "currency" => "EUR",
+            "value" => "10.00" // You must send the correct number of decimals, thus we enforce the use of strings
+        ],
+        "description" => "Order #12345",
+        "redirectUrl" => route('webhooks.mollie'),
+        "webhookUrl" => route('order.success'),
+        "metadata" => [
+            "order_id" => "12345",
+        ],
     ]);
 
-    $payment = Mollie::api()->payments()->get($payment->id);
+    $payment = Mollie::api()->payments->get($payment->id);
 
     // redirect customer to Mollie checkout page
     return redirect($payment->getCheckoutUrl(), 303);
@@ -104,24 +107,15 @@ if ($payment->isPaid())
 }
 ```
 
-instead of using any method i.e.
-```php
-Mollie::api()->payments();
-```
-you could also access it like in the core api via the property
-```php
-Mollie::api()->payments;
-```
-
 ### Global helper method
 For your convencience we've added the global `mollie()` helper function. It's an easy shortcut to the `Mollie::api()` facade accessor.
 
 ```php
 // Using facade accessor
-$payment = \Mollie\Laravel\Facades\Mollie::api()->payments()->get($payment_id);
+$payment = \Mollie\Laravel\Facades\Mollie::api()->payments->get($payment_id);
 
 // Using global helper function
-$payment = mollie()->payments()->get($payment_id);
+$payment = mollie()->payments->get($payment_id);
 ```
 
 ## Other examples
