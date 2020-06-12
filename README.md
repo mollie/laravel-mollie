@@ -76,7 +76,7 @@ use Mollie\Laravel\Facades\Mollie;
 
 public function preparePayment()
 {
-    $payment = Mollie::api()->payments->create([[
+    $payment = Mollie::api()->payments->create([
         "amount" => [
             "currency" => "EUR",
             "value" => "10.00" // You must send the correct number of decimals, thus we enforce the use of strings
