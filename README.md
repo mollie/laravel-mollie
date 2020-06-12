@@ -82,8 +82,8 @@ public function preparePayment()
             "value" => "10.00" // You must send the correct number of decimals, thus we enforce the use of strings
         ],
         "description" => "Order #12345",
-        "redirectUrl" => route('webhooks.mollie'),
-        "webhookUrl" => route('order.success'),
+        "redirectUrl" => route('order.success'),
+        "webhookUrl" => route('webhooks.mollie'),
         "metadata" => [
             "order_id" => "12345",
         ],
