@@ -76,14 +76,14 @@ use Mollie\Laravel\Facades\Mollie;
 
 public function preparePayment()
 {
-    $payment = Mollie::api()->payments->create([[
+    $payment = Mollie::api()->payments->create([
         "amount" => [
             "currency" => "EUR",
             "value" => "10.00" // You must send the correct number of decimals, thus we enforce the use of strings
         ],
         "description" => "Order #12345",
-        "redirectUrl" => route('webhooks.mollie'),
-        "webhookUrl" => route('order.success'),
+        "redirectUrl" => route('order.success'),
+        "webhookUrl" => route('webhooks.mollie'),
         "metadata" => [
             "order_id" => "12345",
         ],
