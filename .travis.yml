@@ -28,12 +28,12 @@ matrix:
   - php: 7.4
     env: COVERAGE=1 LARAVEL='8.*' TESTBENCH='6.*'
   exclude:
-  - php: 7.1
-    env: LARAVEL='6.*' TESTBENCH='4.*'
   - php: 7.3
     env: LARAVEL='6.*' TESTBENCH='4.*'
   - php: 7.1
     env: LARAVEL='7.*' TESTBENCH='5.*'
+  - php: 7.2
+    env: LARAVEL='8.*' TESTBENCH='6.*'
   - php: 7.4
     env: LARAVEL='7.*' TESTBENCH='5.*'
 
