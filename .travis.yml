@@ -3,7 +3,6 @@ language: php
 sudo: false
 
 php:
-- 7.1
 - 7.2
 - 7.3
 - 7.4
@@ -13,9 +12,9 @@ env:
   global:
   - COVERAGE=0
   matrix:
-  - LARAVEL='5.8.*' TESTBENCH='3.8.*'
   - LARAVEL='6.*' TESTBENCH='4.*'
   - LARAVEL='7.*' TESTBENCH='5.*'
+  - LARAVEL='8.*' TESTBENCH='6.*'
 
 cache:
   directories:
@@ -27,7 +26,7 @@ matrix:
   - php: nightly
   include:
   - php: 7.4
-    env: COVERAGE=1 LARAVEL='7.*' TESTBENCH='5.*'
+    env: COVERAGE=1 LARAVEL='8.*' TESTBENCH='6.*'
   exclude:
   - php: 7.1
     env: LARAVEL='6.*' TESTBENCH='4.*'
