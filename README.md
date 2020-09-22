@@ -96,16 +96,18 @@ public function preparePayment()
 /**
  * After the customer has completed the transaction,
  * you can fetch, check and process the payment.
- * (See the webhook docs for more information.)
+ * This logic typically goes into the controller handling the inbound webhook request.
+ * See the webhook docs in /docs and on mollie.com for more information.
  */
+public function handleWebhookNotification(Request $request) {
+    $paymentId = $request->input('id');
+    $payment = Mollie::api()->payments->get($paymentId);
 
-$paymentId = $request->input('id');
-$payment = Mollie::api()->payments->get($paymentId);
-
-if ($payment->isPaid())
-{
-    echo 'Payment received.';
-    // Do your thing ...
+    if ($payment->isPaid())
+    {
+        echo 'Payment received.';
+        // Do your thing ...
+    }
 }
 ```
 
