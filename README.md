@@ -89,8 +89,6 @@ public function preparePayment()
         ],
     ]);
 
-    $payment = Mollie::api()->payments->get($payment->id);
-
     // redirect customer to Mollie checkout page
     return redirect($payment->getCheckoutUrl(), 303);
 }
@@ -100,6 +98,10 @@ public function preparePayment()
  * you can fetch, check and process the payment.
  * (See the webhook docs for more information.)
  */
+
+$paymentId = $request->input('id');
+$payment = Mollie::api()->payments->get($paymentId);
+
 if ($payment->isPaid())
 {
     echo 'Payment received.';
