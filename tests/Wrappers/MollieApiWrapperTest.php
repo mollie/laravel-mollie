@@ -33,6 +33,7 @@ class MollieApiWrapperTest extends TestCase
         'organizations',
         'permissions',
         'payments',
+        'paymentRefunds',
         'profiles',
         'refunds',
         'settlements',
