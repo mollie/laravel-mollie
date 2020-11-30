@@ -129,6 +129,14 @@ class MollieApiWrapper
     }
 
     /**
+     * @return \Mollie\Api\Endpoints\PaymentRefundEndpoint
+     */
+    public function paymentRefunds()
+    {
+        return $this->client->paymentRefunds;
+    }
+
+    /**
      * @return \Mollie\Api\Endpoints\MethodEndpoint
      */
     public function methods()
