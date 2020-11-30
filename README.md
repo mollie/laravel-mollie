@@ -11,7 +11,7 @@ Accepting [iDEAL](https://www.mollie.com/en/payments/ideal/), [Apple Pay](https:
 
 **Looking for a complete recurring billing solution?** Take a look at [laravel/cashier-mollie](https://www.github.com/laravel/cashier-mollie) instead.
 
-[![Build Status](https://travis-ci.org/mollie/laravel-mollie.png)](https://travis-ci.org/mollie/laravel-mollie)
+[![Build Status](https://github.com/mollie/laravel-mollie/workflows/tests/badge.svg)](https://github.com/mollie/laravel-mollie/actions)
 [![Latest Stable Version](https://poser.pugx.org/mollie/laravel-mollie/v/stable)](https://packagist.org/packages/mollie/laravel-mollie)
 [![Total Downloads](https://poser.pugx.org/mollie/laravel-mollie/downloads)](https://packagist.org/packages/mollie/laravel-mollie)
 
