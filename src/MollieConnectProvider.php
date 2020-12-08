@@ -121,8 +121,10 @@ class MollieConnectProvider extends AbstractProvider implements ProviderInterfac
             'headers' => ['Accept' => 'application/json'],
             'form_params' => $this->getRefreshTokenFields($refresh_token),
         ]);
+
         return json_decode($response->getBody(), true);
     }
+
     /**
      * Get the refresh tokenfields with a refresh token.
      *

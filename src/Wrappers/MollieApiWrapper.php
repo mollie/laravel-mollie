@@ -32,8 +32,8 @@
 namespace Mollie\Laravel\Wrappers;
 
 use Illuminate\Contracts\Config\Repository;
-use Mollie\Api\MollieApiClient;
 use Mollie\Api\Exceptions\ApiException;
+use Mollie\Api\MollieApiClient;
 
 /**
  * Class MollieApiWrapper.
