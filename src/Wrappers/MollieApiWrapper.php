@@ -145,6 +145,14 @@ class MollieApiWrapper
     }
 
     /**
+     * @return \Mollie\Api\Endpoints\ProfileMethodEndpoint
+     */
+    public function profileMethods()
+    {
+        return $this->client->profileMethods;
+    }
+
+    /**
      * @return \Mollie\Api\Endpoints\CustomerEndpoint
      */
     public function customers()

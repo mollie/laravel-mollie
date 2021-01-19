@@ -27,6 +27,7 @@ class MollieApiWrapperTest extends TestCase
         'invoices',
         'mandates',
         'methods',
+        'profileMethods',
         'mandates',
         'onboarding',
         'orders',
