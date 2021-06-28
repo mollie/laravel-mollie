@@ -137,6 +137,14 @@ class MollieApiWrapper
     }
 
     /**
+     * @return \Mollie\Api\Endpoints\PaymentLinkEndpoint
+     */
+    public function paymentLinks()
+    {
+        return $this->client->paymentLinks;
+    }
+
+    /**
      * @return \Mollie\Api\Endpoints\MethodEndpoint
      */
     public function methods()
