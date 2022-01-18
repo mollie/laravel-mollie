@@ -273,6 +273,22 @@ class MollieApiWrapper
     }
 
     /**
+     * @return \Mollie\Api\Endpoints\ClientEndpoint
+     */
+    public function clients()
+    {
+        return $this->client->clients;
+    }
+
+    /**
+     * @return \Mollie\Api\Endpoints\OrganizationPartnerEndpoint
+     */
+    public function organizationPartners()
+    {
+        return $this->client->organizationPartners;
+    }
+
+    /**
      * Handle dynamic property calls.
      *
      * @param  string $property
