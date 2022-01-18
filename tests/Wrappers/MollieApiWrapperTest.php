@@ -41,6 +41,8 @@ class MollieApiWrapperTest extends TestCase
         'settlements',
         'subscriptions',
         'wallets',
+        'clients',
+        'organizationPartners',
     ];
 
     /**
