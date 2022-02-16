@@ -289,6 +289,24 @@ class MollieApiWrapper
     }
 
     /**
+     * @return void
+     * @throws \Mollie\Api\Exceptions\HttpAdapterDoesNotSupportDebuggingException
+     */
+    public function enableDebugging()
+    {
+        $this->client->enableDebugging();
+    }
+
+    /**
+     * @return void
+     * @throws \Mollie\Api\Exceptions\HttpAdapterDoesNotSupportDebuggingException
+     */
+    public function disableDebugging()
+    {
+        $this->client->disableDebugging();
+    }
+
+    /**
      * Handle dynamic property calls.
      *
      * @param  string $property

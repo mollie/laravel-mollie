@@ -104,6 +104,22 @@ class MollieApiWrapperTest extends TestCase
         $wrapper->setAccessToken('BAD');
     }
 
+    public function testEnableDebugging()
+    {
+        $this->api->expects($this->once())->method('enableDebugging');
+
+        $wrapper = new MollieApiWrapper($this->app['config'], $this->api);
+        $wrapper->enableDebugging();
+    }
+
+    public function testDisableDebugging()
+    {
+        $this->api->expects($this->once())->method('disableDebugging');
+
+        $wrapper = new MollieApiWrapper($this->app['config'], $this->api);
+        $wrapper->disableDebugging();
+    }
+
     public function testWrappedEndpoints()
     {
         $client = $this->app[MollieApiClient::class];
