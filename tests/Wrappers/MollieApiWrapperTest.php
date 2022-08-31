@@ -8,8 +8,6 @@ use Mollie\Laravel\Wrappers\MollieApiWrapper;
 
 /**
  * Class MollieApiWrapper
- *
- * @package Mollie\Laravel\Tests\Wrappers
  */
 class MollieApiWrapperTest extends TestCase
 {
@@ -178,10 +176,11 @@ class MollieApiWrapperTest extends TestCase
      * Asserts that the referenced wrapper method matches the client attribute
      * I.e. $wrapper->payments() returns the same as $client->payments.
      *
-     * @param  MollieApiClient $client
-     * @param  MollieApiWrapper $wrapper
-     * @param  string $reference
+     * @param  MollieApiClient  $client
+     * @param  MollieApiWrapper  $wrapper
+     * @param  string  $reference
      * @return null
+     *
      * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
@@ -194,10 +193,11 @@ class MollieApiWrapperTest extends TestCase
      * Asserts that the referenced wrapper property matches the client attribute
      * I.e. $wrapper->payments returns the same as $client->payments.
      *
-     * @param  MollieApiClient $client
-     * @param  MollieApiWrapper $wrapper
-     * @param  string $reference
+     * @param  MollieApiClient  $client
+     * @param  MollieApiWrapper  $wrapper
+     * @param  string  $reference
      * @return null
+     *
      * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
