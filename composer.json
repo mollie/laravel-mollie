@@ -52,7 +52,7 @@
     "mockery/mockery": "^1.0",
     "phpunit/phpunit": "^9.0",
     "laravel/socialite": "^5.0",
-    "friendsofphp/php-cs-fixer": "^3.0"
+    "laravel/pint": "^1.1"
   },
   "suggest": {
     "laravel/socialite": "Use Mollie Connect (OAuth) to authenticate via Laravel Socialite with the Mollie API. This is needed for some endpoints."
@@ -82,7 +82,7 @@
   },
   "scripts": {
     "test": "./vendor/bin/phpunit tests",
-    "format": "./vendor/bin/php-cs-fixer fix --allow-risky=yes"
+    "format": "./vendor/bin/pint"
   },
   "minimum-stability": "dev",
   "prefer-stable": true
