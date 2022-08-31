@@ -27,8 +27,10 @@
  * @license     Berkeley Software Distribution License (BSD-License 2) http://www.opensource.org/licenses/bsd-license.php
  * @author      Mollie B.V. <info@mollie.com>
  * @copyright   Mollie B.V.
+ *
  * @link        https://www.mollie.com
  */
+
 namespace Mollie\Laravel\Wrappers;
 
 use Illuminate\Contracts\Config\Repository;
@@ -53,11 +55,11 @@ class MollieApiWrapper
     /**
      * MollieApiWrapper constructor.
      *
-     * @param Repository $config
-     * @param MollieApiClient $client
+     * @param  Repository  $config
+     * @param  MollieApiClient  $client
+     * @return void
      *
      * @throws \Mollie\Api\Exceptions\ApiException
-     * @return void
      */
     public function __construct(Repository $config, MollieApiClient $client)
     {
@@ -68,7 +70,7 @@ class MollieApiWrapper
     }
 
     /**
-     * @param string $url
+     * @param  string  $url
      */
     public function setApiEndpoint($url)
     {
@@ -84,7 +86,8 @@ class MollieApiWrapper
     }
 
     /**
-     * @param string $api_key The Mollie API key, starting with 'test_' or 'live_'
+     * @param  string  $api_key The Mollie API key, starting with 'test_' or 'live_'
+     *
      * @throws ApiException
      */
     public function setApiKey($api_key)
@@ -93,7 +96,8 @@ class MollieApiWrapper
     }
 
     /**
-     * @param string $access_token OAuth access token, starting with 'access_'
+     * @param  string  $access_token OAuth access token, starting with 'access_'
+     *
      * @throws ApiException
      */
     public function setAccessToken($access_token)
@@ -290,6 +294,7 @@ class MollieApiWrapper
 
     /**
      * @return void
+     *
      * @throws \Mollie\Api\Exceptions\HttpAdapterDoesNotSupportDebuggingException
      */
     public function enableDebugging()
@@ -299,6 +304,7 @@ class MollieApiWrapper
 
     /**
      * @return void
+     *
      * @throws \Mollie\Api\Exceptions\HttpAdapterDoesNotSupportDebuggingException
      */
     public function disableDebugging()
@@ -309,7 +315,7 @@ class MollieApiWrapper
     /**
      * Handle dynamic property calls.
      *
-     * @param  string $property
+     * @param  string  $property
      * @return mixed
      */
     public function __get($property)
