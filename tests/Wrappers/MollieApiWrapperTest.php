@@ -85,6 +85,15 @@ class MollieApiWrapperTest extends TestCase
         $wrapper->setApiKey('live_');
     }
 
+    public function testDoesNotSetKeyWhenEmpty()
+    {
+        config(['mollie.key' => '']);
+        $this->assertEmpty($this->app['config']['mollie']['key']);
+        $this->api->expects($this->never())->method('setApiKey');
+
+        $wrapper = new MollieApiWrapper($this->app['config'], $this->api);
+    }
+
     public function testSetGoodToken()
     {
         $this->api->expects($this->once())->method('setAccessToken')->with('access_xxx');

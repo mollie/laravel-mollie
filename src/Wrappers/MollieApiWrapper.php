@@ -64,7 +64,11 @@ class MollieApiWrapper
         $this->config = $config;
         $this->client = $client;
 
-        $this->setApiKey($this->config->get('mollie.key'));
+        $key = $this->config->get('mollie.key');
+
+        if(! empty($key)) {
+            $this->setApiKey($key);
+        }
     }
 
     /**
