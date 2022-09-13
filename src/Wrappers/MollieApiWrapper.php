@@ -68,7 +68,7 @@ class MollieApiWrapper
 
         $key = $this->config->get('mollie.key');
 
-        if(! empty($key)) {
+        if (! empty($key)) {
             $this->setApiKey($key);
         }
     }
