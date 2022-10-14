@@ -44,8 +44,7 @@
     "php": "^7.3|^8.0",
     "illuminate/support": "^8.0|^9.0",
     "mollie/mollie-api-php": "^2.40",
-    "ext-json": "*",
-    
+    "ext-json": "*"
   },
   "require-dev": {
     "graham-campbell/testbench": "^5.0",
