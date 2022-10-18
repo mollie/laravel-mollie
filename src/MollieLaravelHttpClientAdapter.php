@@ -28,7 +28,7 @@ class MollieLaravelHttpClientAdapter implements MollieHttpAdapterInterface
                 return null;
             }
 
-            throw new ApiException("No response body found.");
+            throw new ApiException('No response body found.');
         }
 
         $object = @json_decode($body);
