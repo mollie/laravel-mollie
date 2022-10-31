@@ -52,7 +52,7 @@
     "phpunit/phpunit": "^9.0",
     "laravel/socialite": "^5.0",
     "laravel/pint": "^1.1",
-     "symfony/finder": "^5.0|^6.0"
+    "symfony/finder": "^5.0|^6.0"
   },
   "suggest": {
     "laravel/socialite": "Use Mollie Connect (OAuth) to authenticate via Laravel Socialite with the Mollie API. This is needed for some endpoints."
