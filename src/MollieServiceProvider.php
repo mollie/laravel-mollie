@@ -131,7 +131,8 @@ class MollieServiceProvider extends ServiceProvider
     protected function registerApiClient()
     {
         $this->app->singleton('mollie.api.client', function () {
-            return (new MollieApiClient(new MollieLaravelHttpClientAdapter()))->addVersionString('MollieLaravel/'.self::PACKAGE_VERSION);
+            // return (new MollieApiClient(new MollieLaravelHttpClientAdapter()))->addVersionString('MollieLaravel/'.self::PACKAGE_VERSION);
+            return (new MollieApiClient())->addVersionString('MollieLaravel/'.self::PACKAGE_VERSION);
         });
 
         $this->app->alias('mollie.api.client', MollieApiClient::class);
