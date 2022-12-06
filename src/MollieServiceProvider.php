@@ -45,7 +45,7 @@ use Mollie\Laravel\Wrappers\MollieApiWrapper;
  */
 class MollieServiceProvider extends ServiceProvider
 {
-    const PACKAGE_VERSION = '2.20.1';
+    const PACKAGE_VERSION = '2.20.2';
 
     /**
      * Boot the service provider.
@@ -131,8 +131,8 @@ class MollieServiceProvider extends ServiceProvider
     protected function registerApiClient()
     {
         $this->app->singleton('mollie.api.client', function () {
-            // return (new MollieApiClient(new MollieLaravelHttpClientAdapter()))->addVersionString('MollieLaravel/'.self::PACKAGE_VERSION);
-            return (new MollieApiClient())->addVersionString('MollieLaravel/'.self::PACKAGE_VERSION);
+            return (new MollieApiClient(new MollieLaravelHttpClientAdapter))
+                ->addVersionString('MollieLaravel/'.self::PACKAGE_VERSION);
         });
 
         $this->app->alias('mollie.api.client', MollieApiClient::class);
