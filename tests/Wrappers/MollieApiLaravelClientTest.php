@@ -13,7 +13,6 @@ use Mollie\Laravel\Wrappers\MollieApiWrapper;
  */
 class MollieApiLaravelClientTest extends TestCase
 {
-
     public function testPostRequest()
     {
         /** @var MollieApiClient $client */
@@ -24,7 +23,7 @@ class MollieApiLaravelClientTest extends TestCase
         $payment->description = 'test';
 
         Http::fake([
-            'https://api.mollie.com/*' => Http::response(json_encode($payment))
+            'https://api.mollie.com/*' => Http::response(json_encode($payment)),
         ]);
 
         $client->setApiKey('test_nawruSyCR7UE84EhtVmMmDGdRswBqj');
@@ -33,8 +32,8 @@ class MollieApiLaravelClientTest extends TestCase
             'description' => 'test',
             'amount' => [
                 'value' => '10.00',
-                'currency' => 'EUR'
-            ]
+                'currency' => 'EUR',
+            ],
         ]);
 
         $this->assertEquals($payment->id, $returnedPayment->id);
@@ -52,7 +51,7 @@ class MollieApiLaravelClientTest extends TestCase
         $payment->description = 'test';
 
         Http::fake([
-            'https://api.mollie.com/v2/payments/' . $payment->id => Http::response(json_encode($payment))
+            'https://api.mollie.com/v2/payments/'.$payment->id => Http::response(json_encode($payment)),
         ]);
 
         $client->setApiKey('test_nawruSyCR7UE84EhtVmMmDGdRswBqj');
