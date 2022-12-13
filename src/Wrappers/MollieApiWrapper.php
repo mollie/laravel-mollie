@@ -193,6 +193,30 @@ class MollieApiWrapper
     }
 
     /**
+     * @return \Mollie\Api\Endpoints\BalanceEndpoint
+     */
+    public function balances()
+    {
+        return $this->client->balances;
+    }
+
+    /**
+     * @return \Mollie\Api\Endpoints\BalanceTransactionEndpoint
+     */
+    public function balanceTransactions()
+    {
+        return $this->client->balanceTransactions;
+    }
+
+    /**
+     * @return \Mollie\Api\Endpoints\BalanceReportEndpoint
+     */
+    public function balanceReports()
+    {
+        return $this->client->balanceReports;
+    }
+
+    /**
      * @return \Mollie\Api\Endpoints\SettlementsEndpoint
      */
     public function settlements()
