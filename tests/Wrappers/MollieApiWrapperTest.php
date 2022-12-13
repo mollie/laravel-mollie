@@ -19,6 +19,9 @@ class MollieApiWrapperTest extends TestCase
     protected $api;
 
     protected $endpoints = [
+        'balances',
+        'balanceReports',
+        'balanceTransactions',
         'chargebacks',
         'customers',
         'customerPayments',
