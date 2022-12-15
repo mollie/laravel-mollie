@@ -44,7 +44,7 @@ Or add it to `composer.json` manually:
 
 ```json
 "require": {
-    "mollie/laravel-mollie": "^2.21"
+    "mollie/laravel-mollie": "^2.0"
 }
 ```
 
