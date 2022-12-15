@@ -37,14 +37,14 @@ Fresh install? Continue with the installation guide below.
 Add Laravel-Mollie to your composer file via the `composer require` command:
 
 ```bash
-composer require mollie/laravel-mollie:^2.0
+composer require mollie/laravel-mollie
 ```
 
 Or add it to `composer.json` manually:
 
 ```json
 "require": {
-    "mollie/laravel-mollie": "^2.0"
+    "mollie/laravel-mollie": "^2.21"
 }
 ```
 
