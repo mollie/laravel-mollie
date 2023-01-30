@@ -13,7 +13,11 @@ jobs:
       fail-fast: true
       matrix:
         php: ['8.0', 8.1, 8.2]
-        laravel: [8, 9]
+        laravel: [8, 9, 10]
+        exclude:
+          # Laravel 10 requires PHP >= 8.1
+          - php: '8.0'
+            laravel: 10
 
     name: P${{ matrix.php }} - L${{ matrix.laravel }}
 
