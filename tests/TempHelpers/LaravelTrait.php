@@ -11,7 +11,6 @@ trait LaravelTrait
     /**
      * Assert that a class can be automatically injected.
      *
-     * @param string $name
      *
      * @return void
      */
@@ -37,7 +36,6 @@ trait LaravelTrait
     /**
      * Register and make a stub class to inject into.
      *
-     * @param string $name
      *
      * @return object
      */

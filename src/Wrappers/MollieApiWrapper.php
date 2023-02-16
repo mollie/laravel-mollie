@@ -55,8 +55,6 @@ class MollieApiWrapper
     /**
      * MollieApiWrapper constructor.
      *
-     * @param  Repository  $config
-     * @param  MollieApiClient  $client
      * @return void
      *
      * @throws \Mollie\Api\Exceptions\ApiException
@@ -118,7 +116,6 @@ class MollieApiWrapper
     }
 
     /**
-     * @param $version_string
      * @return \Mollie\Laravel\Wrappers\MollieApiWrapper
      */
     public function addVersionString($version_string)
