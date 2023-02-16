@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Http;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Payment;
 use Mollie\Laravel\Tests\TestCase;
-use Mollie\Laravel\Wrappers\MollieApiWrapper;
 
 /**
  * Class MollieApiWrapper
