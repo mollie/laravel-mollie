@@ -2,10 +2,10 @@
 
 namespace Mollie\Laravel\Tests;
 
-use GrahamCampbell\TestBenchCore\MockeryTrait;
 use Illuminate\Support\Facades\Request;
 use Mockery as m;
 use Mollie\Laravel\MollieConnectProvider;
+use Mollie\Laravel\Tests\TempHelpers\MockeryTrait;
 
 class MollieConnectProviderTest extends TestCase
 {

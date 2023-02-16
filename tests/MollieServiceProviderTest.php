@@ -2,9 +2,9 @@
 
 namespace Mollie\Laravel\Tests;
 
-use GrahamCampbell\TestBenchCore\ServiceProviderTrait;
 use Mollie\Api\MollieApiClient;
 use Mollie\Laravel\MollieManager;
+use Mollie\Laravel\Tests\TempHelpers\ServiceProviderTrait;
 use Mollie\Laravel\Wrappers\MollieApiWrapper;
 
 /**

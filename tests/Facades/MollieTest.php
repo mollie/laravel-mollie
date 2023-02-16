@@ -2,9 +2,9 @@
 
 namespace Mollie\Laravel\Tests\Facades;
 
-use GrahamCampbell\TestBenchCore\FacadeTrait;
 use Mollie\Laravel\Facades\Mollie;
 use Mollie\Laravel\MollieManager;
+use Mollie\Laravel\Tests\TempHelpers\FacadeTrait;
 use Mollie\Laravel\Tests\TestCase;
 
 /**
