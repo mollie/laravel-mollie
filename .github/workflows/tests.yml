@@ -37,5 +37,9 @@ jobs:
           composer require "illuminate/contracts=^${{ matrix.laravel }}" --no-update
           composer update --prefer-dist --no-interaction --no-progress
 
+      - name: Migrate test configuration
+        if: laravel == '10.0'
+        run: vendor/bin/phpunit --migrate-configuration
+
       - name: Execute tests
         run: vendor/bin/phpunit
