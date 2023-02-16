@@ -16,6 +16,9 @@ jobs:
 #        laravel: [9.0, 10.0]
 #        laravel: ['9.0']
         laravel: ['10.0']
+        exclude:
+          - laravel: 10.*
+            php: 8.0
 
     name: P${{ matrix.php }} - L${{ matrix.laravel }}
 
