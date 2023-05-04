@@ -56,8 +56,6 @@ class MollieApiWrapper
     /**
      * MollieApiWrapper constructor.
      *
-     * @param  Repository  $config
-     * @param  MollieApiClient  $client
      * @return void
      *
      * @throws \Mollie\Api\Exceptions\ApiException
@@ -69,7 +67,7 @@ class MollieApiWrapper
 
         $key = $this->config->get('mollie.key');
 
-        if (!empty($key)) {
+        if (! empty($key)) {
             $this->setApiKey($key);
         }
     }
@@ -119,7 +117,6 @@ class MollieApiWrapper
     }
 
     /**
-     * @param $version_string
      * @return \Mollie\Laravel\Wrappers\MollieApiWrapper
      */
     public function addVersionString($version_string)
