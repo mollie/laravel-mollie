@@ -2,14 +2,16 @@
 
 namespace Mollie\Laravel\Tests;
 
-use GrahamCampbell\TestBench\AbstractPackageTestCase;
 use Mollie\Laravel\MollieServiceProvider;
+use Mollie\Laravel\Tests\TempHelpers\LaravelTrait;
 
 /**
  * This is the abstract test case class.
  */
-abstract class TestCase extends AbstractPackageTestCase
+abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
+    use LaravelTrait;
+
     /**
      * Get the service provider class.
      *
