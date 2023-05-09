@@ -42,8 +42,8 @@
   ],
   "require": {
     "php": "^8.0",
+    "mollie/mollie-api-php": "^2.55",
     "illuminate/support": "^9.0|^10.0",
-    "mollie/mollie-api-php": "^2.50",
     "ext-json": "*"
   },
   "require-dev": {
@@ -70,14 +70,14 @@
     }
   },
   "extra": {
-      "laravel": {
-          "providers": [
-            "Mollie\\Laravel\\MollieServiceProvider"
-          ],
-          "aliases": {
-            "Mollie": "Mollie\\Laravel\\Facades\\Mollie"
-          }
+    "laravel": {
+      "providers": [
+        "Mollie\\Laravel\\MollieServiceProvider"
+      ],
+      "aliases": {
+        "Mollie": "Mollie\\Laravel\\Facades\\Mollie"
       }
+    }
   },
   "scripts": {
     "test": "./vendor/bin/phpunit tests",

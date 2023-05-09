@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2016, Mollie B.V.
  * All rights reserved.
@@ -163,6 +164,14 @@ class MollieApiWrapper
     public function paymentLinks()
     {
         return $this->client->paymentLinks;
+    }
+
+    /**
+     * @return \Mollie\Api\Endpoints\TerminalEndpoint
+     */
+    public function terminals()
+    {
+        return $this->client->terminals;
     }
 
     /**
