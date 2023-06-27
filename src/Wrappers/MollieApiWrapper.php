@@ -383,6 +383,14 @@ class MollieApiWrapper
     }
 
     /**
+     * @return \Mollie\Api\Endpoints\ClientLinkEndpoint
+     */
+    public function clientLinks()
+    {
+        return $this->client->clientLinks;
+    }
+
+    /**
      * @return \Mollie\Api\Endpoints\OrganizationPartnerEndpoint
      */
     public function organizationPartners()
