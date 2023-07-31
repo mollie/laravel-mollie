@@ -4,5 +4,6 @@ vendor
 composer.lock
 phpunit.xml
 .phpunit.result.cache
+.phpunit.cache
 .DS_Store
 .php-cs-fixer.cache
