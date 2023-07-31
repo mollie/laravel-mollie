@@ -42,7 +42,7 @@
   ],
   "require": {
     "php": "^8.0",
-    "mollie/mollie-api-php": "v2.58.0-beta",
+    "mollie/mollie-api-php": "^2.60",
     "illuminate/support": "^9.0|^10.0",
     "ext-json": "*"
   },

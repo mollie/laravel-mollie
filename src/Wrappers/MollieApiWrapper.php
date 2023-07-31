@@ -418,6 +418,26 @@ class MollieApiWrapper
         $this->client->disableDebugging();
     }
 
+    public function setIdempotencyKey(string $key)
+    {
+        return $this->client->setIdempotencyKey($key);
+    }
+
+    public function resetIdempotencyKey()
+    {
+        return $this->client->resetIdempotencyKey();
+    }
+
+    public function setIdempotencyKeyGenerator($generator)
+    {
+        return $this->client->setIdempotencyKeyGenerator($generator);
+    }
+
+    public function clearIdempotencyKeyGenerator()
+    {
+        return $this->client->clearIdempotencyKeyGenerator();
+    }
+
     /**
      * Handle dynamic property calls.
      *
