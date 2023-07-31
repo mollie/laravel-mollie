@@ -45,7 +45,7 @@ use Mollie\Laravel\Wrappers\MollieApiWrapper;
  */
 class MollieServiceProvider extends ServiceProvider
 {
-    const PACKAGE_VERSION = '2.24.0';
+    const PACKAGE_VERSION = '2.25.0';
 
     /**
      * Boot the service provider.
