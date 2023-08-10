@@ -1,9 +1,10 @@
 <p align="center">
-  <img src="https://info.mollie.com/hubfs/github/laravel/logo.png" width="128" height="128"/>
+  <img src="https://github.com/mollie/laravel-mollie/assets/7265703/5fce72ed-3fee-4645-b29a-18d97407fcfd" width="128" height="128"/>
+
 </p>
 <h1 align="center">Mollie for Laravel</h1>
 
-<img src="https://info.mollie.com/hubfs/github/laravel/editor.png" />
+<img src="https://github.com/mollie/laravel-mollie/assets/7265703/d86d2ab5-d83c-4bc5-b49d-60ee01922b2a" />
 
 Laravel-Mollie incorporates the [Mollie API](https://www.mollie.com/en/docs/overview) and [Mollie Connect](https://www.mollie.com/en/connect) into your [Laravel](https://laravel.com/) or [Lumen](https://lumen.laravel.com/) project.
 
