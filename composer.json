@@ -1,88 +1,88 @@
 {
-  "name": "mollie/laravel-mollie",
-  "description": "Mollie API client wrapper for Laravel & Mollie Connect provider for Laravel Socialite",
-  "homepage": "https://github.com/mollie/laravel-mollie",
-  "license": "BSD-2-Clause",
-  "authors": [
-    {
-      "name": "Mollie B.V.",
-      "email": "info@mollie.com"
-    }
-  ],
-  "keywords": [
-    "mollie",
-    "payment",
-    "service",
-    "ideal",
-    "creditcard",
-    "apple pay",
-    "mistercash",
-    "bancontact",
-    "sofort",
-    "sofortbanking",
-    "sepa",
-    "paypal",
-    "paysafecard",
-    "podiumcadeaukaart",
-    "banktransfer",
-    "direct debit",
-    "belfius",
-    "belfius direct net",
-    "przelewy24",
-    "refunds",
-    "api",
-    "payments",
-    "gateway",
-    "subscriptions",
-    "recurring",
-    "charges",
-    "laravel",
-    "lumen",
-    "socialite"
-  ],
-  "require": {
-    "php": "^8.0",
-    "mollie/mollie-api-php": "^2.60",
-    "illuminate/support": "^9.0|^10.0",
-    "ext-json": "*"
-  },
-  "require-dev": {
-    "mockery/mockery": "^1.4",
-    "orchestra/testbench": "^7.18|^8.0",
-    "phpunit/phpunit": "^9.0|^10.0",
-    "laravel/socialite": "^5.5",
-    "laravel/pint": "^1.1"
-  },
-  "suggest": {
-    "laravel/socialite": "Use Mollie Connect (OAuth) to authenticate via Laravel Socialite with the Mollie API. This is needed for some endpoints."
-  },
-  "autoload": {
-    "psr-4": {
-      "Mollie\\Laravel\\": "src/"
+    "name": "mollie/laravel-mollie",
+    "description": "Mollie API client wrapper for Laravel & Mollie Connect provider for Laravel Socialite",
+    "homepage": "https://github.com/mollie/laravel-mollie",
+    "license": "BSD-2-Clause",
+    "authors": [
+        {
+            "name": "Mollie B.V.",
+            "email": "info@mollie.com"
+        }
+    ],
+    "keywords": [
+        "mollie",
+        "payment",
+        "service",
+        "ideal",
+        "creditcard",
+        "apple pay",
+        "mistercash",
+        "bancontact",
+        "sofort",
+        "sofortbanking",
+        "sepa",
+        "paypal",
+        "paysafecard",
+        "podiumcadeaukaart",
+        "banktransfer",
+        "direct debit",
+        "belfius",
+        "belfius direct net",
+        "przelewy24",
+        "refunds",
+        "api",
+        "payments",
+        "gateway",
+        "subscriptions",
+        "recurring",
+        "charges",
+        "laravel",
+        "lumen",
+        "socialite"
+    ],
+    "require": {
+        "php": "^8.0",
+        "mollie/mollie-api-php": "^2.60",
+        "illuminate/support": "^9.0|^10.0|^11.0",
+        "ext-json": "*"
     },
-    "files": [
-      "src/helpers.php"
-    ]
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Mollie\\Laravel\\Tests\\": "tests/"
-    }
-  },
-  "extra": {
-    "laravel": {
-      "providers": [
-        "Mollie\\Laravel\\MollieServiceProvider"
-      ],
-      "aliases": {
-        "Mollie": "Mollie\\Laravel\\Facades\\Mollie"
-      }
-    }
-  },
-  "scripts": {
-    "test": "./vendor/bin/phpunit tests",
-    "format": "./vendor/bin/pint"
-  },
-  "minimum-stability": "dev",
-  "prefer-stable": true
+    "require-dev": {
+        "mockery/mockery": "^1.4",
+        "orchestra/testbench": "^7.18|^8.0|^9.0",
+        "phpunit/phpunit": "^9.0|^10.0",
+        "laravel/socialite": "^5.5",
+        "laravel/pint": "^1.1"
+    },
+    "suggest": {
+        "laravel/socialite": "Use Mollie Connect (OAuth) to authenticate via Laravel Socialite with the Mollie API. This is needed for some endpoints."
+    },
+    "autoload": {
+        "psr-4": {
+            "Mollie\\Laravel\\": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Mollie\\Laravel\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Mollie\\Laravel\\MollieServiceProvider"
+            ],
+            "aliases": {
+                "Mollie": "Mollie\\Laravel\\Facades\\Mollie"
+            }
+        }
+    },
+    "scripts": {
+        "test": "./vendor/bin/phpunit tests",
+        "format": "./vendor/bin/pint"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
