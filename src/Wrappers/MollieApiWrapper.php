@@ -35,14 +35,105 @@
 namespace Mollie\Laravel\Wrappers;
 
 use Illuminate\Contracts\Config\Repository;
-use Mollie\Api\Exceptions\ApiException;
+use Illuminate\Support\Traits\ForwardsCalls;
 use Mollie\Api\MollieApiClient;
 
 /**
  * Class MollieApiWrapper.
+ *
+ * @property-read \Mollie\Api\Endpoints\BalanceEndpoint $balanceReports
+ * @property-read \Mollie\Api\Endpoints\BalanceEndpoint $balances
+ * @property-read \Mollie\Api\Endpoints\BalanceTransactionEndpoint $balanceTransactions
+ * @property-read \Mollie\Api\Endpoints\ChargebackEndpoint $chargebacks
+ * @property-read \Mollie\Api\Endpoints\ClientLinkEndpoint $clientLinks
+ * @property-read \Mollie\Api\Endpoints\ClientEndpoint $clients
+ * @property-read \Mollie\Api\Endpoints\CustomerPaymentEndpoint $customerPayments
+ * @property-read \Mollie\Api\Endpoints\CustomerEndpoint $customers
+ * @property-read \Mollie\Api\Endpoints\InvoiceEndpoint $invoices
+ * @property-read \Mollie\Api\Endpoints\OnboardingEndpoint $onboarding
+ * @property-read \Mollie\Api\Endpoints\OrderLineEndpoint $orderLines
+ * @property-read \Mollie\Api\Endpoints\OrderPaymentEndpoint $orderPayments
+ * @property-read \Mollie\Api\Endpoints\OrderRefundEndpoint $orderRefunds
+ * @property-read \Mollie\Api\Endpoints\OrderEndpoint $orders
+ * @property-read \Mollie\Api\Endpoints\OrganizationPartnerEndpoint $organizationPartners
+ * @property-read \Mollie\Api\Endpoints\OrganizationEndpoint $organizations
+ * @property-read \Mollie\Api\Endpoints\PaymentCaptureEndpoint $paymentCaptures
+ * @property-read \Mollie\Api\Endpoints\PaymentChargebackEndpoint $paymentChargebacks
+ * @property-read \Mollie\Api\Endpoints\PaymentLinkEndpoint $paymentLinks
+ * @property-read \Mollie\Api\Endpoints\PaymentRefundEndpoint $paymentRefunds
+ * @property-read \Mollie\Api\Endpoints\PaymentRouteEndpoint $paymentRoutes
+ * @property-read \Mollie\Api\Endpoints\PaymentEndpoint $payments
+ * @property-read \Mollie\Api\Endpoints\PermissionEndpoint $permissions
+ * @property-read \Mollie\Api\Endpoints\ProfileMethodEndpoint $profileMethods
+ * @property-read \Mollie\Api\Endpoints\ProfileEndpoint $profiles
+ * @property-read \Mollie\Api\Endpoints\MandateEndpoint $mandates
+ * @property-read \Mollie\Api\Endpoints\MethodEndpoint $methods
+ * @property-read \Mollie\Api\Endpoints\RefundEndpoint $refunds
+ * @property-read \Mollie\Api\Endpoints\SettlementCaptureEndpoint $settlementCaptures
+ * @property-read \Mollie\Api\Endpoints\SettlementChargebackEndpoint $settlementChargebacks
+ * @property-read \Mollie\Api\Endpoints\SettlementPaymentEndpoint $settlementPayments
+ * @property-read \Mollie\Api\Endpoints\SettlementRefundEndpoint $settlementRefunds
+ * @property-read \Mollie\Api\Endpoints\SettlementEndpoint $settlements
+ * @property-read \Mollie\Api\Endpoints\ShipmentEndpoint $shipments
+ * @property-read \Mollie\Api\Endpoints\SubscriptionEndpoint $subscriptions
+ * @property-read \Mollie\Api\Endpoints\TerminalEndpoint $terminals
+ * @property-read \Mollie\Api\Endpoints\WalletEndpoint $wallets
+ * @method \Mollie\Api\Endpoints\BalanceEndpoint balanceReports()
+ * @method \Mollie\Api\Endpoints\BalanceEndpoint balances()
+ * @method \Mollie\Api\Endpoints\BalanceTransactionEndpoint balanceTransactions()
+ * @method \Mollie\Api\Endpoints\ChargebackEndpoint chargebacks()
+ * @method \Mollie\Api\Endpoints\ClientLinkEndpoint clientLinks()
+ * @method \Mollie\Api\Endpoints\ClientEndpoint clients()
+ * @method \Mollie\Api\Endpoints\CustomerPaymentEndpoint customerPayments()
+ * @method \Mollie\Api\Endpoints\CustomerEndpoint customers()
+ * @method \Mollie\Api\Endpoints\InvoiceEndpoint invoices()
+ * @method \Mollie\Api\Endpoints\OnboardingEndpoint onboarding()
+ * @method \Mollie\Api\Endpoints\OrderLineEndpoint orderLines()
+ * @method \Mollie\Api\Endpoints\OrderPaymentEndpoint orderPayments()
+ * @method \Mollie\Api\Endpoints\OrderRefundEndpoint orderRefunds()
+ * @method \Mollie\Api\Endpoints\OrderEndpoint orders()
+ * @method \Mollie\Api\Endpoints\OrganizationPartnerEndpoint organizationPartners()
+ * @method \Mollie\Api\Endpoints\OrganizationEndpoint organizations()
+ * @method \Mollie\Api\Endpoints\PaymentCaptureEndpoint paymentCaptures()
+ * @method \Mollie\Api\Endpoints\PaymentChargebackEndpoint paymentChargebacks()
+ * @method \Mollie\Api\Endpoints\PaymentLinkEndpoint paymentLinks()
+ * @method \Mollie\Api\Endpoints\PaymentRefundEndpoint paymentRefunds()
+ * @method \Mollie\Api\Endpoints\PaymentRouteEndpoint paymentRoutes()
+ * @method \Mollie\Api\Endpoints\PaymentEndpoint payments()
+ * @method \Mollie\Api\Endpoints\PermissionEndpoint permissions()
+ * @method \Mollie\Api\Endpoints\ProfileMethodEndpoint profileMethods()
+ * @method \Mollie\Api\Endpoints\ProfileEndpoint profiles()
+ * @method \Mollie\Api\Endpoints\MandateEndpoint mandates()
+ * @method \Mollie\Api\Endpoints\MethodEndpoint methods()
+ * @method \Mollie\Api\Endpoints\RefundEndpoint refunds()
+ * @method \Mollie\Api\Endpoints\SettlementCaptureEndpoint settlementCaptures()
+ * @method \Mollie\Api\Endpoints\SettlementChargebackEndpoint settlementChargebacks()
+ * @method \Mollie\Api\Endpoints\SettlementPaymentEndpoint settlementPayments()
+ * @method \Mollie\Api\Endpoints\SettlementRefundEndpoint settlementRefunds()
+ * @method \Mollie\Api\Endpoints\SettlementEndpoint settlements()
+ * @method \Mollie\Api\Endpoints\ShipmentEndpoint shipments()
+ * @method \Mollie\Api\Endpoints\SubscriptionEndpoint subscriptions()
+ * @method \Mollie\Api\Endpoints\TerminalEndpoint terminals()
+ * @method \Mollie\Api\Endpoints\WalletEndpoint wallets()
+ * @method MollieApiWrapper setApiEndpoint(string $url)
+ * @method string getApiEndpoint()
+ * @method string getVersionStrings()
+ * @method MollieApiWrapper setApiKey(string $apiKey)
+ * @method MollieApiWrapper setAccessToken(string $accessToken)
+ * @method ?bool usesOAuth()
+ * @method MollieApiWrapper addVersionString(string $versionString)
+ * @method void enableDebugging()
+ * @method void disableDebugging()
+ * @method MollieApiWrapper setIdempotencyKey(string $key)
+ * @method string getIdempotencyKey()
+ * @method MollieApiWrapper resetIdempotencyKey()
+ * @method MollieApiWrapper setIdempotencyKeyGenerator(\Mollie\Api\Idempotency\IdempotencyKeyGeneratorContract $generator)
+ * @method MollieApiWrapper clearIdempotencyKeyGenerator()
  */
 class MollieApiWrapper
 {
+    use ForwardsCalls;
+
     /**
      * @var Repository
      */
@@ -52,6 +143,46 @@ class MollieApiWrapper
      * @var MollieApiClient
      */
     protected $client;
+
+    protected static $supportedClientEndpoints = [
+        'balanceReports',
+        'balances',
+        'balanceTransactions',
+        'chargebacks',
+        'clientLinks',
+        'clients',
+        'customerPayments',
+        'customers',
+        'invoices',
+        'onboarding',
+        'orderLines',
+        'orderPayments',
+        'orderRefunds',
+        'orders',
+        'organizationPartners',
+        'organizations',
+        'paymentCaptures',
+        'paymentChargebacks',
+        'paymentLinks',
+        'paymentRefunds',
+        'paymentRoutes',
+        'payments',
+        'permissions',
+        'profileMethods',
+        'profiles',
+        'mandates',
+        'methods',
+        'refunds',
+        'settlementCaptures',
+        'settlementChargebacks',
+        'settlementPayments',
+        'settlementRefunds',
+        'settlements',
+        'shipments',
+        'subscriptions',
+        'terminals',
+        'wallets',
+    ];
 
     /**
      * MollieApiWrapper constructor.
@@ -67,375 +198,9 @@ class MollieApiWrapper
 
         $key = $this->config->get('mollie.key');
 
-        if (! empty($key)) {
-            $this->setApiKey($key);
+        if (!empty($key)) {
+            $this->client->setApiKey($key);
         }
-    }
-
-    /**
-     * @param  string  $url
-     */
-    public function setApiEndpoint($url)
-    {
-        $this->client->setApiEndpoint($url);
-    }
-
-    /**
-     * @return string
-     */
-    public function getApiEndpoint()
-    {
-        return $this->client->getApiEndpoint();
-    }
-
-    /**
-     * @param  string  $api_key The Mollie API key, starting with 'test_' or 'live_'
-     *
-     * @throws ApiException
-     */
-    public function setApiKey($api_key)
-    {
-        $this->client->setApiKey($api_key);
-    }
-
-    /**
-     * @param  string  $access_token OAuth access token, starting with 'access_'
-     *
-     * @throws ApiException
-     */
-    public function setAccessToken($access_token)
-    {
-        $this->client->setAccessToken($access_token);
-    }
-
-    /**
-     * @return bool
-     */
-    public function usesOAuth()
-    {
-        return $this->client->usesOAuth();
-    }
-
-    /**
-     * @return \Mollie\Laravel\Wrappers\MollieApiWrapper
-     */
-    public function addVersionString($version_string)
-    {
-        $this->client->addVersionString($version_string);
-
-        return $this;
-    }
-
-    /**
-     * @return \Mollie\Api\Endpoints\PaymentEndpoint
-     */
-    public function payments()
-    {
-        return $this->client->payments;
-    }
-
-    /**
-     * @return \Mollie\Api\Endpoints\PaymentRefundEndpoint
-     */
-    public function paymentRefunds()
-    {
-        return $this->client->paymentRefunds;
-    }
-
-    /**
-     * @return \Mollie\Api\Endpoints\PaymentRouteEndpoint
-     */
-    public function paymentRoutes()
-    {
-        return $this->client->paymentRoutes;
-    }
-
-    /**
-     * @return \Mollie\Api\Endpoints\PaymentCaptureEndpoint
-     */
-    public function paymentCaptures()
-    {
-        return $this->client->paymentCaptures;
-    }
-
-    /**
-     * @return \Mollie\Api\Endpoints\PaymentLinkEndpoint
-     */
-    public function paymentLinks()
-    {
-        return $this->client->paymentLinks;
-    }
-
-    /**
-     * @return \Mollie\Api\Endpoints\TerminalEndpoint
-     */
-    public function terminals()
-    {
-        return $this->client->terminals;
-    }
-
-    /**
-     * @return \Mollie\Api\Endpoints\MethodEndpoint
-     */
-    public function methods()
-    {
-        return $this->client->methods;
-    }
-
-    /**
-     * @return \Mollie\Api\Endpoints\ProfileMethodEndpoint
-     */
-    public function profileMethods()
-    {
-        return $this->client->profileMethods;
-    }
-
-    /**
-     * @return \Mollie\Api\Endpoints\CustomerEndpoint
-     */
-    public function customers()
-    {
-        return $this->client->customers;
-    }
-
-    /**
-     * @return \Mollie\Api\Endpoints\BalanceEndpoint
-     */
-    public function balances()
-    {
-        return $this->client->balances;
-    }
-
-    /**
-     * @return \Mollie\Api\Endpoints\BalanceTransactionEndpoint
-     */
-    public function balanceTransactions()
-    {
-        return $this->client->balanceTransactions;
-    }
-
-    /**
-     * @return \Mollie\Api\Endpoints\BalanceReportEndpoint
-     */
-    public function balanceReports()
-    {
-        return $this->client->balanceReports;
-    }
-
-    /**
-     * @return \Mollie\Api\Endpoints\SettlementsEndpoint
-     */
-    public function settlements()
-    {
-        return $this->client->settlements;
-    }
-
-    /**
-     * @return \Mollie\Api\Endpoints\SettlementPaymentEndpoint
-     */
-    public function settlementPayments()
-    {
-        return $this->client->settlementPayments;
-    }
-
-    /**
-     * @return \Mollie\Api\Endpoints\SubscriptionEndpoint
-     */
-    public function subscriptions()
-    {
-        return $this->client->subscriptions;
-    }
-
-    /**
-     * @return \Mollie\Api\Endpoints\CustomerPaymentsEndpoint
-     */
-    public function customerPayments()
-    {
-        return $this->client->customerPayments;
-    }
-
-    /**
-     * @return \Mollie\Api\Endpoints\MandateEndpoint
-     */
-    public function mandates()
-    {
-        return $this->client->mandates;
-    }
-
-    /**
-     * @return \Mollie\Api\Endpoints\OrganizationEndpoint
-     */
-    public function organizations()
-    {
-        return $this->client->organizations;
-    }
-
-    /**
-     * @return \Mollie\Api\Endpoints\PermissionEndpoint
-     */
-    public function permissions()
-    {
-        return $this->client->permissions;
-    }
-
-    /**
-     * @return \Mollie\Api\Endpoints\InvoiceEndpoint
-     */
-    public function invoices()
-    {
-        return $this->client->invoices;
-    }
-
-    /**
-     * @return \Mollie\Api\Endpoints\ProfileEndpoint
-     */
-    public function profiles()
-    {
-        return $this->client->profiles;
-    }
-
-    /**
-     * @return \Mollie\Api\Endpoints\ShipmentEndpoint
-     */
-    public function shipments()
-    {
-        return $this->client->shipments;
-    }
-
-    /**
-     * @return \Mollie\Api\Endpoints\RefundEndpoint
-     */
-    public function refunds()
-    {
-        return $this->client->refunds;
-    }
-
-    /**
-     * @return \Mollie\Api\Endpoints\ChargebackEndpoint
-     */
-    public function chargebacks()
-    {
-        return $this->client->chargebacks;
-    }
-
-    /**
-     * @return \Mollie\Api\Endpoints\PaymentChargebackEndpoint
-     */
-    public function paymentChargebacks()
-    {
-        return $this->client->paymentChargebacks;
-    }
-
-    /**
-     * @return \Mollie\Api\Endpoints\OrderEndpoint
-     */
-    public function orders()
-    {
-        return $this->client->orders;
-    }
-
-    /**
-     * @return \Mollie\Api\Endpoints\OrderLineEndpoint
-     */
-    public function orderLines()
-    {
-        return $this->client->orderLines;
-    }
-
-    /**
-     * @return \Mollie\Api\Endpoints\OrderPaymentEndpoint
-     */
-    public function orderPayments()
-    {
-        return $this->client->orderPayments;
-    }
-
-    /**
-     * @return \Mollie\Api\Endpoints\OrderRefundEndpoint
-     */
-    public function orderRefunds()
-    {
-        return $this->client->orderRefunds;
-    }
-
-    /**
-     * @return \Mollie\Api\Endpoints\OnboardingEndpoint
-     */
-    public function onboarding()
-    {
-        return $this->client->onboarding;
-    }
-
-    /**
-     * @return \Mollie\Api\Endpoints\WalletEndpoint
-     */
-    public function wallets()
-    {
-        return $this->client->wallets;
-    }
-
-    /**
-     * @return \Mollie\Api\Endpoints\ClientEndpoint
-     */
-    public function clients()
-    {
-        return $this->client->clients;
-    }
-
-    /**
-     * @return \Mollie\Api\Endpoints\ClientLinkEndpoint
-     */
-    public function clientLinks()
-    {
-        return $this->client->clientLinks;
-    }
-
-    /**
-     * @return \Mollie\Api\Endpoints\OrganizationPartnerEndpoint
-     */
-    public function organizationPartners()
-    {
-        return $this->client->organizationPartners;
-    }
-
-    /**
-     * @return void
-     *
-     * @throws \Mollie\Api\Exceptions\HttpAdapterDoesNotSupportDebuggingException
-     */
-    public function enableDebugging()
-    {
-        $this->client->enableDebugging();
-    }
-
-    /**
-     * @return void
-     *
-     * @throws \Mollie\Api\Exceptions\HttpAdapterDoesNotSupportDebuggingException
-     */
-    public function disableDebugging()
-    {
-        $this->client->disableDebugging();
-    }
-
-    public function setIdempotencyKey(string $key)
-    {
-        return $this->client->setIdempotencyKey($key);
-    }
-
-    public function resetIdempotencyKey()
-    {
-        return $this->client->resetIdempotencyKey();
-    }
-
-    public function setIdempotencyKeyGenerator($generator)
-    {
-        return $this->client->setIdempotencyKeyGenerator($generator);
-    }
-
-    public function clearIdempotencyKeyGenerator()
-    {
-        return $this->client->clearIdempotencyKeyGenerator();
     }
 
     /**
@@ -446,14 +211,37 @@ class MollieApiWrapper
      */
     public function __get($property)
     {
-        if (method_exists($this, $property)) {
-            return call_user_func([$this, $property]);
+        if ($this->endpointPropertyExists($property)) {
+            return $this->client->{$property};
         }
 
-        $message = '%s has no property or method "%s".';
+        $message = '%s has no endpoint "%s".';
 
         throw new \Error(
             sprintf($message, static::class, $property)
         );
+    }
+
+    /**
+     * Handle dynamic method calls into the Mollie API client.
+     *
+     * @param  string  $method
+     * @param  array  $parameters
+     * @return mixed
+     *
+     * @throws \Mollie\Api\Exceptions\ApiException
+     */
+    public function __call($method, $parameters)
+    {
+        if ($this->endpointPropertyExists($method)) {
+            return $this->client->{$method};
+        }
+
+        return $this->forwardDecoratedCallTo($this->client, $method, $parameters);
+    }
+
+    private function endpointPropertyExists(string $property): bool
+    {
+        return in_array($property, static::$supportedClientEndpoints);
     }
 }

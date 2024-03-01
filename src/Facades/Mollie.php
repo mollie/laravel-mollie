@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2016, Mollie B.V.
  * All rights reserved.
@@ -34,6 +35,7 @@
 namespace Mollie\Laravel\Facades;
 
 use Illuminate\Support\Facades\Facade;
+use Mollie\Laravel\MollieManager;
 use Mollie\Laravel\Wrappers\MollieApiWrapper;
 
 /**
@@ -50,6 +52,6 @@ class Mollie extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'mollie';
+        return MollieManager::class;
     }
 }

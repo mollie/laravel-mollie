@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2016, Mollie B.V.
  * All rights reserved.
@@ -34,6 +35,7 @@
 namespace Mollie\Laravel;
 
 use Illuminate\Contracts\Container\Container;
+use Mollie\Laravel\Wrappers\MollieApiWrapper;
 
 /**
  * Class MollieManager.
@@ -60,6 +62,6 @@ class MollieManager
      */
     public function api()
     {
-        return $this->app['mollie.api'];
+        return $this->app->make(MollieApiWrapper::class);
     }
 }

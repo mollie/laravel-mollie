@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2016, Mollie B.V.
  * All rights reserved.
@@ -45,7 +46,7 @@ use Mollie\Laravel\Wrappers\MollieApiWrapper;
  */
 class MollieServiceProvider extends ServiceProvider
 {
-    const PACKAGE_VERSION = '2.25.0';
+    const PACKAGE_VERSION = '3.0.0';
 
     /**
      * Boot the service provider.
@@ -65,7 +66,7 @@ class MollieServiceProvider extends ServiceProvider
      */
     protected function setupConfig()
     {
-        $source = realpath(__DIR__.'/../config/mollie.php');
+        $source = realpath(__DIR__ . '/../config/mollie.php');
 
         // Check if the application is a Laravel OR Lumen instance to properly merge the configuration file.
         if ($this->app instanceof LaravelApplication && $this->app->runningInConsole()) {
@@ -84,8 +85,8 @@ class MollieServiceProvider extends ServiceProvider
      */
     protected function extendSocialite()
     {
-        if (interface_exists('Laravel\Socialite\Contracts\Factory')) {
-            $socialite = $this->app->make('Laravel\Socialite\Contracts\Factory');
+        if (interface_exists($socialiteFactoryClass = \Laravel\Socialite\Contracts\Factory::class)) {
+            $socialite = $this->app->make($socialiteFactoryClass);
 
             $socialite->extend('mollie', function (Container $app) use ($socialite) {
                 $config = $app['config']['services.mollie'];
@@ -102,67 +103,14 @@ class MollieServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerApiClient();
-        $this->registerApiAdapter();
-        $this->registerManager();
-    }
-
-    /**
-     * Register the Mollie API adapter class.
-     *
-     * @return void
-     */
-    protected function registerApiAdapter()
-    {
-        $this->app->singleton('mollie.api', function (Container $app) {
-            $config = $app['config'];
-
-            return new MollieApiWrapper($config, $app['mollie.api.client']);
-        });
-
-        $this->app->alias('mollie.api', MollieApiWrapper::class);
-    }
-
-    /**
-     * Register the Mollie API Client.
-     *
-     * @return void
-     */
-    protected function registerApiClient()
-    {
-        $this->app->singleton('mollie.api.client', function () {
-            return (new MollieApiClient(new MollieLaravelHttpClientAdapter))
-                ->addVersionString('MollieLaravel/'.self::PACKAGE_VERSION);
-        });
-
-        $this->app->alias('mollie.api.client', MollieApiClient::class);
-    }
-
-    /**
-     * Register the manager class.
-     *
-     * @return void
-     */
-    public function registerManager()
-    {
-        $this->app->singleton('mollie', function (Container $app) {
-            return new MollieManager($app);
-        });
-
-        $this->app->alias('mollie', MollieManager::class);
-    }
-
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return array
-     */
-    public function provides()
-    {
-        return [
-            'mollie',
-            'mollie.api',
-            'mollie.api.client',
-        ];
+        $this->app->singleton(MollieManager::class);
+        $this->app->singleton(MollieApiWrapper::class);
+        $this->app->singleton(
+            MollieApiClient::class,
+            function () {
+                return (new MollieApiClient(new MollieLaravelHttpClientAdapter))
+                    ->addVersionString('MollieLaravel/' . self::PACKAGE_VERSION);
+            }
+        );
     }
 }

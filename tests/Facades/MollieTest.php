@@ -21,7 +21,7 @@ class MollieTest extends TestCase
      */
     protected function getFacadeAccessor()
     {
-        return 'mollie';
+        return MollieManager::class;
     }
 
     /**

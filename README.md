@@ -118,9 +118,6 @@ For your convencience we've added the global `mollie()` helper function. It's an
 ```php
 // Using facade accessor
 $payment = \Mollie\Laravel\Facades\Mollie::api()->payments->get($payment_id);
-
-// Using global helper function
-$payment = mollie()->payments->get($payment_id);
 ```
 
 ## Other examples

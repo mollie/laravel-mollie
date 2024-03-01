@@ -73,19 +73,4 @@ trait FacadeTrait
 
         $this->assertInstanceOf($root, $method->invoke(null), $msg);
     }
-
-    public function testServiceProvider()
-    {
-        $accessor = $this->getFacadeAccessor();
-        $provider = $this->getServiceProviderClass($this->app);
-
-        if ($provider) {
-            $reflection = new ReflectionClass($provider);
-            $method = $reflection->getMethod('provides');
-            $method->setAccessible(true);
-
-            $msg = "Expected class '$provider' to provide '$accessor'.";
-            $this->assertContains($accessor, $method->invoke(new $provider($this->app)), $msg);
-        }
-    }
 }
