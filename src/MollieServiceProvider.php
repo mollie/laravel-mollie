@@ -37,7 +37,6 @@ namespace Mollie\Laravel;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\ServiceProvider;
 use Mollie\Api\MollieApiClient;
-use Mollie\Laravel\Wrappers\MollieApiWrapper;
 
 /**
  * Class MollieServiceProvider.
@@ -98,13 +97,17 @@ class MollieServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(MollieManager::class);
-        $this->app->singleton(MollieApiWrapper::class);
         $this->app->singleton(
             MollieApiClient::class,
-            function () {
-                return (new MollieApiClient(new MollieLaravelHttpClientAdapter))
+            function (Container $app) {
+                $client = (new MollieApiClient(new MollieLaravelHttpClientAdapter))
                     ->addVersionString('MollieLaravel/' . self::PACKAGE_VERSION);
+
+                if (!empty($apiKey = $app['config']['mollie.key'])) {
+                    $client->setApiKey($apiKey);
+                }
+
+                return $client;
             }
         );
     }

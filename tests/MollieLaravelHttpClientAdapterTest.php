@@ -1,6 +1,6 @@
 <?php
 
-namespace Mollie\Laravel\Tests\Wrappers;
+namespace Mollie\Laravel\Tests;
 
 use Illuminate\Support\Facades\Http;
 use Mollie\Api\MollieApiClient;
@@ -10,7 +10,7 @@ use Mollie\Laravel\Tests\TestCase;
 /**
  * Class MollieApiWrapper
  */
-class MollieApiLaravelClientTest extends TestCase
+class MollieLaravelHttpClientAdapterTest extends TestCase
 {
     public function testPostRequest()
     {
@@ -25,7 +25,6 @@ class MollieApiLaravelClientTest extends TestCase
             'https://api.mollie.com/*' => Http::response(json_encode($payment)),
         ]);
 
-        $client->setApiKey('test_nawruSyCR7UE84EhtVmMmDGdRswBqj');
         $returnedPayment = $client->payments->create([
             'redirectUrl' => 'https://google.com/redirect',
             'description' => 'test',
@@ -53,7 +52,6 @@ class MollieApiLaravelClientTest extends TestCase
             'https://api.mollie.com/v2/payments/'.$payment->id => Http::response(json_encode($payment)),
         ]);
 
-        $client->setApiKey('test_nawruSyCR7UE84EhtVmMmDGdRswBqj');
         $returnedPayment = $client->payments->get($payment->id);
 
         $this->assertEquals($payment->id, $returnedPayment->id);

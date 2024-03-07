@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2016, Mollie B.V.
  * All rights reserved.
@@ -33,7 +34,6 @@
 
 namespace Mollie\Laravel;
 
-use Illuminate\Support\Arr;
 use Laravel\Socialite\Two\AbstractProvider;
 use Laravel\Socialite\Two\ProviderInterface;
 use Laravel\Socialite\Two\User;
@@ -79,7 +79,7 @@ class MollieConnectProvider extends AbstractProvider implements ProviderInterfac
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase(static::MOLLIE_WEB_URL.'/oauth2/authorize', $state);
+        return $this->buildAuthUrlFromBase(static::MOLLIE_WEB_URL . '/oauth2/authorize', $state);
     }
 
     /**
@@ -89,66 +89,7 @@ class MollieConnectProvider extends AbstractProvider implements ProviderInterfac
      */
     protected function getTokenUrl()
     {
-        return static::MOLLIE_API_URL.'/oauth2/tokens';
-    }
-
-    /**
-     * Get the access token for the given code.
-     *
-     * @param  string  $code
-     * @return string
-     */
-    public function getAccessToken($code)
-    {
-        $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            'headers' => ['Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret)],
-            'form_params' => $this->getTokenFields($code),
-        ]);
-
-        return $this->parseAccessToken($response->getBody());
-    }
-
-    /**
-     * Get the access token with a refresh token.
-     *
-     * @param  string  $refresh_token
-     * @return array
-     */
-    public function getRefreshTokenResponse($refresh_token)
-    {
-        $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            'headers' => ['Accept' => 'application/json'],
-            'form_params' => $this->getRefreshTokenFields($refresh_token),
-        ]);
-
-        return json_decode($response->getBody(), true);
-    }
-
-    /**
-     * Get the refresh tokenfields with a refresh token.
-     *
-     * @param  string  $refresh_token
-     * @return array
-     */
-    protected function getRefreshTokenFields($refresh_token)
-    {
-        return [
-            'client_id' => $this->clientId,
-            'client_secret' => $this->clientSecret,
-            'grant_type' => 'refresh_token',
-            'refresh_token' => $refresh_token,
-        ];
-    }
-
-    /**
-     * Get the POST fields for the token request.
-     *
-     * @param  string  $code
-     * @return array
-     */
-    public function getTokenFields($code)
-    {
-        return Arr::add(parent::getTokenFields($code), 'grant_type', 'authorization_code');
+        return static::MOLLIE_API_URL . '/oauth2/tokens';
     }
 
     /**
@@ -159,8 +100,8 @@ class MollieConnectProvider extends AbstractProvider implements ProviderInterfac
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get(static::MOLLIE_API_URL.'/v2/organizations/me', [
-            'headers' => ['Authorization' => 'Bearer '.$token],
+        $response = $this->getHttpClient()->get(static::MOLLIE_API_URL . '/v2/organizations/me', [
+            'headers' => ['Authorization' => 'Bearer ' . $token],
         ]);
 
         return json_decode($response->getBody(), true);
