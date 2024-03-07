@@ -6,7 +6,7 @@ A webhook is a URL Mollie will call when an object’s status changes, for examp
 To implement the webhook in your Laravel application you need to provide a `webhookUrl` parameter when creating a payment (or subscription):
 
 ```php
-$payment = Mollie::api()->payments()->create([
+$payment = Mollie::payments()->create([
     'amount' => [
         'currency' => 'EUR',
         'value' => '10.00', // You must send the correct number of decimals, thus we enforce the use of strings
@@ -34,7 +34,7 @@ class MollieWebhookController extends Controller {
             return;
         }
 
-        $payment = Mollie::api()->payments()->get($request->id);
+        $payment = Mollie::payments()->get($request->id);
 
         if ($payment->isPaid()) {
             // do your thing...
