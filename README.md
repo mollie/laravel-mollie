@@ -117,7 +117,7 @@ You can find the latest development roadmap for this package [here](docs/roadmap
 
 Want to help us make our Laravel module even better? We take [pull requests](https://github.com/mollie/laravel-mollie/pulls?utf8=%E2%9C%93&q=is%3Apr), sure.
 But how would you like to contribute to a [technology oriented organization](https://www.mollie.com/nl/blog/post/werken-bij-mollie-als-developer/)? Mollie is hiring developers and system engineers.
-[Check out our vacancies](https://www.mollie.com/nl/jobs) or [get in touch](mailto:personeel@mollie.com).
+[Check out our vacancies](https://jobs.mollie.com/) or [get in touch](mailto:personeel@mollie.com).
 
 ## License
 
