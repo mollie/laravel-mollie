@@ -35,9 +35,7 @@
 namespace Mollie\Laravel;
 
 use Illuminate\Contracts\Container\Container;
-use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Support\ServiceProvider;
-use Laravel\Lumen\Application as LumenApplication;
 use Mollie\Api\MollieApiClient;
 use Mollie\Laravel\Wrappers\MollieApiWrapper;
 
@@ -68,11 +66,8 @@ class MollieServiceProvider extends ServiceProvider
     {
         $source = realpath(__DIR__ . '/../config/mollie.php');
 
-        // Check if the application is a Laravel OR Lumen instance to properly merge the configuration file.
-        if ($this->app instanceof LaravelApplication && $this->app->runningInConsole()) {
+        if ($this->app->runningInConsole()) {
             $this->publishes([$source => config_path('mollie.php')]);
-        } elseif ($this->app instanceof LumenApplication) {
-            $this->app->configure('mollie');
         }
 
         $this->mergeConfigFrom($source, 'mollie');
