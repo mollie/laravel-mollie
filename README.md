@@ -121,7 +121,7 @@ But how would you like to contribute to a [technology oriented organization](htt
 
 ## License
 
-[BSD (Berkeley Software Distribution) License](http://www.opensource.org/licenses/bsd-license.php). Copyright (c) 2016, Mollie B.V.
+[The MIT License](LICENSE.md). Copyright (c) 2024, Mollie B.V.
 
 ## Support
 
