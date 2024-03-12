@@ -32,24 +32,14 @@ In order to enhance maintainability the following classes were removed:
 Instead the `MollieApiClient` is now directly resolved and provided through the container without any abstractions. This change means you can directly access the newest API features that are added to the underlying [mollie/mollie-api-php](https://github.com/mollie/mollie-api-php) client without having to wait on this repository being updated.
 
 ### Change in calling API endpoints
-Previous versions of Laravel-Mollie forced you to call our endpoints through a static `api()` call. This has been removed to be in line with the mollie-api-php sdk. This also means that you can inject the `MollieApiClient` anywhere you like and it will already have the api key set for you.
+Earlier versions of Laravel-Mollie provided access to endpoints via both methods and properties. Moving forward, access to endpoints will be exclusively through properties, aligning with the practices of the mollie-api-php SDK.****
 
 ```php
 // before
 Mollie::api()->payments()->create();
 
 // now
-Mollie::payments()->create();
-```
-
-Another small change we introduce is accessing endpoints through methods instead of properties. Previous versions would allow both. Going forward we will only support accessing endpoints through methods as this makes maintainability much easier.
-
-```php
-// before
-$client->payments->create();
-
-// now
-$client->payments()->create();
+Mollie::api()->payments->create();
 ```
 
 ### No more global helper function

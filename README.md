@@ -68,7 +68,7 @@ use Mollie\Laravel\Facades\Mollie;
 
 public function preparePayment()
 {
-    $payment = Mollie::payments->create([
+    $payment = Mollie::api()->payments->create([
         "amount" => [
             "currency" => "EUR",
             "value" => "10.00" // You must send the correct number of decimals, thus we enforce the use of strings
@@ -93,7 +93,7 @@ public function preparePayment()
  */
 public function handleWebhookNotification(Request $request) {
     $paymentId = $request->input('id');
-    $payment = Mollie::payments->get($paymentId);
+    $payment = Mollie::api()->payments->get($paymentId);
 
     if ($payment->isPaid())
     {

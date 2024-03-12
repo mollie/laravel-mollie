@@ -44,8 +44,8 @@ Route::get('login', function () {
 Route::get('login_callback', function () {
     $user = Socialite::with('mollie')->user();
 
-    Mollie::setAccessToken($user->token);
+    Mollie::api()->setAccessToken($user->token);
 
-    return Mollie::profiles()->page(); // Retrieve payment profiles available on the obtained Mollie account
+    return Mollie::api()->profiles()->page(); // Retrieve payment profiles available on the obtained Mollie account
 });
 ```
