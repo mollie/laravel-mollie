@@ -4,7 +4,7 @@
 </p>
 <h1 align="center">Mollie for Laravel</h1>
 
-<img src="https://github.com/mollie/laravel-mollie/assets/7265703/d86d2ab5-d83c-4bc5-b49d-60ee01922b2a" />
+![create new payment](https://github.com/mollie/laravel-mollie/assets/10154100/205b536f-51a3-4d1b-b2c9-69f02ba019fa)
 
 Laravel-Mollie incorporates the [Mollie API](https://www.mollie.com/en/docs/overview) and [Mollie Connect](https://www.mollie.com/en/connect) into your [Laravel](https://laravel.com/) or [Lumen](https://lumen.laravel.com/) project.
 
