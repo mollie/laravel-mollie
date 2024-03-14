@@ -5,7 +5,6 @@ namespace Mollie\Laravel\Tests;
 use Illuminate\Support\Facades\Http;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Payment;
-use Mollie\Laravel\Tests\TestCase;
 
 /**
  * Class MollieApiWrapper

@@ -21,7 +21,7 @@ class MollieLaravelHttpClientAdapter implements MollieHttpAdapterInterface
         return match (true) {
             $response->noContent() => null,
             $response->failed() => throw ApiException::createFromResponse($response->toPsrResponse(), null),
-            empty($response->body()) => throw new ApiException("Mollie response body is empty."),
+            empty($response->body()) => throw new ApiException('Mollie response body is empty.'),
             default => $this->parseResponseBody($response),
         };
     }

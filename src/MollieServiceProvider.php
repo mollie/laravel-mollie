@@ -28,7 +28,7 @@ class MollieServiceProvider extends ServiceProvider
      */
     protected function setupConfig()
     {
-        $source = realpath(__DIR__ . '/../config/mollie.php');
+        $source = realpath(__DIR__.'/../config/mollie.php');
 
         if ($this->app->runningInConsole()) {
             $this->publishes([$source => config_path('mollie.php')]);
@@ -66,9 +66,9 @@ class MollieServiceProvider extends ServiceProvider
             MollieApiClient::class,
             function (Container $app) {
                 $client = (new MollieApiClient(new MollieLaravelHttpClientAdapter))
-                    ->addVersionString('MollieLaravel/' . self::PACKAGE_VERSION);
+                    ->addVersionString('MollieLaravel/'.self::PACKAGE_VERSION);
 
-                if (!empty($apiKey = $app['config']['mollie.key'])) {
+                if (! empty($apiKey = $app['config']['mollie.key'])) {
                     $client->setApiKey($apiKey);
                 }
 

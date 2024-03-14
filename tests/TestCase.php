@@ -3,7 +3,6 @@
 namespace Mollie\Laravel\Tests;
 
 use Mollie\Laravel\MollieServiceProvider;
-use Mollie\Laravel\Tests\TempHelpers\LaravelTrait;
 
 /**
  * This is the abstract test case class.
