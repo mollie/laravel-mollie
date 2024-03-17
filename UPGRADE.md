@@ -24,10 +24,9 @@ If you are using the mollie connect feature, make sure to checkout the upgrade i
 The Laravel team has added a note a while ago on the [Lumen Repository](https://github.com/laravel/lumen?tab=readme-ov-file) as well as the official [Lumen documentation](https://lumen.laravel.com/docs/master#installation) that they discourage starting a new project with Lumen. Therefore we dropped the Lumen support for this package.
 
 ### Removed Classes
-In order to enhance maintainability the following classes were removed:
+In order to enhance maintainability the following class was removed:
 
 - `MollieApiWrapper`
-- `MollieManager`
 
 Instead the `MollieApiClient` is now directly resolved and provided through the container without any abstractions. This change means you can directly access the newest API features that are added to the underlying [mollie/mollie-api-php](https://github.com/mollie/mollie-api-php) client without having to wait on this repository being updated.
 
