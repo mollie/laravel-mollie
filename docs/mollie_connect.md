@@ -49,4 +49,3 @@ Route::get('login_callback', function () {
     return Mollie::api()->profiles()->page(); // Retrieve payment profiles available on the obtained Mollie account
 });
 ```
-

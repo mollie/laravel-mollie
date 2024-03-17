@@ -4,7 +4,7 @@
 </p>
 <h1 align="center">Mollie for Laravel</h1>
 
-<img src="https://github.com/mollie/laravel-mollie/assets/7265703/d86d2ab5-d83c-4bc5-b49d-60ee01922b2a" />
+![create new payment](https://github.com/mollie/laravel-mollie/assets/10154100/205b536f-51a3-4d1b-b2c9-69f02ba019fa)
 
 Laravel-Mollie incorporates the [Mollie API](https://www.mollie.com/en/docs/overview) and [Mollie Connect](https://www.mollie.com/en/connect) into your [Laravel](https://laravel.com/) or [Lumen](https://lumen.laravel.com/) project.
 
@@ -16,20 +16,18 @@ Accepting [iDEAL](https://www.mollie.com/en/payments/ideal/), [Apple Pay](https:
 [![Latest Stable Version](https://poser.pugx.org/mollie/laravel-mollie/v/stable)](https://packagist.org/packages/mollie/laravel-mollie)
 [![Total Downloads](https://poser.pugx.org/mollie/laravel-mollie/downloads)](https://packagist.org/packages/mollie/laravel-mollie)
 
-## Requirements
+## **Requirements**
 
 * Get yourself a free [Mollie account](https://www.mollie.com/signup). No sign up costs.
 * Now you're ready to use the Mollie API client in test mode.
 * Follow [a few steps](https://www.mollie.com/dashboard/?modal=onboarding) to enable payment methods in live mode, and let us handle the rest.
 * Up-to-date OpenSSL (or other SSL/TLS toolkit)
-* PHP >= 7.0
-* [Laravel](https://www.laravel.com) (or [Lumen](https://lumen.laravel.com)) >= 5.5
-* [Laravel Socialite](https://github.com/laravel/socialite) >= 3.0 (if you intend on using [Mollie Connect](https://docs.mollie.com/oauth/overview))
+* PHP >= 8.1
+* [Laravel](https://www.laravel.com) >= 10.0
+* [Laravel Socialite](https://github.com/laravel/socialite) >= 5.0 (if you intend on using [Mollie Connect](https://docs.mollie.com/oauth/overview))
 
-## Upgrading from v1.x?
-To support the enhanced Mollie API, some breaking changes were introduced. Make sure to follow the instructions in the [package migration guide](docs/migration_instructions_v1_to_v2.md).
-
-Not ready to upgrade? The Laravel-Mollie client v1 will remain supported for now.
+## Upgrading from v2.x?
+To support the enhanced Mollie API, some breaking changes were introduced. Make sure to follow the instructions in the [upgrade guide](UPGRADE.md).
 
 Fresh install? Continue with the installation guide below.
 
@@ -45,18 +43,11 @@ Or add it to `composer.json` manually:
 
 ```json
 "require": {
-    "mollie/laravel-mollie": "^2.0"
+    "mollie/laravel-mollie": "^3.0"
 }
 ```
 
 Laravel-Mollie's service providers will be automatically registered using Laravel's auto-discovery feature.
-
-Note: For Lumen you have to add the Mollie facade and service provider manually to: `bootstrap/app.php` :
-```php
-$app->withFacades(true, ['Mollie\Laravel\Facades\Mollie' => 'Mollie']);
-
-$app->register(Mollie\Laravel\MollieServiceProvider::class);
-```
 
 ## Configuration
 
@@ -112,17 +103,6 @@ public function handleWebhookNotification(Request $request) {
 }
 ```
 
-### Global helper method
-For your convencience we've added the global `mollie()` helper function. It's an easy shortcut to the `Mollie::api()` facade accessor.
-
-```php
-// Using facade accessor
-$payment = \Mollie\Laravel\Facades\Mollie::api()->payments->get($payment_id);
-
-// Using global helper function
-$payment = mollie()->payments->get($payment_id);
-```
-
 ## Other examples
 
 - [Process realtime status updates with a webhook](docs/webhook.md)
@@ -136,17 +116,17 @@ You can find the latest development roadmap for this package [here](docs/roadmap
 ## Want to help us make our Laravel module even better?
 
 Want to help us make our Laravel module even better? We take [pull requests](https://github.com/mollie/laravel-mollie/pulls?utf8=%E2%9C%93&q=is%3Apr), sure.
-But how would you like to contribute to a [technology oriented organization](https://www.mollie.com/nl/blog/post/werken-bij-mollie-als-developer/)? Mollie is hiring developers and system engineers.
-[Check out our vacancies](https://www.mollie.com/nl/jobs) or [get in touch](mailto:personeel@mollie.com).
+But how would you like to contribute to a technology oriented organization? Mollie is hiring developers and system engineers.
+[Check out our vacancies](https://jobs.mollie.com/) or [get in touch](mailto:personeel@mollie.com).
 
 ## License
 
-[BSD (Berkeley Software Distribution) License](http://www.opensource.org/licenses/bsd-license.php). Copyright (c) 2016, Mollie B.V.
+[The MIT License](LICENSE.md). Copyright (c) 2024, Mollie B.V.
 
 ## Support
 
-Contact: [www.mollie.com](https://www.mollie.com) — info@mollie.com — +31 20-612 88 55
+Contact: [www.mollie.com](https://www.mollie.com) — info@mollie.com
 
-* [More information about Mollie Connect](https://www.mollie.com/en/connect)
-* [Documentation for the Mollie API](https://www.mollie.com/en/docs/overview)
-* [Documentation for Mollie OAuth](https://www.mollie.com/en/docs/oauth/overview)
+* [More information about Mollie Connect](https://www.mollie.com/products/connect)
+* [Documentation for the Mollie API](https://docs.mollie.com/)
+* [Documentation for Mollie OAuth](https://docs.mollie.com/connect/getting-started)

@@ -1,51 +1,14 @@
 <?php
-/**
- * Copyright (c) 2016, Mollie B.V.
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * - Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
- * - Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND ANY
- * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE FOR ANY
- * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
- * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
- * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
- * DAMAGE.
- *
- * @license     Berkeley Software Distribution License (BSD-License 2) http://www.opensource.org/licenses/bsd-license.php
- * @author      Mollie B.V. <info@mollie.com>
- * @copyright   Mollie B.V.
- *
- * @link        https://www.mollie.com
- */
 
 namespace Mollie\Laravel;
 
 use Illuminate\Contracts\Container\Container;
-use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Support\ServiceProvider;
-use Laravel\Lumen\Application as LumenApplication;
 use Mollie\Api\MollieApiClient;
-use Mollie\Laravel\Wrappers\MollieApiWrapper;
 
-/**
- * Class MollieServiceProvider.
- */
 class MollieServiceProvider extends ServiceProvider
 {
-    const PACKAGE_VERSION = '2.25.0';
+    const PACKAGE_VERSION = '3.0.0';
 
     /**
      * Boot the service provider.
@@ -54,27 +17,11 @@ class MollieServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->setupConfig();
-        $this->extendSocialite();
-    }
-
-    /**
-     * Setup the config.
-     *
-     * @return void
-     */
-    protected function setupConfig()
-    {
-        $source = realpath(__DIR__.'/../config/mollie.php');
-
-        // Check if the application is a Laravel OR Lumen instance to properly merge the configuration file.
-        if ($this->app instanceof LaravelApplication && $this->app->runningInConsole()) {
-            $this->publishes([$source => config_path('mollie.php')]);
-        } elseif ($this->app instanceof LumenApplication) {
-            $this->app->configure('mollie');
+        if ($this->app->runningInConsole()) {
+            $this->publishes([__DIR__.'/../config/mollie.php' => config_path('mollie.php')]);
         }
 
-        $this->mergeConfigFrom($source, 'mollie');
+        $this->extendSocialite();
     }
 
     /**
@@ -84,8 +31,8 @@ class MollieServiceProvider extends ServiceProvider
      */
     protected function extendSocialite()
     {
-        if (interface_exists('Laravel\Socialite\Contracts\Factory')) {
-            $socialite = $this->app->make('Laravel\Socialite\Contracts\Factory');
+        if (interface_exists($socialiteFactoryClass = \Laravel\Socialite\Contracts\Factory::class)) {
+            $socialite = $this->app->make($socialiteFactoryClass);
 
             $socialite->extend('mollie', function (Container $app) use ($socialite) {
                 $config = $app['config']['services.mollie'];
@@ -102,67 +49,22 @@ class MollieServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerApiClient();
-        $this->registerApiAdapter();
-        $this->registerManager();
-    }
+        $this->mergeConfigFrom(__DIR__.'/../config/mollie.php', 'mollie');
 
-    /**
-     * Register the Mollie API adapter class.
-     *
-     * @return void
-     */
-    protected function registerApiAdapter()
-    {
-        $this->app->singleton('mollie.api', function (Container $app) {
-            $config = $app['config'];
+        $this->app->singleton(
+            MollieApiClient::class,
+            function (Container $app) {
+                $client = (new MollieApiClient(new MollieLaravelHttpClientAdapter))
+                    ->addVersionString('MollieLaravel/'.self::PACKAGE_VERSION);
 
-            return new MollieApiWrapper($config, $app['mollie.api.client']);
-        });
+                if (! empty($apiKey = $app['config']['mollie.key'])) {
+                    $client->setApiKey($apiKey);
+                }
 
-        $this->app->alias('mollie.api', MollieApiWrapper::class);
-    }
+                return $client;
+            }
+        );
 
-    /**
-     * Register the Mollie API Client.
-     *
-     * @return void
-     */
-    protected function registerApiClient()
-    {
-        $this->app->singleton('mollie.api.client', function () {
-            return (new MollieApiClient(new MollieLaravelHttpClientAdapter))
-                ->addVersionString('MollieLaravel/'.self::PACKAGE_VERSION);
-        });
-
-        $this->app->alias('mollie.api.client', MollieApiClient::class);
-    }
-
-    /**
-     * Register the manager class.
-     *
-     * @return void
-     */
-    public function registerManager()
-    {
-        $this->app->singleton('mollie', function (Container $app) {
-            return new MollieManager($app);
-        });
-
-        $this->app->alias('mollie', MollieManager::class);
-    }
-
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return array
-     */
-    public function provides()
-    {
-        return [
-            'mollie',
-            'mollie.api',
-            'mollie.api.client',
-        ];
+        $this->app->singleton(MollieManager::class);
     }
 }

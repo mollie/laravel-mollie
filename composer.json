@@ -41,15 +41,15 @@
     "socialite"
   ],
   "require": {
-    "php": "^8.0",
+    "php": "^8.1|^8.2",
     "mollie/mollie-api-php": "^2.60",
-    "illuminate/support": "^9.0|^10.0",
+    "illuminate/support": "^10.0|^11.0",
     "ext-json": "*"
   },
   "require-dev": {
     "mockery/mockery": "^1.4",
-    "orchestra/testbench": "^7.18|^8.0",
-    "phpunit/phpunit": "^9.0|^10.0",
+    "orchestra/testbench": "^8.0|^9.0",
+    "phpunit/phpunit": "^10.0",
     "laravel/socialite": "^5.5",
     "laravel/pint": "^1.1"
   },
@@ -59,10 +59,7 @@
   "autoload": {
     "psr-4": {
       "Mollie\\Laravel\\": "src/"
-    },
-    "files": [
-      "src/helpers.php"
-    ]
+    }
   },
   "autoload-dev": {
     "psr-4": {
