@@ -109,10 +109,6 @@ public function handleWebhookNotification(Request $request) {
 - [Recurring payments and direct charges](docs/recurring_and_direct_charge.md)
 - [Using Mollie Connect with Laravel Socialite (OAuth)](docs/mollie_connect.md) (Leverage the Mollie platform for advanced payment use cases)
 
-## Roadmap
-
-You can find the latest development roadmap for this package [here](docs/roadmap.md). Feel free to open an [issue](https://github.com/mollie/laravel-mollie/issues) if you have a feature request.
-
 ## Want to help us make our Laravel module even better?
 
 Want to help us make our Laravel module even better? We take [pull requests](https://github.com/mollie/laravel-mollie/pulls?utf8=%E2%9C%93&q=is%3Apr), sure.
