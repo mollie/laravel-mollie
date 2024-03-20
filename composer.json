@@ -2,7 +2,7 @@
   "name": "mollie/laravel-mollie",
   "description": "Mollie API client wrapper for Laravel & Mollie Connect provider for Laravel Socialite",
   "homepage": "https://github.com/mollie/laravel-mollie",
-  "license": "BSD-2-Clause",
+  "license": "MIT",
   "authors": [
     {
       "name": "Mollie B.V.",
