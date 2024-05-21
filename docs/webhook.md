@@ -45,17 +45,16 @@ class MollieWebhookController extends Controller {
 
 Finally, it is _strongly advised_ to disable the `VerifyCsrfToken` middleware, which is included in the `web` middleware group by default. (Out of the box, Laravel applies the `web` middleware group to all routes in `routes/web.php`.)
 
-You can exclude URIs from the CSRF protection in the `app/Http/Middleware/VerifyCsrfToken.php` file:
+You can exclude the route from the CSRF protection in your `bootstrap/app.php`:
 
 ```php
-/**
- * The URIs that should be excluded from CSRF verification.
- *
- * @var array
- */
-protected $except = [
-    'webhooks/mollie'
-];
+// bootstrap/app.php
+
+->withMiddleware(function (Middleware $middleware) {
+    $middleware->validateCsrfTokens(
+        except: ['webhooks/mollie']
+    );
+})
 ```
 
 If this solution does not work, open an [issue](https://github.com/mollie/laravel-mollie/issues) so we can assist you.
