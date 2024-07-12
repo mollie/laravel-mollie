@@ -58,6 +58,12 @@ class MollieServiceProvider extends ServiceProvider
                     ->addVersionString('MollieLaravel/'.self::PACKAGE_VERSION);
 
                 if (! empty($apiKey = $app['config']['mollie.key'])) {
+
+                    // Detect if the API key is of type \Closure. If so, use the return value as the API key.
+                    if($apiKey instanceof \Closure) {
+                        $apiKey = ($apiKey)();
+                    }
+
                     $client->setApiKey($apiKey);
                 }
 

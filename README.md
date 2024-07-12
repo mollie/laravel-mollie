@@ -57,8 +57,45 @@ You'll only need to add the `MOLLIE_KEY` variable to your `.env` file.
 MOLLIE_KEY=test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ```
 
-## Example usage
+### Dynamic keys
 
+As an alternative for the .env file, using closures in the configuration will allow for more flexible and secure management of API keys, especially in multi-tenant (SaaS) applications. This approach ensures that the API key can be retrieved from a database or another secure source at runtime, enhancing security and adaptability. To implement this feature, you must elevate (publish) the vendor's configuration file to your own config directory using:
+
+#### Publish the Vendor Configuration
+
+```php artisan vendor:publish --provider="Mollie\Laravel\MollieServiceProvider"```
+
+#### Verify the Published Configuration
+
+After running the publish command, verify that the configuration file mollie.php has been published to your config directory. The file path should be `config/mollie.php`.
+
+#### Modify the Configuration
+
+Open the published configuration file `config/mollie.php` and modify the API key setting to use a closure. Here is an example:
+
+```php
+return [
+
+    'key' => function () {
+        // Assuming you have a Setting model where you store your settings
+        return \App\Models\Setting::where('key', 'mollie_api_key')->value('value');
+    },
+
+    // If you intend on using Mollie Connect, place the following in the 'config/services.php'
+    // 'mollie' => [
+    //     'client_id'     => env('MOLLIE_CLIENT_ID', 'app_xxx'),
+    //     'client_secret' => env('MOLLIE_CLIENT_SECRET'),
+    //     'redirect'      => env('MOLLIE_REDIRECT_URI'),
+    // ],
+
+];
+```
+
+#### Usage in Your Application
+
+Once you have modified the configuration, you can use the package as usual in your application. The API key will now be retrieved dynamically at runtime from the database or any other secure source you have defined in the closure.
+
+## Example usage
 Here you can see an example of just how simple this package is to use.
 
 ### A payment using the Mollie API
