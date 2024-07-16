@@ -7,9 +7,7 @@ use Mollie\Api\MollieApiClient;
 
 class MollieManager
 {
-    public function __construct(private Container $app)
-    {
-    }
+    public function __construct(private Container $app) {}
 
     public function api(): MollieApiClient
     {
