@@ -18,7 +18,7 @@ Accepting [iDEAL](https://www.mollie.com/en/payments/ideal/), [Apple Pay](https:
 
 ## **Requirements**
 
-* Get yourself a free [Mollie account](https://www.mollie.com/signup). No sign up costs.
+* Get yourself a free [Mollie account](https://my.mollie.com/dashboard/signup). No sign up costs.
 * Now you're ready to use the Mollie API client in test mode.
 * Follow [a few steps](https://www.mollie.com/dashboard/?modal=onboarding) to enable payment methods in live mode, and let us handle the rest.
 * Up-to-date OpenSSL (or other SSL/TLS toolkit)
