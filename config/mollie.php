@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2016, Mollie B.V.
  * All rights reserved.

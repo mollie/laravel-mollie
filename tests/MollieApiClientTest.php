@@ -8,7 +8,7 @@ use ReflectionClass;
 
 class MollieApiClientTest extends TestCase
 {
-    public function testInjectedHttpAdapterIsLaravelHttpClientAdapter()
+    public function test_injected_http_adapter_is_laravel_http_client_adapter()
     {
         $this->assertInstanceOf(
             MollieLaravelHttpClientAdapter::class,
@@ -16,7 +16,7 @@ class MollieApiClientTest extends TestCase
         );
     }
 
-    public function testApiKeyIsSetOnResolvingApiClient()
+    public function test_api_key_is_set_on_resolving_api_client()
     {
         config(['mollie.key' => 'test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxyz']);
 
@@ -26,7 +26,7 @@ class MollieApiClientTest extends TestCase
         );
     }
 
-    public function testDoesNotSetApiKeyIfKeyIsEmpty()
+    public function test_does_not_set_api_key_if_key_is_empty()
     {
         config(['mollie.key' => '']);
 

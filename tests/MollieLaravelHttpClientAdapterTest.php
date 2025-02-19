@@ -11,7 +11,7 @@ use Mollie\Api\Resources\Payment;
  */
 class MollieLaravelHttpClientAdapterTest extends TestCase
 {
-    public function testPostRequest()
+    public function test_post_request()
     {
         /** @var MollieApiClient $client */
         $client = app(MollieApiClient::class);
@@ -38,7 +38,7 @@ class MollieLaravelHttpClientAdapterTest extends TestCase
         $this->assertEquals($payment->description, $returnedPayment->description);
     }
 
-    public function testGetRequest()
+    public function test_get_request()
     {
         /** @var MollieApiClient $client */
         $client = app(MollieApiClient::class);
