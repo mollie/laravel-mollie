@@ -8,7 +8,7 @@ use Mollie\Api\MollieApiClient;
 
 class MollieServiceProvider extends ServiceProvider
 {
-    const PACKAGE_VERSION = '3.0.0';
+    const PACKAGE_VERSION = '3.1.0';
 
     /**
      * Boot the service provider.
