@@ -6,7 +6,6 @@ use Mollie\Api\Http\Auth\ApiKeyAuthenticator;
 use Mollie\Api\MollieApiClient;
 use Mollie\Laravel\MollieLaravelHttpClientAdapter;
 use ReflectionClass;
-use ReflectionMethod;
 
 class MollieApiClientTest extends TestCase
 {
@@ -23,10 +22,13 @@ class MollieApiClientTest extends TestCase
         config(['mollie.key' => 'test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxyz']);
         
         $client = resolve(MollieApiClient::class);
-        $authenticator = $this->getAuthenticator($client);
+        $authenticator = $client->getAuthenticator();
         
         $this->assertInstanceOf(ApiKeyAuthenticator::class, $authenticator);
-        $this->assertTrue($authenticator->isTestToken()); // Test tokens start with 'test_'
+        $this->assertEquals(
+            'test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxyz',
+            $this->getApiKeyFromAuthenticator($authenticator)
+        );
     }
 
     public function test_does_not_set_api_key_if_key_is_empty()
@@ -34,7 +36,7 @@ class MollieApiClientTest extends TestCase
         config(['mollie.key' => '']);
         
         $client = resolve(MollieApiClient::class);
-        $authenticator = $this->getAuthenticator($client);
+        $authenticator = $client->getAuthenticator();
         
         $this->assertNull($authenticator);
     }
@@ -49,13 +51,13 @@ class MollieApiClientTest extends TestCase
 
         return $property->getValue($resolvedInstance);
     }
-    
-    private function getAuthenticator(MollieApiClient $client): ?object
+
+    private function getApiKeyFromAuthenticator(object $authenticator): ?string
     {
-        $reflection = new ReflectionClass($client);
-        $property = $reflection->getProperty('authenticator');
+        $reflection = new ReflectionClass($authenticator);
+        $property = $reflection->getProperty('token');
         $property->setAccessible(true);
         
-        return $property->getValue($client);
+        return $property->getValue($authenticator);
     }
 }

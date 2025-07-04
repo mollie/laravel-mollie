@@ -16,9 +16,7 @@ Then run `composer update mollie/laravel-mollie`.
 
 ## Review Changes
 ### Updating Dependencies
-Laravel-Mollie now requires PHP 8.2.0 or greater and supports Laravel 11.0 and 12.0 only.
-
-If you are using the mollie connect feature, make sure to checkout the upgrade instructions for [Laravel-Socialite](https://github.com/laravel/socialite/blob/5.x/UPGRADE.md)
+Laravel-Mollie now requires PHP 8.2.0 or greater and supports Laravel 11.0 and 12.0 only. It leverages mollie-api-php version 3, which includes several breaking changes.
 
 ### Mollie API PHP v3 Upgrade
 This version upgrades to mollie-api-php v3, which includes several breaking changes:
@@ -53,7 +51,7 @@ Mollie::api()->payments->create();
 ### No more global helper function
 The `mollie()` helper function was deleted. If you rely on the helper function, either consider switching to
 - injecting or resolving the `MollieApiClient` from the container, or
-- use the `Mollie` facade
+- use the `Mollie\Laravel\Facades\Mollie::api()` facade
 
 If none of these are an option for you, you can create your own `helpers.php` file and insert the code for the `mollie()` function yourself.
 
@@ -75,4 +73,4 @@ if (! function_exists('mollie')) {
 ```
 
 ## Stuck?
-Feel free to open an [issue](https://github.com/mollie/laravel-mollie/issues).
+Feel free to open an [issue](https://github.com/mollie/laravel-mollie/issues) or come say hi in the [Mollie Community Discord](https://discord.gg/mollie).

@@ -2,7 +2,6 @@
 
 namespace Mollie\Laravel;
 
-use Illuminate\Http\Client\Response as LaravelResponse;
 use Illuminate\Support\Facades\Http;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Contracts\HttpAdapterContract;
@@ -41,7 +40,7 @@ class MollieLaravelHttpClientAdapter implements HttpAdapterContract
     }
 
     /**
-     * Send a request to the specified Mollie api url.
+     * Send a request to the specified Mollie API URL.
      *
      * @param PendingRequest $pendingRequest
      * @return Response
@@ -52,9 +51,7 @@ class MollieLaravelHttpClientAdapter implements HttpAdapterContract
         // Get request details from PendingRequest
         $method = $pendingRequest->method();
         $url = $pendingRequest->url();
-        
-        // Prepare headers for Laravel HTTP client
-        $headers = [];
+        $headers = $pendingRequest->headers();
         
         // Execute request handlers from middleware
         $pendingRequest->executeRequestHandlers();
@@ -64,7 +61,14 @@ class MollieLaravelHttpClientAdapter implements HttpAdapterContract
             ->requestFactory
             ->createRequest($method, $url);
 
-        $httpClient = Http::withHeaders($headers);
+        // Convert headers from ArrayStore to plain array
+        $headersArray = [];
+        foreach ($headers->all() as $key => $value) {
+            $headersArray[$key] = $value;
+        }
+
+        // Configure Laravel HTTP client with headers
+        $httpClient = Http::withHeaders($headersArray);
             
         // Send request using Laravel HTTP client
         try {
@@ -76,32 +80,14 @@ class MollieLaravelHttpClientAdapter implements HttpAdapterContract
             // Create and return Mollie Response
             return new Response($psrResponse, $psrRequest, $pendingRequest);
         } catch (\Exception $e) {
-            throw new ApiException($psrResponse, $e->getMessage(), $e->getCode(), $e);
-        }
-    }
-    
-    /**
-     * @deprecated Use sendRequest() instead.
-     * @param string $httpMethod
-     * @param string $url
-     * @param array $headers
-     * @param string $httpBody
-     * @return LaravelResponse
-     * @throws ApiException
-     */
-    public function send(string $httpMethod, string $url, array $headers, string $httpBody): LaravelResponse
-    {
-        $contentType = $headers['Content-Type'] ?? 'application/json';
-        unset($headers['Content-Type']);
-
-        try {
-            $response = Http::withBody($httpBody, $contentType)
-                ->withHeaders($headers)
-                ->send($httpMethod, $url);
-                
-            return $response;
-        } catch (\Exception $e) {
-            throw new ApiException($e->getMessage(), $e->getCode(), $e);
+            // Create a generic error response
+            $factory = $this->factories()->responseFactory;
+            $psrErrorResponse = $factory->createResponse(500);
+            
+            // Create a Mollie Response with the error
+            $errorResponse = new Response($psrErrorResponse, $psrRequest, $pendingRequest);
+            
+            throw new ApiException($errorResponse, $e->getMessage(), $e->getCode(), $e);
         }
     }
 }
