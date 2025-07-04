@@ -49,7 +49,7 @@ class MollieLaravelHttpClientAdapterTest extends TestCase
         $payment->description = 'test';
 
         Http::fake([
-            'https://api.mollie.com/v2/payments/'.$payment->id => Http::response(json_encode($payment)),
+            'https://api.mollie.com/v2/payments/' . $payment->id => Http::response(json_encode($payment)),
         ]);
 
         $returnedPayment = $client->payments->get($payment->id);

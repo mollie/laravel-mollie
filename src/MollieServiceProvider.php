@@ -24,10 +24,10 @@ class MollieServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/mollie.php', 'mollie');
+        $this->mergeConfigFrom(__DIR__ . '/../config/mollie.php', 'mollie');
 
         if ($this->app->runningInConsole()) {
-            $this->publishes([__DIR__.'/../config/mollie.php' => config_path('mollie.php')]);
+            $this->publishes([__DIR__ . '/../config/mollie.php' => config_path('mollie.php')]);
         }
     }
 
@@ -55,7 +55,7 @@ class MollieServiceProvider extends ServiceProvider
             MollieApiClient::class,
             function (Container $app) {
                 $client = (new MollieApiClient(new MollieLaravelHttpClientAdapter))
-                    ->addVersionString('MollieLaravel/'.self::PACKAGE_VERSION);
+                    ->addVersionString('MollieLaravel/' . self::PACKAGE_VERSION);
 
                 if (! empty($apiKey = $app['config']['mollie.key'])) {
                     $client->setApiKey($apiKey);
