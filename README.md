@@ -22,12 +22,12 @@ Accepting [iDEAL](https://www.mollie.com/en/payments/ideal/), [Apple Pay](https:
 * Now you're ready to use the Mollie API client in test mode.
 * Follow [a few steps](https://www.mollie.com/dashboard/?modal=onboarding) to enable payment methods in live mode, and let us handle the rest.
 * Up-to-date OpenSSL (or other SSL/TLS toolkit)
-* PHP >= 8.1
-* [Laravel](https://www.laravel.com) >= 10.0
+* PHP >= 8.2
+* [Laravel](https://www.laravel.com) >= 11.0
 * [Laravel Socialite](https://github.com/laravel/socialite) >= 5.0 (if you intend on using [Mollie Connect](https://docs.mollie.com/oauth/overview))
 
-## Upgrading from v2.x?
-To support the enhanced Mollie API, some breaking changes were introduced. Make sure to follow the instructions in the [upgrade guide](UPGRADE.md).
+## Upgrading from v3.x?
+To support the enhanced Mollie API v3, some breaking changes were introduced. Make sure to follow the instructions in the [upgrade guide](UPGRADE.md).
 
 Fresh install? Continue with the installation guide below.
 
@@ -43,7 +43,7 @@ Or add it to `composer.json` manually:
 
 ```json
 "require": {
-    "mollie/laravel-mollie": "^3.0"
+    "mollie/laravel-mollie": "^4.0"
 }
 ```
 
@@ -78,6 +78,10 @@ public function preparePayment()
         "webhookUrl" => route('webhooks.mollie'),
         "metadata" => [
             "order_id" => "12345",
+            "customer_info" => [
+                "name" => "John Doe",
+                "email" => "john@example.com"
+            ]
         ],
     ]);
 

@@ -1,6 +1,6 @@
 ![Mollie](https://www.mollie.nl/files/Mollie-Logo-Style-Small.png)
 
-# Migrating from Laravel-Mollie v2.x to v3
+# Migrating from Laravel-Mollie v3.x to v4
 
 ## Update composer dependencies
 
@@ -8,7 +8,7 @@ Update `composer.json` to match this:
 
 ```json
 "require": {
-    "mollie/laravel-mollie": "^3.0"
+    "mollie/laravel-mollie": "^4.0"
 }
 ```
 
@@ -16,19 +16,28 @@ Then run `composer update mollie/laravel-mollie`.
 
 ## Review Changes
 ### Updating Dependencies
-Laravel-Mollie now requires PHP 8.1.0 or greater.
+Laravel-Mollie now requires PHP 8.2.0 or greater and supports Laravel 11.0 and 12.0 only.
 
 If you are using the mollie connect feature, make sure to checkout the upgrade instructions for [Laravel-Socialite](https://github.com/laravel/socialite/blob/5.x/UPGRADE.md)
 
-#### Lumen support dropped
-The Laravel team has added a note a while ago on the [Lumen Repository](https://github.com/laravel/lumen?tab=readme-ov-file) as well as the official [Lumen documentation](https://lumen.laravel.com/docs/master#installation) that they discourage starting a new project with Lumen. Therefore we dropped the Lumen support for this package.
+### Mollie API PHP v3 Upgrade
+This version upgrades to mollie-api-php v3, which includes several breaking changes:
 
-### Removed Classes
-In order to enhance maintainability the following class was removed:
+1. **Metadata Type Restriction**: In v3, metadata in request payloads is restricted to only accept arrays (not strings or objects).
+2. **Class & Method Renames**: Several endpoint classes and methods have been renamed.
+3. **Streamlined Constants**: Redundant prefixes have been removed for a cleaner API.
+4. **Test Mode Handling**: Automatic detection with API keys and explicit parameter for organization credentials.
+5. **Modern HTTP Handling**: PSR-18 support and typed request objects.
 
-- `MollieApiWrapper`
+For full details on the mollie-api-php v3 changes, see the [official upgrade guide](https://github.com/mollie/mollie-api-php/blob/master/UPGRADING.md).
 
-Instead the `MollieApiClient` is now directly resolved and provided through the container without any abstractions. This change means you can directly access the newest API features that are added to the underlying [mollie/mollie-api-php](https://github.com/mollie/mollie-api-php) client without having to wait on this repository being updated.
+### Socialite Integration Changes
+The Socialite integration has been moved to a dedicated service provider (`MollieSocialiteServiceProvider`) which is automatically registered alongside the main provider. This allows the main `MollieServiceProvider` to be deferred, improving application performance when the Mollie API is not being used.
+
+### Deferred Service Provider
+The main `MollieServiceProvider` is now deferrable, which means it will only be loaded when the Mollie API is actually used in your application. This can improve application performance.
+
+If you're using the Socialite integration, the `MollieSocialiteServiceProvider` will still be loaded on every request to ensure the Socialite driver is properly registered.
 
 ### Change in calling API endpoints
 Earlier versions of Laravel-Mollie provided access to endpoints via both methods and properties. Moving forward, access to endpoints will be exclusively through properties, aligning with the practices of the mollie-api-php SDK.****

@@ -2,9 +2,11 @@
 
 namespace Mollie\Laravel\Tests;
 
+use Mollie\Api\Http\Auth\ApiKeyAuthenticator;
 use Mollie\Api\MollieApiClient;
 use Mollie\Laravel\MollieLaravelHttpClientAdapter;
 use ReflectionClass;
+use ReflectionMethod;
 
 class MollieApiClientTest extends TestCase
 {
@@ -19,21 +21,22 @@ class MollieApiClientTest extends TestCase
     public function test_api_key_is_set_on_resolving_api_client()
     {
         config(['mollie.key' => 'test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxyz']);
-
-        $this->assertEquals(
-            'test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxyz',
-            $this->getUnaccessiblePropertyValue('apiKey')
-        );
+        
+        $client = resolve(MollieApiClient::class);
+        $authenticator = $this->getAuthenticator($client);
+        
+        $this->assertInstanceOf(ApiKeyAuthenticator::class, $authenticator);
+        $this->assertTrue($authenticator->isTestToken()); // Test tokens start with 'test_'
     }
 
     public function test_does_not_set_api_key_if_key_is_empty()
     {
         config(['mollie.key' => '']);
-
-        $this->assertEquals(
-            null,
-            $this->getUnaccessiblePropertyValue('apiKey')
-        );
+        
+        $client = resolve(MollieApiClient::class);
+        $authenticator = $this->getAuthenticator($client);
+        
+        $this->assertNull($authenticator);
     }
 
     private function getUnaccessiblePropertyValue(string $propertyName): mixed
@@ -45,5 +48,14 @@ class MollieApiClientTest extends TestCase
         $property->setAccessible(true);
 
         return $property->getValue($resolvedInstance);
+    }
+    
+    private function getAuthenticator(MollieApiClient $client): ?object
+    {
+        $reflection = new ReflectionClass($client);
+        $property = $reflection->getProperty('authenticator');
+        $property->setAccessible(true);
+        
+        return $property->getValue($client);
     }
 }

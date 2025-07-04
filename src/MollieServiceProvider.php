@@ -8,7 +8,14 @@ use Mollie\Api\MollieApiClient;
 
 class MollieServiceProvider extends ServiceProvider
 {
-    const PACKAGE_VERSION = '3.1.0';
+    const PACKAGE_VERSION = '4.0.0';
+    
+    /**
+     * Indicates if loading of the provider is deferred.
+     *
+     * @var bool
+     */
+    protected $defer = true;
 
     /**
      * Boot the service provider.
@@ -17,29 +24,24 @@ class MollieServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->mergeConfigFrom(__DIR__.'/../config/mollie.php', 'mollie');
+        
         if ($this->app->runningInConsole()) {
             $this->publishes([__DIR__.'/../config/mollie.php' => config_path('mollie.php')]);
         }
-
-        $this->extendSocialite();
     }
 
     /**
-     * Extend the Laravel Socialite factory class, if available.
+     * Get the services provided by the provider.
      *
-     * @return void
+     * @return array
      */
-    protected function extendSocialite()
+    public function provides()
     {
-        if (interface_exists($socialiteFactoryClass = \Laravel\Socialite\Contracts\Factory::class)) {
-            $socialite = $this->app->make($socialiteFactoryClass);
-
-            $socialite->extend('mollie', function (Container $app) use ($socialite) {
-                $config = $app['config']['services.mollie'];
-
-                return $socialite->buildProvider(MollieConnectProvider::class, $config);
-            });
-        }
+        return [
+            MollieApiClient::class,
+            MollieManager::class,
+        ];
     }
 
     /**
@@ -49,8 +51,6 @@ class MollieServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/mollie.php', 'mollie');
-
         $this->app->singleton(
             MollieApiClient::class,
             function (Container $app) {
