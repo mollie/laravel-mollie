@@ -9,7 +9,7 @@ use Mollie\Api\MollieApiClient;
 class MollieServiceProvider extends ServiceProvider
 {
     const PACKAGE_VERSION = '4.0.0';
-    
+
     /**
      * Indicates if loading of the provider is deferred.
      *
@@ -25,7 +25,7 @@ class MollieServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->mergeConfigFrom(__DIR__.'/../config/mollie.php', 'mollie');
-        
+
         if ($this->app->runningInConsole()) {
             $this->publishes([__DIR__.'/../config/mollie.php' => config_path('mollie.php')]);
         }

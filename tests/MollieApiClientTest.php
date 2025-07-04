@@ -20,10 +20,10 @@ class MollieApiClientTest extends TestCase
     public function test_api_key_is_set_on_resolving_api_client()
     {
         config(['mollie.key' => 'test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxyz']);
-        
+
         $client = resolve(MollieApiClient::class);
         $authenticator = $client->getAuthenticator();
-        
+
         $this->assertInstanceOf(ApiKeyAuthenticator::class, $authenticator);
         $this->assertEquals(
             'test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxyz',
@@ -34,10 +34,10 @@ class MollieApiClientTest extends TestCase
     public function test_does_not_set_api_key_if_key_is_empty()
     {
         config(['mollie.key' => '']);
-        
+
         $client = resolve(MollieApiClient::class);
         $authenticator = $client->getAuthenticator();
-        
+
         $this->assertNull($authenticator);
     }
 
@@ -57,7 +57,7 @@ class MollieApiClientTest extends TestCase
         $reflection = new ReflectionClass($authenticator);
         $property = $reflection->getProperty('token');
         $property->setAccessible(true);
-        
+
         return $property->getValue($authenticator);
     }
 }
