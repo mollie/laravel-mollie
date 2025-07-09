@@ -49,6 +49,7 @@
     "require-dev": {
         "graham-campbell/testbench": "^6.0",
         "laravel/pint": "^1.13",
+        "laravel/socialite": "^5.21",
         "mockery/mockery": "^1.5",
         "phpunit/phpunit": "^11.0"
     },
