@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Laravel;
 
 use Illuminate\Support\Facades\Http;

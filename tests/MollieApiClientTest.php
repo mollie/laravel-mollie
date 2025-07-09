@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Laravel\Tests;
 
 use Mollie\Api\Http\Auth\ApiKeyAuthenticator;
