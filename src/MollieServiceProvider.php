@@ -7,6 +7,7 @@ namespace Mollie\Laravel;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\ServiceProvider;
 use Mollie\Api\MollieApiClient;
+use Mollie\Api\Webhooks\SignatureValidator;
 
 class MollieServiceProvider extends ServiceProvider
 {
@@ -74,5 +75,11 @@ class MollieServiceProvider extends ServiceProvider
         );
 
         $this->app->singleton(MollieManager::class);
+
+        if (config('mollie.webhooks.enabled')) {
+            $this->app->singleton(SignatureValidator::class, function (Container $app) {
+                return new SignatureValidator(config('mollie.webhooks.signing_secrets'));
+            });
+        }
     }
 }

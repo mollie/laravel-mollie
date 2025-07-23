@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Mollie\Laravel\Middlewares;
+namespace Mollie\Laravel\Middleware;
 
 use Illuminate\Http\Request;
 use Closure;
@@ -12,6 +12,10 @@ use Mollie\Api\Webhooks\SignatureValidator;
 
 class ValidatesWebhookSignatures
 {
+    public function __construct(
+        private SignatureValidator $validator
+    ) {}
+
     public function handle(Request $request, Closure $next)
     {
         if (! config('mollie.webhooks.enabled')) {
@@ -19,13 +23,11 @@ class ValidatesWebhookSignatures
         }
 
         try {
-            $validator = new SignatureValidator(config('mollie.webhooks.signing_secrets'));
-
             /** @var string $body */
             $body = $request->getContent();
             $signature = $request->header('X-Mollie-Signature');
 
-            $isLegacyWebhook = $validator->validatePayload(
+            $isLegacyWebhook = $this->validator->validatePayload(
                 $body,
                 $signature
             );
