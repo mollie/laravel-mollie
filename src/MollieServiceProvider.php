@@ -26,8 +26,6 @@ class MollieServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/mollie.php', 'mollie');
-
         if ($this->app->runningInConsole()) {
             $this->publishes([__DIR__ . '/../config/mollie.php' => config_path('mollie.php')]);
         }
@@ -53,6 +51,10 @@ class MollieServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->mergeConfigFrom(
+            __DIR__ . '/../config/mollie.php', 'mollie'
+        );
+
         $this->app->singleton(
             MollieApiClient::class,
             function (Container $app) {
