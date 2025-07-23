@@ -49,7 +49,7 @@ class ValidatesWebhookSignaturesTest extends TestCase
         config([
             'mollie.webhooks.enabled' => true,
             'mollie.webhooks.signing_secrets' => 'secret1,secret2',
-            'mollie.webhooks.legacy_webhook_enabled' => true
+            'mollie.webhooks.legacy_webhook_enabled' => true,
         ]);
 
         $request = $this->createRequestWithSignature('{"id":"payment_123"}', 'valid_signature');
@@ -75,7 +75,7 @@ class ValidatesWebhookSignaturesTest extends TestCase
         // Arrange
         config([
             'mollie.webhooks.enabled' => true,
-            'mollie.webhooks.signing_secrets' => 'secret1,secret2'
+            'mollie.webhooks.signing_secrets' => 'secret1,secret2',
         ]);
 
         $request = $this->createRequestWithSignature('{"id":"payment_123"}', 'invalid_signature');
@@ -110,7 +110,7 @@ class ValidatesWebhookSignaturesTest extends TestCase
         config([
             'mollie.webhooks.enabled' => true,
             'mollie.webhooks.signing_secrets' => 'secret1,secret2',
-            'mollie.webhooks.legacy_webhook_enabled' => true
+            'mollie.webhooks.legacy_webhook_enabled' => true,
         ]);
 
         $request = $this->createRequestWithSignature('{"id":"payment_123"}', 'legacy_signature');
@@ -137,7 +137,7 @@ class ValidatesWebhookSignaturesTest extends TestCase
         config([
             'mollie.webhooks.enabled' => true,
             'mollie.webhooks.signing_secrets' => 'secret1,secret2',
-            'mollie.webhooks.legacy_webhook_enabled' => false
+            'mollie.webhooks.legacy_webhook_enabled' => false,
         ]);
 
         $request = $this->createRequestWithSignature('{"id":"payment_123"}', 'legacy_signature');
@@ -163,7 +163,7 @@ class ValidatesWebhookSignaturesTest extends TestCase
         // Arrange
         config([
             'mollie.webhooks.enabled' => true,
-            'mollie.webhooks.signing_secrets' => 'secret1,secret2'
+            'mollie.webhooks.signing_secrets' => 'secret1,secret2',
         ]);
 
         $request = $this->createRequestWithSignature('{"id":"payment_123"}', null);
@@ -197,7 +197,7 @@ class ValidatesWebhookSignaturesTest extends TestCase
         // Arrange
         config([
             'mollie.webhooks.enabled' => true,
-            'mollie.webhooks.signing_secrets' => 'secret1,secret2'
+            'mollie.webhooks.signing_secrets' => 'secret1,secret2',
         ]);
 
         $request = $this->createRequestWithSignature('', 'some_signature');
@@ -224,7 +224,7 @@ class ValidatesWebhookSignaturesTest extends TestCase
         $customSecrets = 'custom_secret_1,custom_secret_2,custom_secret_3';
         config([
             'mollie.webhooks.enabled' => true,
-            'mollie.webhooks.signing_secrets' => $customSecrets
+            'mollie.webhooks.signing_secrets' => $customSecrets,
         ]);
 
         $request = $this->createRequestWithSignature('{"id":"payment_123"}', 'valid_signature');
@@ -249,7 +249,7 @@ class ValidatesWebhookSignaturesTest extends TestCase
         // Arrange
         config([
             'mollie.webhooks.enabled' => true,
-            'mollie.webhooks.signing_secrets' => 'secret1'
+            'mollie.webhooks.signing_secrets' => 'secret1',
         ]);
 
         $request = $this->createRequestWithSignature('{"id":"payment_123"}', 'valid_signature');
@@ -261,6 +261,7 @@ class ValidatesWebhookSignaturesTest extends TestCase
         $nextCalled = false;
         $next = function ($request) use (&$nextCalled) {
             $nextCalled = true;
+
             return response('Next middleware called');
         };
 

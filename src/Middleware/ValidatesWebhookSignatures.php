@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Mollie\Laravel\Middleware;
 
-use Illuminate\Http\Request;
 use Closure;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\Request;
 use Mollie\Api\Exceptions\InvalidSignatureException;
 use Mollie\Api\Webhooks\SignatureValidator;
 
@@ -32,7 +32,7 @@ class ValidatesWebhookSignatures
                 $signature
             );
 
-            if ($isLegacyWebhook && !config('mollie.webhooks.legacy_webhook_enabled')) {
+            if ($isLegacyWebhook && ! config('mollie.webhooks.legacy_webhook_enabled')) {
                 throw new \Exception('Legacy webhook feature is disabled');
             }
 
