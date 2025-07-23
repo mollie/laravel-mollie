@@ -26,6 +26,10 @@ class MollieServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        if (config('mollie.webhooks.enabled') && ! config('mollie.webhooks.signing_secrets')) {
+            throw new \Exception('Webhooks are enabled but no signing secrets are set');
+        }
+
         if ($this->app->runningInConsole()) {
             $this->publishes([__DIR__ . '/../config/mollie.php' => config_path('mollie.php')]);
         }
