@@ -20,16 +20,6 @@ class MollieSocialiteServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register the application services.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        // No registration needed for Socialite extension
-    }
-
-    /**
      * Extend the Laravel Socialite factory class, if available.
      *
      * @return void
