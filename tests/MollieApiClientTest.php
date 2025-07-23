@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Mollie\Laravel\Tests;
 
+use Mollie\Api\Contracts\Authenticator;
 use Mollie\Api\Http\Auth\ApiKeyAuthenticator;
 use Mollie\Api\MollieApiClient;
 use Mollie\Laravel\MollieLaravelHttpClientAdapter;
@@ -15,7 +16,7 @@ class MollieApiClientTest extends TestCase
     {
         $this->assertInstanceOf(
             MollieLaravelHttpClientAdapter::class,
-            $this->getUnaccessiblePropertyValue('httpClient')
+            resolve(MollieApiClient::class)->getHttpClient()
         );
     }
 
@@ -24,6 +25,7 @@ class MollieApiClientTest extends TestCase
         config(['mollie.key' => 'test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxyz']);
 
         $client = resolve(MollieApiClient::class);
+        /** @var ApiKeyAuthenticator $authenticator */
         $authenticator = $client->getAuthenticator();
 
         $this->assertInstanceOf(ApiKeyAuthenticator::class, $authenticator);
@@ -43,18 +45,7 @@ class MollieApiClientTest extends TestCase
         $this->assertNull($authenticator);
     }
 
-    private function getUnaccessiblePropertyValue(string $propertyName): mixed
-    {
-        $resolvedInstance = resolve(MollieApiClient::class);
-
-        $reflection = new ReflectionClass($resolvedInstance);
-        $property = $reflection->getProperty($propertyName);
-        $property->setAccessible(true);
-
-        return $property->getValue($resolvedInstance);
-    }
-
-    private function getApiKeyFromAuthenticator(object $authenticator): ?string
+    private function getApiKeyFromAuthenticator(Authenticator $authenticator): ?string
     {
         $reflection = new ReflectionClass($authenticator);
         $property = $reflection->getProperty('token');

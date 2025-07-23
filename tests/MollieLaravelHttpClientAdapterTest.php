@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Mollie\Laravel\Tests;
 
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
 use Mollie\Api\Exceptions\ApiException;
+use Mollie\Api\Exceptions\RetryableNetworkRequestException;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Payment;
 
@@ -85,11 +87,11 @@ class MollieLaravelHttpClientAdapterTest extends TestCase
         // Simulate a connection error
         Http::fake([
             'https://api.mollie.com/*' => function () {
-                throw new \Exception('Connection error');
+                throw new ConnectionException('Connection error');
             },
         ]);
 
-        $this->expectException(ApiException::class);
+        $this->expectException(RetryableNetworkRequestException::class);
         $this->expectExceptionMessage('Connection error');
 
         // This should throw an ApiException with the connection error message
