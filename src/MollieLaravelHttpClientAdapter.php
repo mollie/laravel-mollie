@@ -7,6 +7,7 @@ namespace Mollie\Laravel;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
+use Mollie\Api\Contracts\HasPayload;
 use Mollie\Api\Contracts\HttpAdapterContract;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Exceptions\RetryableNetworkRequestException;
@@ -36,15 +37,19 @@ class MollieLaravelHttpClientAdapter implements HttpAdapterContract
         $psrRequest = $pendingRequest->createPsrRequest();
 
         try {
-            $response = Http::withHeaders($pendingRequest->headers()->all())
-                ->withUrlParameters($pendingRequest->query()->all())
-                ->withBody($psrRequest->getBody())
-                ->send(
-                    $pendingRequest->method(),
-                    $pendingRequest->url(),
-                );
+            $client = Http::withHeaders($pendingRequest->headers()->all());
 
-            $psrResponse = $response->toPsrResponse();
+            if ($pendingRequest->query()->isNotEmpty()) {
+                $client = $client->withUrlParameters($pendingRequest->query()->all());
+            }
+
+            if ($pendingRequest->getRequest() instanceof HasPayload) {
+                $client = $client->withBody($psrRequest->getBody());
+            }
+
+            $psrResponse = $client
+                ->send($pendingRequest->method(), $pendingRequest->url())
+                ->toPsrResponse();
 
             return new Response($psrResponse, $psrRequest, $pendingRequest);
         } catch (ConnectionException $e) {
