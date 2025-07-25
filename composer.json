@@ -42,9 +42,9 @@
     ],
     "require": {
         "php": "^8.2",
-        "mollie/mollie-api-php": "^3.0",
         "illuminate/support": "^11.0|^12.0",
-        "ext-json": "*"
+        "ext-json": "*",
+        "mollie/mollie-api-php": "^3.3"
     },
     "require-dev": {
         "graham-campbell/testbench": "^6.0",

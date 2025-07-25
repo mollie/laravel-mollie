@@ -8,6 +8,7 @@ use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\ServiceProvider;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Webhooks\SignatureValidator;
+use RuntimeException;
 
 class MollieServiceProvider extends ServiceProvider
 {
@@ -27,10 +28,6 @@ class MollieServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if (config('mollie.webhooks.enabled') && ! config('mollie.webhooks.signing_secrets')) {
-            throw new \Exception('Webhooks are enabled but no signing secrets are set');
-        }
-
         if ($this->app->runningInConsole()) {
             $this->publishes([__DIR__ . '/../config/mollie.php' => config_path('mollie.php')]);
         }
@@ -76,10 +73,13 @@ class MollieServiceProvider extends ServiceProvider
 
         $this->app->singleton(MollieManager::class);
 
-        if (config('mollie.webhooks.enabled')) {
-            $this->app->singleton(SignatureValidator::class, function (Container $app) {
-                return new SignatureValidator(config('mollie.webhooks.signing_secrets'));
-            });
-        }
+        $this->app->bind(SignatureValidator::class, function (Container $app) {
+            throw_if(
+                config('mollie.webhooks.enabled') && ! config('mollie.webhooks.signing_secrets'),
+                new RuntimeException('Webhooks are enabled but no signing secrets are set')
+            );
+
+            return new SignatureValidator(config('mollie.webhooks.signing_secrets'));
+        });
     }
 }
