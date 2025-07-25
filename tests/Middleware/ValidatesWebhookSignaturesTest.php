@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Mollie\Laravel\Tests\Middleware;
 
 use Illuminate\Http\Request;
-use Mollie\Laravel\Tests\TestCase;
 use Mollie\Laravel\Middleware\ValidatesWebhookSignatures;
+use Mollie\Laravel\Tests\TestCase;
 
 class ValidatesWebhookSignaturesTest extends TestCase
 {

@@ -7,7 +7,6 @@ namespace Mollie\Laravel\Tests;
 use Illuminate\Http\Request;
 use Mollie\Api\Webhooks\SignatureValidator as BaseSignatureValidator;
 use Mollie\Laravel\SignatureValidator;
-use Mollie\Laravel\Tests\TestCase;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class SignatureValidatorTest extends TestCase
@@ -15,7 +14,7 @@ class SignatureValidatorTest extends TestCase
     public function test_validates_signature_with_valid_secret()
     {
         config([
-            'mollie.webhooks.legacy_webhook_enabled' => false
+            'mollie.webhooks.legacy_webhook_enabled' => false,
         ]);
 
         $body = '{"id":"payment_123"}';

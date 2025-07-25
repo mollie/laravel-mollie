@@ -21,7 +21,7 @@ class SignatureValidator
         $signatures = $request->header(BaseSignatureValidator::SIGNATURE_HEADER, '');
 
         try {
-            $isLegacyWebhook = !$this->validator->validatePayload(
+            $isLegacyWebhook = ! $this->validator->validatePayload(
                 $body,
                 $signatures
             );
@@ -34,9 +34,6 @@ class SignatureValidator
 
     /**
      * Handle the given invalid signature exception.
-     *
-     * @param InvalidSignatureException $e
-     * @return void
      */
     private function marshalInvalidSignatureException(InvalidSignatureException $e): void
     {
@@ -45,6 +42,6 @@ class SignatureValidator
 
     private function abortIfLegacyWebhookIsDisabled(bool $isLegacyWebhook): void
     {
-        abort_if($isLegacyWebhook && !config('mollie.webhooks.legacy_webhook_enabled'), 403, 'Legacy webhook feature is disabled');
+        abort_if($isLegacyWebhook && ! config('mollie.webhooks.legacy_webhook_enabled'), 403, 'Legacy webhook feature is disabled');
     }
 }
