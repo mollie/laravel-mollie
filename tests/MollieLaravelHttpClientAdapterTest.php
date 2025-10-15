@@ -4,12 +4,17 @@ declare(strict_types=1);
 
 namespace Mollie\Laravel\Tests;
 
-use Illuminate\Http\Client\ConnectionException;
-use Illuminate\Support\Facades\Http;
+use GuzzleHttp\Exception\ConnectException;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Exceptions\RetryableNetworkRequestException;
-use Mollie\Api\MollieApiClient;
+use Mollie\Api\Fake\MockResponse;
+use Mollie\Api\Http\PendingRequest;
+use Mollie\Api\Http\Requests\CreatePaymentRequest;
+use Mollie\Api\Http\Requests\GetPaymentRequest;
+use Mollie\Api\Http\Data\Money;
+use Mollie\Api\Http\LinearRetryStrategy;
 use Mollie\Api\Resources\Payment;
+use Mollie\Laravel\Facades\Mollie;
 
 /**
  * Class MollieLaravelHttpClientAdapterTest
@@ -18,83 +23,73 @@ class MollieLaravelHttpClientAdapterTest extends TestCase
 {
     public function test_post_request()
     {
-        /** @var MollieApiClient $client */
-        $client = app(MollieApiClient::class);
-        $payment = new Payment($client);
-        $payment->id = uniqid('tr_');
-        $payment->redirectUrl = 'https://google.com/redirect';
-        $payment->description = 'test';
-
-        Http::fake([
-            'https://api.mollie.com/*' => Http::response(json_encode($payment)),
+        Mollie::fake([
+            CreatePaymentRequest::class => MockResponse::resource(Payment::class)
+                ->with([
+                    'id' => $paymentId = uniqid('tr_'),
+                    'redirectUrl' => $redirectUrl = 'https://google.com/redirect',
+                    'description' => $description = 'test',
+                ])
+                ->create(),
         ]);
 
-        $returnedPayment = $client->payments->create([
-            'redirectUrl' => 'https://google.com/redirect',
-            'description' => 'test',
-            'amount' => [
-                'value' => '10.00',
-                'currency' => 'EUR',
-            ],
-        ]);
+        /** @var Payment $returnedPayment */
+        $returnedPayment = Mollie::api()->send(new CreatePaymentRequest(
+            description: $description,
+            amount: new Money('10.00', 'EUR'),
+            redirectUrl: $redirectUrl,
+        ));
 
-        $this->assertEquals($payment->id, $returnedPayment->id);
-        $this->assertEquals($payment->redirectUrl, $returnedPayment->redirectUrl);
-        $this->assertEquals($payment->description, $returnedPayment->description);
+        $this->assertEquals($paymentId, $returnedPayment->id);
+        $this->assertEquals($redirectUrl, $returnedPayment->redirectUrl);
+        $this->assertEquals($description, $returnedPayment->description);
     }
 
     public function test_get_request()
     {
-        /** @var MollieApiClient $client */
-        $client = app(MollieApiClient::class);
-        $payment = new Payment($client);
-        $payment->id = uniqid('tr_');
-        $payment->redirectUrl = 'https://google.com/redirect';
-        $payment->description = 'test';
-
-        Http::fake([
-            'https://api.mollie.com/v2/payments/' . $payment->id => Http::response(json_encode($payment)),
+        Mollie::fake([
+            GetPaymentRequest::class => MockResponse::resource(Payment::class)
+                ->with([
+                    'id' => $paymentId = uniqid('tr_'),
+                    'redirectUrl' => $redirectUrl = 'https://google.com/redirect',
+                    'description' => $description = 'test',
+                ])
+                ->create(),
         ]);
 
-        $returnedPayment = $client->payments->get($payment->id);
+        $returnedPayment = Mollie::api()->send(new GetPaymentRequest($paymentId));
 
-        $this->assertEquals($payment->id, $returnedPayment->id);
-        $this->assertEquals($payment->redirectUrl, $returnedPayment->redirectUrl);
-        $this->assertEquals($payment->description, $returnedPayment->description);
+        $this->assertEquals($paymentId, $returnedPayment->id);
+        $this->assertEquals($redirectUrl, $returnedPayment->redirectUrl);
+        $this->assertEquals($description, $returnedPayment->description);
     }
 
     public function test_exception_handling()
     {
-        /** @var MollieApiClient $client */
-        $client = app(MollieApiClient::class);
-
-        // Simulate a network error
-        Http::fake([
-            'https://api.mollie.com/*' => Http::response('', 500),
+        Mollie::fake([
+            GetPaymentRequest::class => MockResponse::error(500, 'Internal Server Error', 'Internal Server Error'),
         ]);
 
         $this->expectException(ApiException::class);
 
         // This should throw an ApiException
-        $client->payments->get('non_existing_payment');
+        Mollie::api()->send(new GetPaymentRequest('non_existing_payment'));
     }
 
     public function test_connection_error_handling()
     {
-        /** @var MollieApiClient $client */
-        $client = app(MollieApiClient::class);
-
-        // Simulate a connection error
-        Http::fake([
-            'https://api.mollie.com/*' => function () {
-                throw new ConnectionException('Connection error');
+        Mollie::fake([
+            GetPaymentRequest::class => function (PendingRequest $pendingRequest) {
+                throw new ConnectException('Connection error', $pendingRequest->createPsrRequest());
             },
         ]);
 
         $this->expectException(RetryableNetworkRequestException::class);
         $this->expectExceptionMessage('Connection error');
 
-        // This should throw an ApiException with the connection error message
-        $client->payments->get('any_payment_id');
+        Mollie::api()
+            // set retry to 0 to exit early
+            ->setRetryStrategy(new LinearRetryStrategy(0, 0))
+            ->send(new GetPaymentRequest('any_payment_id'));
     }
 }

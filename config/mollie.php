@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use Mollie\Laravel\EventWebhookDispatcher;
+
 return [
 
     'key' => env('MOLLIE_KEY', 'test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'),
@@ -15,6 +17,19 @@ return [
 
     'webhooks' => [
         'enabled' => env('MOLLIE_WEBHOOKS_ENABLED', false),
+
+        'prefix' => env('MOLLIE_WEBHOOKS_PREFIX', 'api'),
+
+        'path' => env('MOLLIE_WEBHOOKS_PATH', 'mollie/webhooks'),
+
+        'middleware' => env('MOLLIE_WEBHOOKS_MIDDLEWARE', 'api'),
+
+        /**
+         * The dispatcher to use for webhook events.
+         *
+         * Note: The dispatcher must implement the WebhookDispatcher interface.
+         */
+        'dispatcher' => EventWebhookDispatcher::class,
 
         /**
          * A comma separated list of signing secrets.

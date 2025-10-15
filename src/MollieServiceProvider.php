@@ -9,6 +9,9 @@ use Illuminate\Support\ServiceProvider;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Webhooks\SignatureValidator;
 use RuntimeException;
+use Mollie\Laravel\Contracts\WebhookDispatcher;
+use Mollie\Laravel\Commands\RevealWebhookPathCommand;
+use Mollie\Laravel\Commands\SetupWebhookCommand;
 
 class MollieServiceProvider extends ServiceProvider
 {
@@ -28,8 +31,15 @@ class MollieServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->loadRoutesFrom(__DIR__.'/../routes/api.php');
+
         if ($this->app->runningInConsole()) {
             $this->publishes([__DIR__ . '/../config/mollie.php' => config_path('mollie.php')]);
+
+            $this->commands([
+                SetupWebhookCommand::class,
+                RevealWebhookPathCommand::class,
+            ]);
         }
     }
 
@@ -41,8 +51,11 @@ class MollieServiceProvider extends ServiceProvider
     public function provides()
     {
         return [
+            SetupWebhookCommand::class,
+            RevealWebhookPathCommand::class,
             MollieApiClient::class,
             MollieManager::class,
+            WebhookDispatcher::class,
         ];
     }
 
@@ -80,6 +93,10 @@ class MollieServiceProvider extends ServiceProvider
             );
 
             return new SignatureValidator(config('mollie.webhooks.signing_secrets'));
+        });
+
+        $this->app->bind(WebhookDispatcher::class, function (Container $app) {
+            return $app->make(config('mollie.webhooks.dispatcher'));
         });
     }
 }

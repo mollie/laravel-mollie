@@ -6,6 +6,7 @@ namespace Mollie\Laravel;
 
 use Illuminate\Contracts\Container\Container;
 use Mollie\Api\MollieApiClient;
+use Mollie\Api\Fake\MockMollieClient;
 
 class MollieManager
 {
@@ -14,5 +15,12 @@ class MollieManager
     public function api(): MollieApiClient
     {
         return $this->app->make(MollieApiClient::class);
+    }
+
+    public function fake(array $expectedResponses = []): MockMollieClient
+    {
+        return tap(MollieApiClient::fake($expectedResponses), function ($fake) {
+            $this->app->instance(MollieApiClient::class, $fake);
+        });
     }
 }

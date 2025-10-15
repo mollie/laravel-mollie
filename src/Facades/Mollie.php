@@ -6,12 +6,14 @@ namespace Mollie\Laravel\Facades;
 
 use Illuminate\Support\Facades\Facade;
 use Mollie\Api\MollieApiClient;
+use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Laravel\MollieManager;
 
 /**
  * (Facade) Class Mollie.
  *
  * @method static MollieApiClient api()
+ * @method static MockMollieClient fake(array $expectedResponses = [])
  */
 class Mollie extends Facade
 {

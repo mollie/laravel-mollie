@@ -27,4 +27,14 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
         return $providers;
     }
+
+    /**
+     * Set up the environment.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     */
+    protected function getEnvironmentSetUp($app)
+    {
+        $app['config']->set('mollie.webhooks.enabled', true);
+    }
 }
