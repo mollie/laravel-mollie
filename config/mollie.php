@@ -28,7 +28,7 @@ return [
         /**
          * The middleware to use for incoming webhook requests.
          */
-        'middleware' =>  [
+        'middleware' => [
             ValidatesWebhookSignatures::class,
         ],
 

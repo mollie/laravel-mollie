@@ -8,8 +8,8 @@ use Mollie\Api\Contracts\Authenticator;
 use Mollie\Api\Http\Auth\ApiKeyAuthenticator;
 use Mollie\Api\MollieApiClient;
 use Mollie\Laravel\MollieLaravelHttpClientAdapter;
-use ReflectionClass;
 use PHPUnit\Framework\Attributes\Test;
+use ReflectionClass;
 
 class MollieApiClientTest extends TestCase
 {

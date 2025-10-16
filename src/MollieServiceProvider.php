@@ -9,9 +9,9 @@ use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Webhooks\SignatureValidator;
-use RuntimeException;
-use Mollie\Laravel\Contracts\WebhookDispatcher;
 use Mollie\Laravel\Commands\SetupWebhookCommand;
+use Mollie\Laravel\Contracts\WebhookDispatcher;
+use RuntimeException;
 
 class MollieServiceProvider extends ServiceProvider implements DeferrableProvider
 {
@@ -24,7 +24,7 @@ class MollieServiceProvider extends ServiceProvider implements DeferrableProvide
      */
     public function boot()
     {
-        $this->loadRoutesFrom(__DIR__.'/../routes/api.php');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
 
         if ($this->app->runningInConsole()) {
             $this->publishes([__DIR__ . '/../config/mollie.php' => config_path('mollie.php')]);

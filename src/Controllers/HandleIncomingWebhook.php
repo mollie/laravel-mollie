@@ -7,9 +7,9 @@ namespace Mollie\Laravel\Controllers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Mollie\Api\Webhooks\Events\BaseEvent;
 use Mollie\Api\Webhooks\WebhookEventMapper;
 use Mollie\Laravel\Contracts\WebhookDispatcher;
-use Mollie\Api\Webhooks\Events\BaseEvent;
 
 class HandleIncomingWebhook extends Controller
 {

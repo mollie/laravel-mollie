@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace Mollie\Laravel\Tests\Commands;
 
 use Illuminate\Support\Arr;
+use Mollie\Api\Fake\MockResponse;
+use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Requests\CreateWebhookRequest;
+use Mollie\Api\Http\Requests\ListPermissionsRequest;
+use Mollie\Api\Resources\PermissionCollection;
+use Mollie\Api\Resources\Webhook;
 use Mollie\Api\Webhooks\WebhookEventType;
 use Mollie\Laravel\Commands\SetupWebhookCommand;
 use Mollie\Laravel\Facades\Mollie;
 use Mollie\Laravel\Tests\TestCase;
-use Mollie\Api\Fake\MockResponse;
-use Mollie\Api\Http\PendingRequest;
-use Mollie\Api\Http\Requests\ListPermissionsRequest;
-use Mollie\Api\Resources\PermissionCollection;
-use Mollie\Api\Resources\Webhook;
 use PHPUnit\Framework\Attributes\Test;
 
 class SetupWebhookCommandTest extends TestCase

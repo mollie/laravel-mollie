@@ -4,14 +4,6 @@ namespace Mollie\Laravel\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Arr;
-use Mollie\Api\Exceptions\MollieException;
-use Mollie\Api\Http\Auth\TokenValidator;
-use Mollie\Api\Http\Requests\CreateWebhookRequest;
-use Mollie\Api\Http\Requests\ListPermissionsRequest;
-use Mollie\Api\MollieApiClient;
-use Mollie\Api\Resources\Permission;
-use Mollie\Api\Resources\Webhook;
-use Mollie\Api\Webhooks\WebhookEventType;
 
 use function Laravel\Prompts\clear;
 use function Laravel\Prompts\confirm;
@@ -23,6 +15,15 @@ use function Laravel\Prompts\pause;
 use function Laravel\Prompts\spin;
 use function Laravel\Prompts\table;
 use function Laravel\Prompts\warning;
+
+use Mollie\Api\Exceptions\MollieException;
+use Mollie\Api\Http\Auth\TokenValidator;
+use Mollie\Api\Http\Requests\CreateWebhookRequest;
+use Mollie\Api\Http\Requests\ListPermissionsRequest;
+use Mollie\Api\MollieApiClient;
+use Mollie\Api\Resources\Permission;
+use Mollie\Api\Resources\Webhook;
+use Mollie\Api\Webhooks\WebhookEventType;
 
 class SetupWebhookCommand extends Command
 {
@@ -111,7 +112,7 @@ class SetupWebhookCommand extends Command
         table(
             headers: ['Name', 'Url', 'Events', 'Testmode'],
             rows: [
-                ['name' => $responses['name'], 'url' => $responses['url'], 'events' => Arr::join($responses['events'], ', '), 'testmode' => $responses['testmode']]
+                ['name' => $responses['name'], 'url' => $responses['url'], 'events' => Arr::join($responses['events'], ', '), 'testmode' => $responses['testmode']],
             ]
         );
 
@@ -129,7 +130,7 @@ class SetupWebhookCommand extends Command
 
     private function hasWebhookWritePermission(MollieApiClient $mollie): bool
     {
-        return $mollie->send(new ListPermissionsRequest())
+        return $mollie->send(new ListPermissionsRequest)
             ->contains(function (Permission $permission) {
                 return $permission->id === 'webhooks.write'
                     && $permission->granted;
@@ -150,7 +151,7 @@ class SetupWebhookCommand extends Command
                 message: 'Creating webhook...'
             );
         } catch (MollieException $e) {
-            error('Failed to create webhook: '.$e->getMessage());
+            error('Failed to create webhook: ' . $e->getMessage());
 
             return null;
         }
@@ -159,12 +160,12 @@ class SetupWebhookCommand extends Command
     private function displaySuccess(Webhook $webhook): void
     {
         info('Webhook created successfully');
-        note('🤫 Add this secret to your .env file: '.$webhook->webhookSecret);
+        note('🤫 Add this secret to your .env file: ' . $webhook->webhookSecret);
 
         $existingSecrets = config('mollie.webhooks.signing_secrets');
 
         note(
-            'MOLLIE_WEBHOOK_SIGNING_SECRETS='.
+            'MOLLIE_WEBHOOK_SIGNING_SECRETS=' .
             str($existingSecrets)
                 ->whenNotEmpty(fn ($str) => $str->append(','))
                 ->append($webhook->webhookSecret)
@@ -174,7 +175,7 @@ class SetupWebhookCommand extends Command
     private function suggestManualCreation(): void
     {
         info('Otherwise, you can create the webhook manually in the Mollie dashboard.');
-        info('The webhook path is: '.config('mollie.webhooks.path'));
+        info('The webhook path is: ' . config('mollie.webhooks.path'));
 
         note('Make sure to append the webhook secret to the .env file: MOLLIE_WEBHOOK_SIGNING_SECRETS=...');
     }

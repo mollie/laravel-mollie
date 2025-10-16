@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Mollie\Laravel\Facades;
 
 use Illuminate\Support\Facades\Facade;
-use Mollie\Api\MollieApiClient;
 use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\MollieApiClient;
 
 /**
  * (Facade) Class Mollie.
