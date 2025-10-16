@@ -74,7 +74,7 @@ class MollieServiceProvider extends ServiceProvider implements DeferrableProvide
             }
         );
 
-        $this->app->bind(SignatureValidator::class, function (Container $app) {
+        $this->app->singleton(SignatureValidator::class, function (Container $app) {
             throw_if(
                 ! config('mollie.webhooks.signing_secrets'),
                 new RuntimeException('No signing secrets for Mollie webhooks are set')

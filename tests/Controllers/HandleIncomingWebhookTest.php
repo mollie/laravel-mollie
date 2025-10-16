@@ -14,6 +14,7 @@ class HandleIncomingWebhookTest extends TestCase
     #[Test]
     public function it_can_handle_incoming_webhook()
     {
+        $this->withoutExceptionHandling();
         config(['mollie.webhooks.signing_secrets' => 'test_secret']);
 
         Event::fake();
