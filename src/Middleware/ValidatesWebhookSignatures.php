@@ -16,10 +16,6 @@ class ValidatesWebhookSignatures
 
     public function handle(Request $request, Closure $next)
     {
-        if (! config('mollie.webhooks.enabled')) {
-            return $next($request);
-        }
-
         $this->validator->validate($request);
 
         return $next($request);

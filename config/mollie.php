@@ -6,29 +6,37 @@ use Mollie\Laravel\EventWebhookDispatcher;
 use Mollie\Laravel\Middleware\ValidatesWebhookSignatures;
 
 return [
-
+    /**
+     * API Key or Access Token to authenticate with the Mollie API.
+     */
     'key' => env('MOLLIE_KEY', 'test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'),
 
-    // If you intend on using Mollie Connect, place the following in the 'config/services.php'
-    // 'mollie' => [
-    //     'client_id'     => env('MOLLIE_CLIENT_ID', 'app_xxx'),
-    //     'client_secret' => env('MOLLIE_CLIENT_SECRET'),
-    //     'redirect'      => env('MOLLIE_REDIRECT_URI'),
-    // ],
-
+    /**
+     * Webhooks configuration.
+     */
     'webhooks' => [
+        /**
+         * If true, the webhook route will be registered.
+         */
         'enabled' => env('MOLLIE_WEBHOOKS_ENABLED', false),
 
-        'prefix' => env('MOLLIE_WEBHOOKS_PREFIX', 'api'),
+        /**
+         * The path to use for incoming webhook requests.
+         */
+        'path' => env('MOLLIE_WEBHOOKS_PATH', '/webhooks/mollie'),
 
-        'path' => env('MOLLIE_WEBHOOKS_PATH', 'mollie/webhooks'),
-
+        /**
+         * The middleware to use for incoming webhook requests.
+         */
         'middleware' =>  [
             ValidatesWebhookSignatures::class,
         ],
 
         /**
-         * The dispatcher to use for webhook events.
+         * The dispatcher determines how webhook events are treated by the app.
+         * By default, events are dispatched as Laravel events. You can then listen to
+         * these events via Subscriber or Listeners and react accordingly. Or you may implement
+         * your own dispatcher to handle the events in a different way.
          *
          * Note: The dispatcher must implement the WebhookDispatcher interface.
          */
@@ -44,5 +52,4 @@ return [
          */
         'legacy_webhook_enabled' => env('MOLLIE_LEGACY_WEBHOOK_ENABLED', false),
     ],
-
 ];

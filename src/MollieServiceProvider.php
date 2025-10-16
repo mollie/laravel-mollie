@@ -5,24 +5,17 @@ declare(strict_types=1);
 namespace Mollie\Laravel;
 
 use Illuminate\Contracts\Container\Container;
+use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Webhooks\SignatureValidator;
 use RuntimeException;
 use Mollie\Laravel\Contracts\WebhookDispatcher;
-use Mollie\Laravel\Commands\RevealWebhookPathCommand;
 use Mollie\Laravel\Commands\SetupWebhookCommand;
 
-class MollieServiceProvider extends ServiceProvider
+class MollieServiceProvider extends ServiceProvider implements DeferrableProvider
 {
     const PACKAGE_VERSION = '4.0.0';
-
-    /**
-     * Indicates if loading of the provider is deferred.
-     *
-     * @var bool
-     */
-    protected $defer = true;
 
     /**
      * Boot the service provider.
@@ -38,7 +31,6 @@ class MollieServiceProvider extends ServiceProvider
 
             $this->commands([
                 SetupWebhookCommand::class,
-                RevealWebhookPathCommand::class,
             ]);
         }
     }
@@ -52,7 +44,6 @@ class MollieServiceProvider extends ServiceProvider
     {
         return [
             SetupWebhookCommand::class,
-            RevealWebhookPathCommand::class,
             MollieApiClient::class,
             WebhookDispatcher::class,
         ];
@@ -85,8 +76,8 @@ class MollieServiceProvider extends ServiceProvider
 
         $this->app->bind(SignatureValidator::class, function (Container $app) {
             throw_if(
-                config('mollie.webhooks.enabled') && ! config('mollie.webhooks.signing_secrets'),
-                new RuntimeException('Webhooks are enabled but no signing secrets are set')
+                ! config('mollie.webhooks.signing_secrets'),
+                new RuntimeException('No signing secrets for Mollie webhooks are set')
             );
 
             return new SignatureValidator(config('mollie.webhooks.signing_secrets'));

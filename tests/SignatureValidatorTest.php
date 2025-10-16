@@ -15,10 +15,6 @@ class SignatureValidatorTest extends TestCase
     #[Test]
     public function it_validates_signature_with_valid_secret()
     {
-        config([
-            'mollie.webhooks.legacy_webhook_enabled' => false,
-        ]);
-
         $body = '{"id":"payment_123"}';
         $request = $this->createRequestWithSignature($body, 'valid_secret');
 

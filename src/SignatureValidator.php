@@ -15,7 +15,7 @@ class SignatureValidator
         $this->validator = $validator;
     }
 
-    public function validate(Request $request): void
+    public function validate(Request $request): self
     {
         $body = (string) $request->getContent();
         $signatures = $request->header(BaseSignatureValidator::SIGNATURE_HEADER, '');
@@ -30,6 +30,13 @@ class SignatureValidator
         }
 
         $this->abortIfLegacyWebhookIsDisabled($isLegacyWebhook);
+
+        return $this;
+    }
+
+    public function hasNoSignature(Request $request): bool
+    {
+        return ! $request->hasHeader(BaseSignatureValidator::SIGNATURE_HEADER);
     }
 
     /**
