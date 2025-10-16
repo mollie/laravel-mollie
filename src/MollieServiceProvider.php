@@ -84,7 +84,7 @@ class MollieServiceProvider extends ServiceProvider implements DeferrableProvide
         });
 
         $this->app->bind(WebhookDispatcher::class, function (Container $app) {
-            return $app->make(config('mollie.webhooks.dispatcher'));
+            return $app->make(config('mollie.webhooks.dispatcher') ?? EventWebhookDispatcher::class);
         });
     }
 }

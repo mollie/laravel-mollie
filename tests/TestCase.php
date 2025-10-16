@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Mollie\Laravel\Tests;
 
+use Mollie\Laravel\EventWebhookDispatcher;
+use Mollie\Laravel\Middleware\ValidatesWebhookSignatures;
 use Mollie\Laravel\MollieServiceProvider;
 
 /**
@@ -36,5 +38,10 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     protected function getEnvironmentSetUp($app)
     {
         $app['config']->set('mollie.webhooks.enabled', true);
+        $app['config']->set('mollie.webhooks.path', '/webhooks/mollie');
+        $app['config']->set('mollie.webhooks.middleware', [ValidatesWebhookSignatures::class]);
+        $app['config']->set('mollie.webhooks.dispatcher', EventWebhookDispatcher::class);
+        $app['config']->set('mollie.webhooks.signing_secrets', 'test_secret');
+        $app['config']->set('mollie.webhooks.legacy_webhook_enabled', false);
     }
 }
