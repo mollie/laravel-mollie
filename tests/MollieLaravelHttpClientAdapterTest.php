@@ -15,13 +15,15 @@ use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\LinearRetryStrategy;
 use Mollie\Api\Resources\Payment;
 use Mollie\Laravel\Facades\Mollie;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * Class MollieLaravelHttpClientAdapterTest
  */
 class MollieLaravelHttpClientAdapterTest extends TestCase
 {
-    public function test_post_request()
+    #[Test]
+    public function it_can_send_a_post_request()
     {
         Mollie::fake([
             CreatePaymentRequest::class => MockResponse::resource(Payment::class)
@@ -34,7 +36,7 @@ class MollieLaravelHttpClientAdapterTest extends TestCase
         ]);
 
         /** @var Payment $returnedPayment */
-        $returnedPayment = Mollie::api()->send(new CreatePaymentRequest(
+        $returnedPayment = Mollie::send(new CreatePaymentRequest(
             description: $description,
             amount: new Money('10.00', 'EUR'),
             redirectUrl: $redirectUrl,
@@ -45,7 +47,8 @@ class MollieLaravelHttpClientAdapterTest extends TestCase
         $this->assertEquals($description, $returnedPayment->description);
     }
 
-    public function test_get_request()
+    #[Test]
+    public function it_can_send_a_get_request()
     {
         Mollie::fake([
             GetPaymentRequest::class => MockResponse::resource(Payment::class)
@@ -57,14 +60,15 @@ class MollieLaravelHttpClientAdapterTest extends TestCase
                 ->create(),
         ]);
 
-        $returnedPayment = Mollie::api()->send(new GetPaymentRequest($paymentId));
+        $returnedPayment = Mollie::send(new GetPaymentRequest($paymentId));
 
         $this->assertEquals($paymentId, $returnedPayment->id);
         $this->assertEquals($redirectUrl, $returnedPayment->redirectUrl);
         $this->assertEquals($description, $returnedPayment->description);
     }
 
-    public function test_exception_handling()
+    #[Test]
+    public function it_can_handle_an_exception()
     {
         Mollie::fake([
             GetPaymentRequest::class => MockResponse::error(500, 'Internal Server Error', 'Internal Server Error'),
@@ -73,10 +77,11 @@ class MollieLaravelHttpClientAdapterTest extends TestCase
         $this->expectException(ApiException::class);
 
         // This should throw an ApiException
-        Mollie::api()->send(new GetPaymentRequest('non_existing_payment'));
+        Mollie::send(new GetPaymentRequest('non_existing_payment'));
     }
 
-    public function test_connection_error_handling()
+    #[Test]
+    public function it_can_handle_a_connection_error()
     {
         Mollie::fake([
             GetPaymentRequest::class => function (PendingRequest $pendingRequest) {
@@ -87,9 +92,7 @@ class MollieLaravelHttpClientAdapterTest extends TestCase
         $this->expectException(RetryableNetworkRequestException::class);
         $this->expectExceptionMessage('Connection error');
 
-        Mollie::api()
-            // set retry to 0 to exit early
-            ->setRetryStrategy(new LinearRetryStrategy(0, 0))
+        Mollie::setRetryStrategy(new LinearRetryStrategy(0, 0))
             ->send(new GetPaymentRequest('any_payment_id'));
     }
 }

@@ -8,10 +8,12 @@ use Illuminate\Http\Request;
 use Mollie\Api\Webhooks\SignatureValidator as BaseSignatureValidator;
 use Mollie\Laravel\SignatureValidator;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use PHPUnit\Framework\Attributes\Test;
 
 class SignatureValidatorTest extends TestCase
 {
-    public function test_validates_signature_with_valid_secret()
+    #[Test]
+    public function it_validates_signature_with_valid_secret()
     {
         config([
             'mollie.webhooks.legacy_webhook_enabled' => false,
@@ -27,7 +29,8 @@ class SignatureValidatorTest extends TestCase
         $this->assertTrue(true);
     }
 
-    public function test_allows_legacy_webhook_when_legacy_is_enabled()
+    #[Test]
+    public function it_allows_legacy_webhook_when_legacy_is_enabled()
     {
         config(['mollie.webhooks.legacy_webhook_enabled' => true]);
 
@@ -41,7 +44,8 @@ class SignatureValidatorTest extends TestCase
         $this->assertTrue(true);
     }
 
-    public function test_throws_http_response_exception_on_invalid_signature()
+    #[Test]
+    public function it_throws_http_response_exception_on_invalid_signature()
     {
         config(['mollie.webhooks.legacy_webhook_enabled' => false]);
 
@@ -57,7 +61,8 @@ class SignatureValidatorTest extends TestCase
         }
     }
 
-    public function test_aborts_if_legacy_webhook_is_disabled()
+    #[Test]
+    public function it_aborts_if_legacy_webhook_is_disabled()
     {
         config(['mollie.webhooks.legacy_webhook_enabled' => false]);
 

@@ -3,6 +3,7 @@
 namespace Mollie\Laravel\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Arr;
 use Mollie\Api\Exceptions\MollieException;
 use Mollie\Api\Http\Requests\CreateWebhookRequest;
 use Mollie\Api\MollieApiClient;
@@ -114,7 +115,7 @@ class SetupWebhookCommand extends Command
         table(
             headers: ['Name', 'Url', 'Events', 'Testmode'],
             rows: [
-                [$responses['name'], $responses['url'], $responses['events'], $responses['testmode']]
+                ['name' => $responses['name'], 'url' => $responses['url'], 'events' => Arr::join($responses['events'], ', '), 'testmode' => $responses['testmode']]
             ]
         );
 

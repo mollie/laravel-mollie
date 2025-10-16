@@ -7,10 +7,12 @@ namespace Mollie\Laravel\Tests\Middleware;
 use Illuminate\Http\Request;
 use Mollie\Laravel\Middleware\ValidatesWebhookSignatures;
 use Mollie\Laravel\Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class ValidatesWebhookSignaturesTest extends TestCase
 {
-    public function test_bypasses_validation_when_webhooks_are_disabled()
+    #[Test]
+    public function it_bypasses_validation_when_webhooks_are_disabled()
     {
         config(['mollie.webhooks.enabled' => false]);
 

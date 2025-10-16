@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Mollie\Laravel\EventWebhookDispatcher;
+use Mollie\Laravel\Middleware\ValidatesWebhookSignatures;
 
 return [
 
@@ -22,7 +23,9 @@ return [
 
         'path' => env('MOLLIE_WEBHOOKS_PATH', 'mollie/webhooks'),
 
-        'middleware' => env('MOLLIE_WEBHOOKS_MIDDLEWARE', 'api'),
+        'middleware' =>  [
+            ValidatesWebhookSignatures::class,
+        ],
 
         /**
          * The dispatcher to use for webhook events.

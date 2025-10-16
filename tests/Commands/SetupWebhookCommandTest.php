@@ -14,10 +14,12 @@ use Mollie\Laravel\Facades\Mollie;
 use Mollie\Laravel\Tests\TestCase;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Resources\Webhook;
+use PHPUnit\Framework\Attributes\Test;
 
 class SetupWebhookCommandTest extends TestCase
 {
-    public function test_setup_webhook_command()
+    #[Test]
+    public function it_can_setup_a_webhook()
     {
         Mollie::fake([
             CreateWebhookRequest::class => MockResponse::resource(Webhook::class)
@@ -37,5 +39,7 @@ class SetupWebhookCommandTest extends TestCase
             ->expectsOutputToContain('Webhook created successfully')
             ->expectsOutputToContain('🤫 Add this secret to your .env file: secret_123')
             ->assertSuccessful();
+
+        Mollie::assertSent(CreateWebhookRequest::class);
     }
 }

@@ -54,7 +54,6 @@ class MollieServiceProvider extends ServiceProvider
             SetupWebhookCommand::class,
             RevealWebhookPathCommand::class,
             MollieApiClient::class,
-            MollieManager::class,
             WebhookDispatcher::class,
         ];
     }
@@ -83,8 +82,6 @@ class MollieServiceProvider extends ServiceProvider
                 return $client;
             }
         );
-
-        $this->app->singleton(MollieManager::class);
 
         $this->app->bind(SignatureValidator::class, function (Container $app) {
             throw_if(

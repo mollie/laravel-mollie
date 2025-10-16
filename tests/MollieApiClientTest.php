@@ -9,10 +9,12 @@ use Mollie\Api\Http\Auth\ApiKeyAuthenticator;
 use Mollie\Api\MollieApiClient;
 use Mollie\Laravel\MollieLaravelHttpClientAdapter;
 use ReflectionClass;
+use PHPUnit\Framework\Attributes\Test;
 
 class MollieApiClientTest extends TestCase
 {
-    public function test_injected_http_adapter_is_laravel_http_client_adapter()
+    #[Test]
+    public function it_injected_http_adapter_is_laravel_http_client_adapter()
     {
         $this->assertInstanceOf(
             MollieLaravelHttpClientAdapter::class,
@@ -20,7 +22,8 @@ class MollieApiClientTest extends TestCase
         );
     }
 
-    public function test_api_key_is_set_on_resolving_api_client()
+    #[Test]
+    public function it_api_key_is_set_on_resolving_api_client()
     {
         config(['mollie.key' => 'test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxyz']);
 
@@ -35,7 +38,8 @@ class MollieApiClientTest extends TestCase
         );
     }
 
-    public function test_does_not_set_api_key_if_key_is_empty()
+    #[Test]
+    public function it_does_not_set_api_key_if_key_is_empty()
     {
         config(['mollie.key' => '']);
 
