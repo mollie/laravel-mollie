@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Mollie\Laravel\Tests;
 
+use Laravel\Socialite\SocialiteServiceProvider;
 use Mollie\Laravel\EventWebhookDispatcher;
 use Mollie\Laravel\Middleware\ValidatesWebhookSignatures;
 use Mollie\Laravel\MollieServiceProvider;
+use Mollie\Laravel\MollieSocialiteServiceProvider;
 
 /**
  * This is the abstract test case class.
@@ -21,13 +23,11 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
      */
     protected function getPackageProviders($app)
     {
-        $providers = [MollieServiceProvider::class];
-
-        if (interface_exists('Laravel\Socialite\Contracts\Factory')) {
-            $providers[] = \Laravel\Socialite\SocialiteServiceProvider::class;
-        }
-
-        return $providers;
+        return [
+            SocialiteServiceProvider::class,
+            MollieServiceProvider::class,
+            MollieSocialiteServiceProvider::class,
+        ];
     }
 
     /**

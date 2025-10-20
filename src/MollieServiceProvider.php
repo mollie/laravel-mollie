@@ -24,7 +24,7 @@ class MollieServiceProvider extends ServiceProvider implements DeferrableProvide
      */
     public function boot()
     {
-        $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/webhook.php');
 
         if ($this->app->runningInConsole()) {
             $this->publishes([__DIR__ . '/../config/mollie.php' => config_path('mollie.php')]);

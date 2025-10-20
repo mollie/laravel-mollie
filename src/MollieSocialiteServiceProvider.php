@@ -5,35 +5,41 @@ declare(strict_types=1);
 namespace Mollie\Laravel;
 
 use Illuminate\Contracts\Container\Container;
+use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Socialite\Contracts\Factory;
+use Laravel\Socialite\SocialiteManager;
 
-class MollieSocialiteServiceProvider extends ServiceProvider
+class MollieSocialiteServiceProvider extends ServiceProvider implements DeferrableProvider
 {
     /**
-     * Bootstrap the application services.
+     * Get the services provided by the provider.
      *
-     * @return void
+     * @return array
      */
-    public function boot()
+    public function provides(): array
     {
-        $this->extendSocialite();
+        return interface_exists(Factory::class)
+            ? [SocialiteManager::class]
+            : [];
     }
 
     /**
-     * Extend the Laravel Socialite factory class, if available.
+     * Register any application services.
      *
      * @return void
      */
-    protected function extendSocialite()
+    public function register()
     {
-        if (interface_exists($socialiteFactoryClass = \Laravel\Socialite\Contracts\Factory::class)) {
-            $socialite = $this->app->make($socialiteFactoryClass);
+        $this->app->afterResolving(
+            SocialiteManager::class,
+            function (SocialiteManager $socialite) {
+                $socialite->extend('mollie', function (Container $app) use ($socialite) {
+                    $config = $app['config']['services.mollie'];
 
-            $socialite->extend('mollie', function (Container $app) use ($socialite) {
-                $config = $app['config']['services.mollie'];
-
-                return $socialite->buildProvider(MollieConnectProvider::class, $config);
-            });
-        }
+                    return $socialite->buildProvider(MollieConnectProvider::class, $config);
+                });
+            }
+        );
     }
 }

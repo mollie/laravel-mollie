@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Mollie\Laravel\Tests;
 
+use Laravel\Socialite\Facades\Socialite;
 use Mollie\Api\Contracts\Authenticator;
 use Mollie\Api\Http\Auth\ApiKeyAuthenticator;
 use Mollie\Api\MollieApiClient;
