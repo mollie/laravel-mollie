@@ -35,10 +35,10 @@ The Socialite integration has been moved to a dedicated service provider (`Molli
 ### Deferred Service Provider
 The main `MollieServiceProvider` is now deferrable, which means it will only be loaded when the Mollie API is actually used in your application. This can improve application performance.
 
-If you're using the Socialite integration, the `MollieSocialiteServiceProvider` will still be loaded on every request to ensure the Socialite driver is properly registered.
+The `MollieSocialiteServiceProvider` is now also deferred and will only be loaded when `laravel/socialite` is installed in your application.
 
 ### Change in calling API endpoints
-Earlier versions of Laravel-Mollie provided access to endpoints via both methods and properties. Moving forward, access to endpoints will be exclusively through properties, aligning with the practices of the mollie-api-php SDK.****
+Earlier versions of Laravel-Mollie provided access to endpoints via both methods and properties. Moving forward, access to endpoints will be exclusively through properties:
 
 ```php
 // before
@@ -48,7 +48,34 @@ Mollie::api()->payments()->create();
 Mollie::api()->payments->create();
 ```
 
-### No more global helper function
+Alternatively, mollie-api-php v3 now supports typed request objects which you can send directly using the facade:
+
+```php
+use Mollie\Api\Http\Requests\CreatePaymentRequest;
+use Mollie\Laravel\Facades\Mollie;
+
+// You can send requests directly through the facade
+$payment = Mollie::send(new CreatePaymentRequest(...));
+
+// Or through the API client
+$payment = Mollie::api()->send(new CreatePaymentRequest(...));
+```
+
+See the [mollie-api-php documentation](https://github.com/mollie/mollie-api-php/blob/master/docs/requests.md) for more details on typed request objects.
+
+### Removed Components
+
+#### MollieManager
+The `Mollie\Laravel\MollieManager` class has been removed. This change has minor impact as the manager was primarily an internal component. If you were using it directly, switch to using the `Mollie` facade or resolve the `MollieApiClient` from the container instead:
+
+```php
+// Instead of MollieManager
+use Mollie\Laravel\Facades\Mollie;
+
+$client = Mollie::api();
+```
+
+#### Global Helper Function
 The `mollie()` helper function was deleted. If you rely on the helper function, either consider switching to
 - injecting or resolving the `MollieApiClient` from the container, or
 - use the `Mollie\Laravel\Facades\Mollie::api()` facade

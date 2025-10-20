@@ -8,7 +8,7 @@
 
 Laravel-Mollie incorporates the [Mollie API](https://docs.mollie.com/) and [Mollie Connect](https://www.mollie.com/products/connect) into your [Laravel](https://laravel.com/) project.
 
-Accepting [iDEAL](https://www.mollie.com/en/payments/ideal/), [Apple Pay](https://www.mollie.com/en/payments/apple-pay), [Bancontact/Mister Cash](https://www.mollie.com/en/payments/bancontact/), [SOFORT Banking](https://www.mollie.com/en/payments/sofort/), [Creditcard](https://www.mollie.com/en/payments/credit-card/), [SEPA Bank transfer](https://www.mollie.com/en/payments/bank-transfer/), [SEPA Direct debit](https://www.mollie.com/en/payments/direct-debit/), [PayPal](https://www.mollie.com/en/payments/paypal/), [Belfius Direct Net](https://www.mollie.com/en/payments/belfius/), [KBC/CBC](https://www.mollie.com/en/payments/kbc-cbc/), [paysafecard](https://www.mollie.com/en/payments/paysafecard/), [ING Home'Pay](https://www.mollie.com/en/payments/ing-homepay/), [Giftcards](https://www.mollie.com/en/payments/gift-cards/), [Giropay](https://www.mollie.com/en/payments/giropay/), [EPS](https://www.mollie.com/en/payments/eps/) and [Przelewy24](https://www.mollie.com/en/payments/przelewy24/) online payments without fixed monthly costs or any punishing registration procedures. Just use the Mollie API to receive payments directly on your website or easily refund transactions to your customers.
+Accepting [iDEAL](https://www.mollie.com/en/payments/ideal/), [Apple Pay](https://www.mollie.com/en/payments/apple-pay), [Bancontact/Mister Cash](https://www.mollie.com/en/payments/bancontact/), [SOFORT Banking](https://www.mollie.com/en/payments/sofort/), [Creditcard](https://www.mollie.com/en/payments/credit-card/), [SEPA Bank transfer](https://www.mollie.com/en/payments/bank-transfer/), [SEPA Direct debit](https://www.mollie.com/en/payments/direct-debit/), [PayPal](https://www.mollie.com/en/payments/paypal/), [Belfius Direct Net](https://www.mollie.com/en/payments/belfius/), [KBC/CBC](https://www.mollie.com/en/payments/kbc-cbc/), [paysafecard](https://www.mollie.com/en/payments/paysafecard/), [ING Home'Pay](https://www.mollie.com/en/payments/ing-homepay/), [Giftcards](https://www.mollie.com/en/payments/gift-cards/), [Giropay](https://www.mollie.com/en/payments/giropay/), [EPS](https://www.mollie.com/en/payments/eps/) and [Przelewy24](https://www.mollie.com/en/payments/przelewy24/) online payments without fixed monthly costs or any punishing registration procedures. Just use the Mollie API to receive payments directly on your website or easily refund transactions to your customers.****
 
 **Looking for a complete recurring billing solution?** Take a look at [Laravel Cashier for Mollie](https://www.cashiermollie.com) instead.
 
@@ -64,26 +64,28 @@ Here you can see an example of just how simple this package is to use.
 ### A payment using the Mollie API
 
 ```php
+use Mollie\Api\Http\Data\Money;
 use Mollie\Laravel\Facades\Mollie;
+use Mollie\Api\Http\Requests\GetPaymentRequest;
+use Mollie\Api\Http\Requests\CreatePaymentRequest;
 
 public function preparePayment()
 {
-    $payment = Mollie::api()->payments->create([
-        "amount" => [
-            "currency" => "EUR",
-            "value" => "10.00" // You must send the correct number of decimals, thus we enforce the use of strings
-        ],
-        "description" => "Order #12345",
-        "redirectUrl" => route('order.success'),
-        "webhookUrl" => route('webhooks.mollie'),
-        "metadata" => [
+    $request = new CreatePaymentRequest(
+        description: 'Order #12345',
+        amount: new Money('EUR', '10.00'),
+        redirectUrl: route('order.success'),
+        webhookUrl: route('webhooks.mollie'),
+        metadata: [
             "order_id" => "12345",
             "customer_info" => [
                 "name" => "John Doe",
                 "email" => "john@example.com"
             ]
-        ],
-    ]);
+        ]
+    );
+
+    Mollie::send($request);
 
     // redirect customer to Mollie checkout page
     return redirect($payment->getCheckoutUrl(), 303);
@@ -97,7 +99,8 @@ public function preparePayment()
  */
 public function handleWebhookNotification(Request $request) {
     $paymentId = $request->input('id');
-    $payment = Mollie::api()->payments->get($paymentId);
+
+    $payment = Mollie::send(new GetPaymentRequest($paymentId));
 
     if ($payment->isPaid())
     {
