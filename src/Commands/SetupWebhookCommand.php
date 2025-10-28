@@ -92,7 +92,7 @@ class SetupWebhookCommand extends Command
             )
             ->multiselect(
                 label: 'Events',
-                options: WebhookEventType::getAllNextGenWebhookEventTypes(),
+                options: $this->getWebhookEventTypes(),
                 default: [WebhookEventType::ALL],
                 required: true,
                 name: 'events'
@@ -105,6 +105,19 @@ class SetupWebhookCommand extends Command
                 name: 'testmode'
             )
             ->submit();
+    }
+
+    private function getWebhookEventTypes(): array
+    {
+        return [
+            WebhookEventType::PAYMENT_LINK_PAID,
+            WebhookEventType::BALANCE_TRANSACTION_CREATED,
+            WebhookEventType::SALES_INVOICE_CREATED,
+            WebhookEventType::SALES_INVOICE_ISSUED,
+            WebhookEventType::SALES_INVOICE_CANCELED,
+            WebhookEventType::SALES_INVOICE_PAID,
+            WebhookEventType::ALL,
+        ];
     }
 
     private function confirmDetails(array $responses): bool

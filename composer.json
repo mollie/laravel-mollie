@@ -44,7 +44,7 @@
         "php": "^8.2",
         "illuminate/support": "^11.0|^12.0",
         "ext-json": "*",
-        "mollie/mollie-api-php": "dev-feat/add-webhook-mapping-and-events",
+        "mollie/mollie-api-php": "^3.5",
         "laravel/prompts": "^0.3.7"
     },
     "require-dev": {
