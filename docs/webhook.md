@@ -9,7 +9,7 @@ Mollie's legacy webhooks only send the ID of updated resources, which requires y
 Next-gen webhooks solve this through a signature sent in the header of the webhook request, along with the data of the resource that changed if you create a snapshot webhook.
 
 ### Setup
-To enable the inbound route for Mollie webhooks, set `MOLLIE_WEBHOOKS_ENABLED=true`.
+If you want to benefit from the Mollie webhook features provided by this package, set `MOLLIE_WEBHOOKS_ENABLED=true` in your `config/mollie.php` file.
 
 Next, decide how webhook events should be handled in your app. By default, an event is dispatched (e.g. `PaymentLinkPaid`) that you can listen to throughout your application. To learn how to consume these webhook events, see [Generating Events and Listeners](https://laravel.com/docs/12.x/events#generating-events-and-listeners).
 
