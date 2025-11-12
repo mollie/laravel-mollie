@@ -60,7 +60,7 @@ class MollieServiceProvider extends ServiceProvider implements DeferrableProvide
             __DIR__ . '/../config/mollie.php', 'mollie'
         );
 
-        $this->app->singleton(
+        $this->app->bind(
             MollieApiClient::class,
             function (Container $app) {
                 $client = (new MollieApiClient(new MollieLaravelHttpClientAdapter))
@@ -74,7 +74,7 @@ class MollieServiceProvider extends ServiceProvider implements DeferrableProvide
             }
         );
 
-        $this->app->singleton(SignatureValidator::class, function (Container $app) {
+        $this->app->singleton(SignatureValidator::class, function () {
             throw_if(
                 ! config('mollie.webhooks.signing_secrets'),
                 new RuntimeException('No signing secrets for Mollie webhooks are set')
