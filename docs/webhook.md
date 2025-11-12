@@ -16,7 +16,7 @@ Next, decide how webhook events should be handled in your app. By default, an ev
 > [!NOTE]
 > If you want to handle webhook requests differently, you can create your own dispatcher by implementing `Mollie\Laravel\Contracts\WebhookDispatcher` and setting `mollie.webhooks.dispatcher` to your custom class.
 
-Finally, run the `mollie:setup-webhook` command to create a webhook.
+Finally, run the `mollie:setup-webhook` command to create a webhook through the Mollie API.
 
 ## Legacy Webhooks
 To implement legacy webhooks in your Laravel application, provide a `webhookUrl` parameter when creating a payment (or subscription):
