@@ -43,9 +43,6 @@ Route::name('webhooks.mollie')
     ->post('webhooks/mollie', HandleIncomingWebhooks::class);
 ```
 
-> [!WARNING]
-> Make sure to enable legacy webhooks by setting `MOLLIE_LEGACY_WEBHOOK_ENABLED=true`. Otherwise, `ValidatesWebhookSignatures` will throw an `AuthorizationException`.
-
 Then create a matching controller:
 
 ```php

@@ -109,15 +109,14 @@ class SetupWebhookCommand extends Command
 
     private function getWebhookEventTypes(): array
     {
-        return [
-            WebhookEventType::PAYMENT_LINK_PAID,
-            WebhookEventType::BALANCE_TRANSACTION_CREATED,
-            WebhookEventType::SALES_INVOICE_CREATED,
-            WebhookEventType::SALES_INVOICE_ISSUED,
-            WebhookEventType::SALES_INVOICE_CANCELED,
-            WebhookEventType::SALES_INVOICE_PAID,
-            WebhookEventType::ALL,
-        ];
+        return collect(WebhookEventType::getAll())
+            ->reject(fn (string $eventType) => in_array($eventType, [
+                WebhookEventType::PROFILE_CREATED,
+                WebhookEventType::PROFILE_VERIFIED,
+                WebhookEventType::PROFILE_BLOCKED,
+                WebhookEventType::PROFILE_DELETED,
+            ]))
+            ->toArray();
     }
 
     private function confirmDetails(array $responses): bool

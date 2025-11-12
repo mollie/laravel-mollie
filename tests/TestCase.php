@@ -42,6 +42,5 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $app['config']->set('mollie.webhooks.middleware', [ValidatesWebhookSignatures::class]);
         $app['config']->set('mollie.webhooks.dispatcher', EventWebhookDispatcher::class);
         $app['config']->set('mollie.webhooks.signing_secrets', 'test_secret');
-        $app['config']->set('mollie.webhooks.legacy_webhook_enabled', false);
     }
 }
