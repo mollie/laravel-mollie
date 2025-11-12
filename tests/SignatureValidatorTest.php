@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use Mollie\Api\Webhooks\SignatureValidator as BaseSignatureValidator;
 use Mollie\Laravel\SignatureValidator;
 use PHPUnit\Framework\Attributes\Test;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class SignatureValidatorTest extends TestCase
 {
