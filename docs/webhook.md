@@ -33,13 +33,12 @@ $payment = Mollie::api()->payments->create([
 ]);
 ```
 
-Create a route and apply the `ValidatesWebhookSignatures` middleware to accept incoming webhook requests:
+Create a route to accept incoming webhook requests:
 
 ```php
 use Mollie\Laravel\Middleware\ValidatesWebhookSignatures;
 
 Route::name('webhooks.mollie')
-    ->middleware(ValidatesWebhookSignatures::class)
     ->post('webhooks/mollie', HandleIncomingWebhooks::class);
 ```
 
