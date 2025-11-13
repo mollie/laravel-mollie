@@ -1,0 +1,13 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Parameter \$rows of function Laravel\\Prompts\\table expects array\<int, array\<int, string\>\>\|Illuminate\\Support\\Collection\<int, array\<int, string\>\>\|null, array\{array\{name\: mixed, url\: mixed, events\: string, testmode\: mixed\}\} given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Commands/SetupWebhookCommand.php
+
+		-
+			message: '#^Parameter \#2 \$answer of method Illuminate\\Testing\\PendingCommand\:\:expectsQuestion\(\) expects bool\|string, array\<int, string\> given\.$#'
+			identifier: argument.type
+			count: 9
+			path: tests/Commands/SetupWebhookCommandTest.php

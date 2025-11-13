@@ -51,7 +51,9 @@
         "graham-campbell/testbench": "^6.2",
         "laravel/pint": "^1.25",
         "laravel/socialite": "^5.23",
-        "phpunit/phpunit": "^11.0"
+        "phpunit/phpunit": "^11.0",
+        "phpstan/phpstan": "^2.1",
+        "larastan/larastan": "^3.8"
     },
     "suggest": {
         "laravel/socialite": "Use Mollie Connect (OAuth) to authenticate via Laravel Socialite with the Mollie API. This is needed for some endpoints."

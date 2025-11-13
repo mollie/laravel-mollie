@@ -21,7 +21,7 @@ class SignatureValidatorTest extends TestCase
 
         $validator->validate($request);
 
-        $this->assertTrue(true);
+        $this->expectNotToPerformAssertions();
     }
 
     /**

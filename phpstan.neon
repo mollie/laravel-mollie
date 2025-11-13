@@ -1,0 +1,9 @@
+parameters:
+    level: 5
+    paths:
+        - src
+        - tests
+    treatPhpDocTypesAsCertain: false
+includes:
+    - phpstan-baseline.neon
+    - vendor/larastan/larastan/extension.neon
