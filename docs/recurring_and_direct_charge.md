@@ -41,7 +41,7 @@ return redirect($payment->getCheckoutUrl(), 303);
 After doing the initial payment, you may [charge the users card/account directly](https://docs.mollie.com/payments/recurring#payments-recurring-charging-on-demand). Make sure there's a valid mandate connected to the customer. In case there are multiple mandates at least one should have `status` set to `valid`. Checking mandates is easy:
 
 ```php
-$mandates = Mollie::api()->mandates->listFor($customer);
+$mandates = Mollie::api()->mandates->pageFor($customer);
 ```
 
 If any of the mandates is valid, charging the user is a piece of cake. Make sure `sequenceType` is set to `recurring`.

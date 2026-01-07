@@ -1,9 +1,25 @@
 ![Mollie](https://www.mollie.nl/files/Mollie-Logo-Style-Small.png)
 
-# Process realtime status updates with a webhook
-A webhook is a URL Mollie will call when an object’s status changes, for example when a payment changes from `open` to `paid`. More specifics can be found in [the webhook guide](https://docs.mollie.com/guides/webhooks).
+# Process real-time status updates with a webhook
+A webhook is a URL that Mollie calls when an object's status changes, for example when a payment transitions from `open` to `paid`. For more details, see [the webhook guide](https://docs.mollie.com/reference/webhooks-new).
 
-To implement the webhook in your Laravel application you need to provide a `webhookUrl` parameter when creating a payment (or subscription):
+## Next-gen Webhooks
+Mollie's legacy webhooks only send the ID of updated resources, which requires your app to fetch the resource and determine what changed (see https://docs.mollie.com/reference/webhooks). Besides requiring an extra HTTP call, you'd have to handle IDs from potentially malicious sources without being able to verify their authenticity, risking information exposure to attackers.
+
+Next-gen webhooks solve this through a signature sent in the header of the webhook request, along with the data of the resource that changed if you create a snapshot webhook.
+
+### Setup
+If you want to benefit from the Mollie webhook features provided by this package, set `MOLLIE_WEBHOOKS_ENABLED=true` in your `config/mollie.php` file.
+
+Next, decide how webhook events should be handled in your app. By default, an event is dispatched (e.g. `PaymentLinkPaid`) that you can listen to throughout your application. To learn how to consume these webhook events, see [Generating Events and Listeners](https://laravel.com/docs/12.x/events#generating-events-and-listeners).
+
+> [!NOTE]
+> If you want to handle webhook requests differently, you can create your own dispatcher by implementing `Mollie\Laravel\Contracts\WebhookDispatcher` and setting `mollie.webhooks.dispatcher` to your custom class.
+
+Finally, run the `mollie:setup-webhook` command to create a webhook through the Mollie API.
+
+## Legacy Webhooks
+To implement legacy webhooks in your Laravel application, provide a `webhookUrl` parameter when creating a payment (or subscription):
 
 ```php
 $payment = Mollie::api()->payments->create([
@@ -17,44 +33,33 @@ $payment = Mollie::api()->payments->create([
 ]);
 ```
 
-And create a matching route and controller for the webhook in your application:
+Create a route to accept incoming webhook requests:
 
 ```php
-// routes/web.php
+use Mollie\Laravel\Middleware\ValidatesWebhookSignatures;
 
-Route::name('webhooks.mollie')->post('webhooks/mollie', 'MollieWebhookController@handle');
+Route::name('webhooks.mollie')
+    ->post('webhooks/mollie', HandleIncomingWebhooks::class);
 ```
 
+Then create a matching controller:
+
 ```php
-// App/Http/Controllers/MollieWebhookController.php
+use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 
-class MollieWebhookController extends Controller {
-    public function handle(Request $request) {
-        if (! $request->has('id')) {
-            return;
-        }
+class HandleIncomingWebhooks extends Controller
+{
+    public function __invoke(MollieApiClient $client, Request $request)
+    {
+        // Fetch the resource using the ID from the request
+        $payment = $client->send(new GetPaymentRequest($request->input('id')));
 
-        $payment = Mollie::api()->payments->get($request->id);
-
+        // Act accordingly based on payment status
         if ($payment->isPaid()) {
-            // do your thing...
+            $this->handlePaymentPaid($payment);
+        } elseif (...) {
+            // ...
         }
     }
 }
-```
-
-Finally, it is _strongly advised_ to disable the `VerifyCsrfToken` middleware, which is included in the `web` middleware group by default. (Out of the box, Laravel applies the `web` middleware group to all routes in `routes/web.php`.)
-
-You can exclude the route from the CSRF protection in your `bootstrap/app.php`:
-
-```php
-// bootstrap/app.php
-
-->withMiddleware(function (Middleware $middleware) {
-    $middleware->validateCsrfTokens(
-        except: ['webhooks/mollie']
-    );
-})
-```
-
-If this solution does not work, open an [issue](https://github.com/mollie/laravel-mollie/issues) so we can assist you.

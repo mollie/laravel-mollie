@@ -1,46 +1,62 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Laravel;
 
-use Illuminate\Http\Client\Response;
+use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
+use Mollie\Api\Contracts\HasPayload;
+use Mollie\Api\Contracts\HttpAdapterContract;
 use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\HttpAdapter\MollieHttpAdapterInterface;
+use Mollie\Api\Exceptions\RetryableNetworkRequestException;
+use Mollie\Api\Http\PendingRequest;
+use Mollie\Api\Http\Response;
+use Mollie\Api\Traits\HasDefaultFactories;
 
-class MollieLaravelHttpClientAdapter implements MollieHttpAdapterInterface
+class MollieLaravelHttpClientAdapter implements HttpAdapterContract
 {
-    public function send($httpMethod, $url, $headers, $httpBody): ?object
-    {
-        $contentType = $headers['Content-Type'] ?? 'application/json';
-        unset($headers['Content-Type']);
+    use HasDefaultFactories;
 
-        $response = Http::withBody($httpBody, $contentType)
-            ->withHeaders($headers)
-            ->send($httpMethod, $url);
-
-        return match (true) {
-            $response->noContent() => null,
-            $response->failed() => throw ApiException::createFromResponse($response->toPsrResponse(), null),
-            empty($response->body()) => throw new ApiException('Mollie response body is empty.'),
-            default => $this->parseResponseBody($response),
-        };
-    }
-
-    private function parseResponseBody(Response $response): ?object
-    {
-        $body = $response->body();
-
-        $object = @json_decode($body);
-
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new ApiException("Unable to decode Mollie response: '{$body}'.");
-        }
-
-        return $object;
-    }
-
-    public function versionString(): string
+    /**
+     * Get the version string for this HTTP adapter.
+     */
+    public function version(): ?string
     {
         return 'Laravel/HttpClient';
+    }
+
+    /**
+     * Send a request to the specified Mollie API URL.
+     *
+     * @throws ApiException
+     */
+    public function sendRequest(PendingRequest $pendingRequest): Response
+    {
+        $psrRequest = $pendingRequest->createPsrRequest();
+
+        try {
+            $client = Http::withHeaders($pendingRequest->headers()->all());
+
+            if ($pendingRequest->query()->isNotEmpty()) {
+                $client = $client->withUrlParameters($pendingRequest->query()->all());
+            }
+
+            if ($pendingRequest->getRequest() instanceof HasPayload) {
+                $client = $client->withBody($psrRequest->getBody());
+            }
+
+            $psrResponse = $client
+                ->send($pendingRequest->method(), $pendingRequest->url())
+                ->toPsrResponse();
+
+            return new Response($psrResponse, $psrRequest, $pendingRequest);
+        } catch (ConnectionException $e) {
+            throw new RetryableNetworkRequestException($pendingRequest, $e->getMessage(), $e);
+        } catch (RequestException $e) {
+            // RequestExceptions without response are handled by the retryable network request exception
+            return new Response($e->response->toPsrResponse(), $psrRequest, $pendingRequest, $e);
+        }
     }
 }

@@ -13,15 +13,11 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php: ['8.1', '8.2', '8.3', '8.4', '8.5']
-        laravel: ['10.0', '11.0', '12.0']
+        php: ['8.2', '8.3', '8.4', '8.5']
+        laravel: ['11.0', '12.0']
         exclude:
-          - laravel: '11.0'
-            php: '8.0'
-          - laravel: '11.0'
-            php: '8.1'
           - laravel: '12.0'
-            php: '8.1'
+            php: '8.2'
 
     name: P${{ matrix.php }} - L${{ matrix.laravel }}
 
@@ -36,6 +32,20 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip
           tools: composer:v2
           coverage: none
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}-${{ matrix.php }}-${{ matrix.laravel }}
+          restore-keys: |
+            ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}-${{ matrix.php }}-
+            ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}-
+            ${{ runner.os }}-composer-
 
       - name: Install dependencies
         run: |
