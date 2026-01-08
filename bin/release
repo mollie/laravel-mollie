@@ -98,7 +98,7 @@ else
 fi
 
 # Check if the version was actually updated
-if grep -q "CLIENT_VERSION = '$VERSION'" "$MOLLIE_CLIENT_FILE"; then
+if grep -q "PACKAGE_VERSION = '$VERSION'" "$MOLLIE_CLIENT_FILE"; then
     echo "✅ Version update verified"
 else
     echo "❌ Error: Version update verification failed"
@@ -108,7 +108,7 @@ fi
 # Commit the version update
 echo "📝 Committing version update..."
 git add "$MOLLIE_CLIENT_FILE"
-git commit -m "Update CLIENT_VERSION to $VERSION"
+git commit -m "Update PACKAGE_VERSION to $VERSION"
 
 echo "🏷️  Creating tag v$VERSION..."
 
