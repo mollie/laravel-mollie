@@ -9,38 +9,35 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 <!-- ### Changed -->
 <!-- ### Removed -->
 
-## 2.5.0 2019-03-03
+## 4.0.0 2026-01-08
 ### Added
-- A method to record the User Agent (UA) string when calling the Mollie API: `mollie()->addVersionString()`. If you're using this package within another package, this one is for you.
-
-## 2.4.1 - 2018-12-02
-### Changed
-- Laravel-mollie now depends on [mollie-api-php](https://github.com/mollie/mollie-api-php) version 2.2.0 and up.
-
-## 2.4.0 - 2018-11-22
-### Added
-- You can now list chargebacks across all payments on the payment profile using `mollie()->chargebacks()->page()`.
-
-## 2.3.1 - 2018-11-10
-### Changed
-- Bug fix for using Socialite with Laravel Mollie. See [issue #73](https://github.com/mollie/laravel-mollie/issues/73) for more information.
-
-## 2.3.0 - 2018-10-04
-### Added
-- You can now process your Orders, Shipments and Captures using the latest Laravel Mollie client. See [Mollie's guides](https://docs.mollie.com/orders/overview) for more information about these brand new features.
+- Support for mollie-api-php v3 with typed request objects - you can now use `Mollie::send(new CreatePaymentRequest(...))`.
+- `ValidatesWebhookSignatures` middleware for validating incoming webhook signatures.
+- `HandleIncomingWebhook` controller for processing webhook requests.
+- `WebhookDispatcher` service that dispatches webhook events (extensible for custom handling strategies).
+- `SetupWebhookCommand` to automatically configure webhooks via the Mollie API or guide manual setup.
+- Webhook route file (`routes/webhook.php`) for handling incoming webhooks.
+- Applied updated Adapter Contract to `MollieLaravelHttpClientAdapter`.
 
 ### Changed
-- Bumped mollie core client dependency to from `^2.0` to `^2.1`.
+- Minimum PHP version is now 8.2.0.
+- Only Laravel 11.x and 12.x are supported.
+- Upgraded to mollie-api-php v3 which includes several breaking changes (see [mollie-api-php upgrade guide](https://github.com/mollie/mollie-api-php/blob/master/UPGRADING.md)).
+- Endpoint access changed from methods to properties (e.g., `payments()` becomes `payments`).
+- Metadata in API request payloads now only accepts arrays (not strings or objects).
+- Main `MollieServiceProvider` is now deferred for improved performance.
+- `MollieSocialiteServiceProvider` is now deferred and only loaded when `laravel/socialite` is installed.
+- Separated Socialite integration into dedicated service provider (`MollieSocialiteServiceProvider`).
+- Test on PHP 8.4 and 8.5 by @jnoordsij in https://github.com/mollie/laravel-mollie/pull/252
+- fix version vars by @sandervanhooft in https://github.com/mollie/laravel-mollie/pull/254
 
-## 2.2.0 - 2018-09-18
-### Added
-- Added support for the Organizations and Permissions endpoints. Advanced (OAuth) users, this one is for you.
+### Removed
+- `Mollie\Laravel\MollieManager` class (use `Mollie` facade instead).
+- `mollie()` global helper function (use `Mollie::api()` facade or dependency injection instead).
+- Support for Laravel 10.x and earlier.
+- Support for PHP 8.1 and earlier.
 
-## 2.1.0 - 2018-07-30
-### Added
-- Introducing the global helper method `mollie()`. A convenient shortcut you can use anywhere in your Laravel application instead of `Mollie::api()`.
 
-## 2.0.0 - 2018-07-09
-Version 2.0.0 is here! See the [migration instructions](docs/migration_instructions_v1_to_v2.md) on how to upgrade from v1.
+**Full Changelog**: https://github.com/mollie/laravel-mollie/compare/v3.1.0...v4.0.0
 
 This release leverages the V2 mollie-api-php client.
