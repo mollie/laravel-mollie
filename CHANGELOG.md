@@ -1,16 +1,27 @@
 # Changelog
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
+
 <!--  -->
 <!-- ## [Unreleased] -->
 <!-- ### Added -->
 <!-- ### Changed -->
 <!-- ### Removed -->
+## v4.0.1 - 2026-01-15
+
+### What's Changed
+
+* fix: remove DeferrableProvider implementation by @Naoray in https://github.com/mollie/laravel-mollie/pull/256
+
+**Full Changelog**: https://github.com/mollie/laravel-mollie/compare/v4.0.0...v4.0.1
 
 ## 4.0.0 2026-01-08
+
 ### Added
+
 - Support for mollie-api-php v3 with typed request objects - you can now use `Mollie::send(new CreatePaymentRequest(...))`.
 - `ValidatesWebhookSignatures` middleware for validating incoming webhook signatures.
 - `HandleIncomingWebhook` controller for processing webhook requests.
@@ -20,6 +31,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Applied updated Adapter Contract to `MollieLaravelHttpClientAdapter`.
 
 ### Changed
+
 - Minimum PHP version is now 8.2.0.
 - Only Laravel 11.x and 12.x are supported.
 - Upgraded to mollie-api-php v3 which includes several breaking changes (see [mollie-api-php upgrade guide](https://github.com/mollie/mollie-api-php/blob/master/UPGRADING.md)).
@@ -32,11 +44,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - fix version vars by @sandervanhooft in https://github.com/mollie/laravel-mollie/pull/254
 
 ### Removed
+
 - `Mollie\Laravel\MollieManager` class (use `Mollie` facade instead).
 - `mollie()` global helper function (use `Mollie::api()` facade or dependency injection instead).
 - Support for Laravel 10.x and earlier.
 - Support for PHP 8.1 and earlier.
-
 
 **Full Changelog**: https://github.com/mollie/laravel-mollie/compare/v3.1.0...v4.0.0
 
