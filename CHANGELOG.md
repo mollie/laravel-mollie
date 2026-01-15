@@ -10,6 +10,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 <!-- ### Added -->
 <!-- ### Changed -->
 <!-- ### Removed -->
+## v4.0.2 - 2026-01-15
+
+### What's Changed
+
+* Fix/257 include query parameters in request uri by @Naoray in https://github.com/mollie/laravel-mollie/pull/258
+
+**Full Changelog**: https://github.com/mollie/laravel-mollie/compare/v4.0.1...v4.0.2
+
 ## v4.0.1 - 2026-01-15
 
 ### What's Changed
