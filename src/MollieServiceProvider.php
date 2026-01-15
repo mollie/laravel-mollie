@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Mollie\Laravel;
 
 use Illuminate\Contracts\Container\Container;
-use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Webhooks\SignatureValidator;
@@ -13,7 +12,7 @@ use Mollie\Laravel\Commands\SetupWebhookCommand;
 use Mollie\Laravel\Contracts\WebhookDispatcher;
 use RuntimeException;
 
-class MollieServiceProvider extends ServiceProvider implements DeferrableProvider
+class MollieServiceProvider extends ServiceProvider
 {
     const PACKAGE_VERSION = '4.0.0';
 
@@ -33,20 +32,6 @@ class MollieServiceProvider extends ServiceProvider implements DeferrableProvide
                 SetupWebhookCommand::class,
             ]);
         }
-    }
-
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return array
-     */
-    public function provides()
-    {
-        return [
-            SetupWebhookCommand::class,
-            MollieApiClient::class,
-            WebhookDispatcher::class,
-        ];
     }
 
     /**
