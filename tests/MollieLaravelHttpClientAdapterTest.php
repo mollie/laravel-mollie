@@ -95,4 +95,31 @@ class MollieLaravelHttpClientAdapterTest extends TestCase
         Mollie::setRetryStrategy(new LinearRetryStrategy(0, 0))
             ->send(new GetPaymentRequest('any_payment_id'));
     }
+
+    #[Test]
+    public function it_includes_query_parameters_in_request_uri()
+    {
+        $paymentId = uniqid('tr_');
+        $uriString = null;
+
+        Mollie::fake([
+            GetPaymentRequest::class => function (PendingRequest $pendingRequest) use (&$uriString, $paymentId) {
+                $uriString = (string) $pendingRequest->getUri();
+
+                return MockResponse::resource(Payment::class)
+                    ->with([
+                        'id' => $paymentId,
+                        '_embedded' => [
+                            'chargebacks' => [],
+                        ],
+                    ])
+                    ->create();
+            },
+        ]);
+
+        Mollie::send(new GetPaymentRequest(id: $paymentId, embedChargebacks: true));
+
+        $this->assertNotNull($uriString);
+        $this->assertStringContainsString('embed=chargebacks', $uriString);
+    }
 }
