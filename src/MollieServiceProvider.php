@@ -34,7 +34,6 @@ class MollieServiceProvider extends ServiceProvider
         }
     }
 
-
     /**
      * Register the service provider.
      *
