@@ -40,7 +40,7 @@ class MollieLaravelHttpClientAdapter implements HttpAdapterContract
             $client = Http::withHeaders($pendingRequest->headers()->all());
 
             if ($pendingRequest->query()->isNotEmpty()) {
-                $client = $client->withUrlParameters($pendingRequest->query()->all());
+                $client = $client->withQueryParameters($pendingRequest->query()->all());
             }
 
             if ($pendingRequest->getRequest() instanceof HasPayload) {
