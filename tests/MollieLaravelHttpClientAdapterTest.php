@@ -104,7 +104,7 @@ class MollieLaravelHttpClientAdapterTest extends TestCase
 
         Mollie::fake([
             GetPaymentRequest::class => function (PendingRequest $pendingRequest) use (&$uriString, $paymentId) {
-                $uriString = (string)$pendingRequest->getUri();
+                $uriString = (string) $pendingRequest->getUri();
 
                 return MockResponse::resource(Payment::class)
                     ->with([
