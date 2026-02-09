@@ -35,7 +35,7 @@ class MollieApiClientTest extends TestCase
         $this->assertInstanceOf(ApiKeyAuthenticator::class, $authenticator);
         $this->assertEquals(
             'test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxyz',
-            $this->getApiKeyFromAuthenticator($authenticator)
+            $this->getTokenFromAuthenticator($authenticator)
         );
     }
 
@@ -50,7 +50,7 @@ class MollieApiClientTest extends TestCase
         $this->assertInstanceOf(AccessTokenAuthenticator::class, $authenticator);
         $this->assertEquals(
             'access_xxxxxxxxxxxxxxxxxxxxxxxxxxxxyz',
-            $this->getApiKeyFromAuthenticator($authenticator)
+            $this->getTokenFromAuthenticator($authenticator)
         );
     }
 
@@ -65,7 +65,7 @@ class MollieApiClientTest extends TestCase
         $this->assertNull($authenticator);
     }
 
-    private function getApiKeyFromAuthenticator(Authenticator $authenticator): ?string
+    private function getTokenFromAuthenticator(Authenticator $authenticator): ?string
     {
         $reflection = new ReflectionClass($authenticator);
         $property = $reflection->getProperty('token');
