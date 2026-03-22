@@ -10,6 +10,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 <!-- ### Added -->
 <!-- ### Changed -->
 <!-- ### Removed -->
+## v4.1.0 - 2026-03-22
+
+### What's Changed
+
+* Use setToken for universal API key and access token support by @Naoray in https://github.com/mollie/laravel-mollie/pull/259
+* Add Laravel 13 compatibility by @Naoray in https://github.com/mollie/laravel-mollie/pull/262
+
+**Full Changelog**: https://github.com/mollie/laravel-mollie/compare/v4.0.2...v4.1.0
+
 ## v4.0.2 - 2026-01-15
 
 ### What's Changed
