@@ -22,12 +22,7 @@ class MollieSocialiteServiceProvider extends ServiceProvider implements Deferrab
             : [];
     }
 
-    /**
-     * Register any application services.
-     *
-     * @return void
-     */
-    public function register()
+    public function register(): void
     {
         $this->app->afterResolving(
             SocialiteManager::class,

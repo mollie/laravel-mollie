@@ -75,7 +75,7 @@ class MollieConnectProvider extends AbstractProvider implements ProviderInterfac
             'headers' => ['Authorization' => 'Bearer ' . $token],
         ]);
 
-        return json_decode((string) $response->getBody(), true);
+        return json_decode((string) $response->getBody(), true, 512, JSON_THROW_ON_ERROR);
     }
 
     /**
