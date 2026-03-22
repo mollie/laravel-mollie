@@ -34,9 +34,6 @@ class SignatureValidator
         return $this;
     }
 
-    /**
-     * @deprecated Will be removed in a future major version.
-     */
     public function hasNoSignature(Request $request): bool
     {
         return ! $request->hasHeader(BaseSignatureValidator::SIGNATURE_HEADER);
