@@ -14,7 +14,7 @@ use Mollie\Api\MollieApiClient;
  * @method static void assertSent(callable|string $callback)
  * @method static void assertSentCount(int $count)
  *
- * @see \Mollie\Api\Fake\MockMollieClient
+ * @see MockMollieClient
  */
 class Mollie extends Facade
 {
