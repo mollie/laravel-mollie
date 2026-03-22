@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Mollie\Laravel\Tests;
 
+use Illuminate\Foundation\Application;
 use Laravel\Socialite\SocialiteServiceProvider;
 use Mollie\Laravel\EventWebhookDispatcher;
 use Mollie\Laravel\Middleware\ValidatesWebhookSignatures;
@@ -18,7 +19,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     /**
      * Get package providers.
      *
-     * @param  \Illuminate\Foundation\Application  $app
+     * @param  Application  $app
      * @return array
      */
     protected function getPackageProviders($app)
@@ -33,7 +34,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     /**
      * Set up the environment.
      *
-     * @param  \Illuminate\Foundation\Application  $app
+     * @param  Application  $app
      */
     protected function getEnvironmentSetUp($app)
     {
