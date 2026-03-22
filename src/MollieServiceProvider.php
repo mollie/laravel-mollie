@@ -16,12 +16,7 @@ class MollieServiceProvider extends ServiceProvider
 {
     const PACKAGE_VERSION = '4.0.2';
 
-    /**
-     * Boot the service provider.
-     *
-     * @return void
-     */
-    public function boot()
+    public function boot(): void
     {
         $this->loadRoutesFrom(__DIR__ . '/../routes/webhook.php');
 
@@ -34,12 +29,7 @@ class MollieServiceProvider extends ServiceProvider
         }
     }
 
-    /**
-     * Register the service provider.
-     *
-     * @return void
-     */
-    public function register()
+    public function register(): void
     {
         $this->mergeConfigFrom(
             __DIR__ . '/../config/mollie.php', 'mollie'
@@ -51,7 +41,7 @@ class MollieServiceProvider extends ServiceProvider
                 $client = (new MollieApiClient(new MollieLaravelHttpClientAdapter))
                     ->addVersionString('MollieLaravel/' . self::PACKAGE_VERSION);
 
-                if (! empty($token = $app['config']['mollie.key'])) {
+                if ($token = $app['config']['mollie.key'] ?? null) {
                     $client->setToken($token);
                 }
 

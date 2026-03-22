@@ -9,7 +9,6 @@ use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
 use Mollie\Api\Contracts\HasPayload;
 use Mollie\Api\Contracts\HttpAdapterContract;
-use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Exceptions\RetryableNetworkRequestException;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Response;
@@ -29,8 +28,6 @@ class MollieLaravelHttpClientAdapter implements HttpAdapterContract
 
     /**
      * Send a request to the specified Mollie API URL.
-     *
-     * @throws ApiException
      */
     public function sendRequest(PendingRequest $pendingRequest): Response
     {
@@ -55,7 +52,10 @@ class MollieLaravelHttpClientAdapter implements HttpAdapterContract
         } catch (ConnectionException $e) {
             throw new RetryableNetworkRequestException($pendingRequest, $e->getMessage(), $e);
         } catch (RequestException $e) {
-            // RequestExceptions without response are handled by the retryable network request exception
+            if (! $e->response) {
+                throw new RetryableNetworkRequestException($pendingRequest, $e->getMessage(), $e);
+            }
+
             return new Response($e->response->toPsrResponse(), $psrRequest, $pendingRequest, $e);
         }
     }

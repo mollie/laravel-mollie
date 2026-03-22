@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Laravel\Commands;
 
 use Illuminate\Console\Command;
@@ -78,7 +80,7 @@ class SetupWebhookCommand extends Command
             ->text(
                 label: 'Name',
                 placeholder: 'Webhook name',
-                default: config('app.name'),
+                default: config('app.name') ?? 'Webhook',
                 required: true,
                 name: 'name'
             )
@@ -124,7 +126,12 @@ class SetupWebhookCommand extends Command
         table(
             headers: ['Name', 'Url', 'Events', 'Testmode'],
             rows: [
-                ['name' => $responses['name'], 'url' => $responses['url'], 'events' => Arr::join($responses['events'], ', '), 'testmode' => $responses['testmode']],
+                [
+                    'name' => $responses['name'],
+                    'url' => $responses['url'],
+                    'events' => Arr::join($responses['events'], ', '),
+                    'testmode' => $responses['testmode'],
+                ],
             ]
         );
 
@@ -174,7 +181,7 @@ class SetupWebhookCommand extends Command
         info('Webhook created successfully');
         note('🤫 Add this secret to your .env file: ' . $webhook->webhookSecret);
 
-        $existingSecrets = config('mollie.webhooks.signing_secrets');
+        $existingSecrets = config('mollie.webhooks.signing_secrets') ?? '';
 
         note(
             'MOLLIE_WEBHOOK_SIGNING_SECRETS=' .
