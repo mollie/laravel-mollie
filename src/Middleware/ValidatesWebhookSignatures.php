@@ -14,7 +14,7 @@ class ValidatesWebhookSignatures
         private SignatureValidator $validator
     ) {}
 
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next): mixed
     {
         $this->validator->validate($request);
 

@@ -18,24 +18,22 @@ use Mollie\Api\MollieApiClient;
  */
 class Mollie extends Facade
 {
-    /**
-     * Get the registered name of the component.
-     *
-     * @return string
-     */
-    protected static function getFacadeAccessor()
+    protected static function getFacadeAccessor(): string
     {
         return MollieApiClient::class;
     }
 
     public static function fake(array $expectedResponses = []): MockMollieClient
     {
-        return tap(new MockMollieClient($expectedResponses), function ($fake) {
-            static::swap($fake);
+        return tap(new MockMollieClient($expectedResponses), function ($mockClient) {
+            static::swap($mockClient);
         });
     }
 
-    public static function api()
+    /**
+     * @deprecated Use the facade directly instead. Will be removed in a future major version.
+     */
+    public static function api(): MollieApiClient
     {
         return static::getFacadeRoot();
     }
