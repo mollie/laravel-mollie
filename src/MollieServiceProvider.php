@@ -41,7 +41,7 @@ class MollieServiceProvider extends ServiceProvider
                 $client = (new MollieApiClient(new MollieLaravelHttpClientAdapter))
                     ->addVersionString('MollieLaravel/' . self::PACKAGE_VERSION);
 
-                if ($token = config('mollie.key') {
+                if ($token = config('mollie.key')) {
                     $client->setToken($token);
                 }
 
