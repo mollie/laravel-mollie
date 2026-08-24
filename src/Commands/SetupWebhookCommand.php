@@ -181,7 +181,7 @@ class SetupWebhookCommand extends Command
         info('Webhook created successfully');
         note('🤫 Add this secret to your .env file: ' . $webhook->webhookSecret);
 
-        $existingSecrets = config('mollie.webhooks.signing_secrets') ?? '';
+        $existingSecrets = config('mollie.webhooks.signing_secrets', '');
 
         note(
             'MOLLIE_WEBHOOK_SIGNING_SECRETS=' .
