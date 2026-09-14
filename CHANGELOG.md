@@ -10,6 +10,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 <!-- ### Added -->
 <!-- ### Changed -->
 <!-- ### Removed -->
+## v4.1.1 - 2026-09-14
+
+Fix webhook signing-secret rotation: comma-separated secrets are now split, trimmed, and validated individually. Existing array configuration remains supported.
+
+### What's Changed
+
+* build: bump phpunit constraints past GHSA-qrr6-mg7r-m243 by @sandervanhooft in https://github.com/mollie/laravel-mollie/pull/264
+* chore: codebase audit fixes by @Naoray in https://github.com/mollie/laravel-mollie/pull/263
+* fix: support comma-separated webhook signing secrets by @Naoray in https://github.com/mollie/laravel-mollie/pull/266
+
+**Full Changelog**: https://github.com/mollie/laravel-mollie/compare/v4.1.0...v4.1.1
+
 ## v4.1.0 - 2026-03-22
 
 ### What's Changed
