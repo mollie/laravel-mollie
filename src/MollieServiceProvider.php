@@ -50,12 +50,21 @@ class MollieServiceProvider extends ServiceProvider
         );
 
         $this->app->singleton(SignatureValidator::class, function () {
+            $signingSecrets = config('mollie.webhooks.signing_secrets');
+
+            if (is_string($signingSecrets)) {
+                $signingSecrets = array_values(array_filter(
+                    array_map('trim', explode(',', $signingSecrets)),
+                    fn (string $secret) => $secret !== ''
+                ));
+            }
+
             throw_if(
-                ! config('mollie.webhooks.signing_secrets'),
+                ! $signingSecrets,
                 new RuntimeException('No signing secrets for Mollie webhooks are set')
             );
 
-            return new SignatureValidator(config('mollie.webhooks.signing_secrets'));
+            return new SignatureValidator($signingSecrets);
         });
 
         $this->app->bind(WebhookDispatcher::class, function (Container $app) {

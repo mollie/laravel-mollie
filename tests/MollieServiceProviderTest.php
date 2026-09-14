@@ -5,11 +5,37 @@ declare(strict_types=1);
 namespace Mollie\Laravel\Tests;
 
 use Mollie\Api\MollieApiClient;
+use Mollie\Api\Webhooks\SignatureValidator;
 use Mollie\Laravel\MollieServiceProvider;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
+use RuntimeException;
 
 class MollieServiceProviderTest extends TestCase
 {
+    #[Test]
+    #[DataProvider('missingSigningSecrets')]
+    public function it_rejects_missing_signing_secrets(string|array|null $secrets): void
+    {
+        config(['mollie.webhooks.signing_secrets' => $secrets]);
+
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('No signing secrets for Mollie webhooks are set');
+
+        resolve(SignatureValidator::class);
+    }
+
+    public static function missingSigningSecrets(): array
+    {
+        return [
+            'unset' => [null],
+            'empty string' => [''],
+            'empty array' => [[]],
+            'whitespace' => ['   '],
+            'empty comma-separated entries' => [' , , '],
+        ];
+    }
+
     /**
      * Test that the service provider can be registered and booted without an API key.
      * This simulates the package installation scenario where the user hasn't configured a key yet.
