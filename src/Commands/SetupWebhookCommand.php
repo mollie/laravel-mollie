@@ -19,6 +19,8 @@ use function Laravel\Prompts\table;
 use function Laravel\Prompts\warning;
 
 use Mollie\Api\Exceptions\MollieException;
+use Mollie\Api\Exceptions\TooManyRequestsException;
+use Mollie\Api\Exceptions\ValidationException;
 use Mollie\Api\Http\Auth\TokenValidator;
 use Mollie\Api\Http\Requests\CreateWebhookRequest;
 use Mollie\Api\Http\Requests\ListPermissionsRequest;
@@ -111,14 +113,7 @@ class SetupWebhookCommand extends Command
 
     private function getWebhookEventTypes(): array
     {
-        return collect(WebhookEventType::getAll())
-            ->reject(fn (string $eventType) => in_array($eventType, [
-                WebhookEventType::PROFILE_CREATED,
-                WebhookEventType::PROFILE_VERIFIED,
-                WebhookEventType::PROFILE_BLOCKED,
-                WebhookEventType::PROFILE_DELETED,
-            ]))
-            ->toArray();
+        return WebhookEventType::getAll();
     }
 
     private function confirmDetails(array $responses): bool
@@ -169,6 +164,22 @@ class SetupWebhookCommand extends Command
                 fn () => $mollie->send($request->test($webhookDetails['testmode'] === 'yes')),
                 message: 'Creating webhook...'
             );
+        } catch (ValidationException $e) {
+            error('Failed to create webhook because Mollie rejected one or more fields.');
+
+            foreach ($e->getErrors() as $field => $message) {
+                info($field . ': ' . $message);
+            }
+
+            return null;
+        } catch (TooManyRequestsException $e) {
+            error('Failed to create webhook because Mollie rate limited the request.');
+
+            if ($e->getRetryAfterSeconds() !== null) {
+                info('Try again in ' . $e->getRetryAfterSeconds() . ' seconds.');
+            }
+
+            return null;
         } catch (MollieException $e) {
             error('Failed to create webhook: ' . $e->getMessage());
 

@@ -95,6 +95,45 @@ class SetupWebhookCommandTest extends TestCase
     }
 
     #[Test]
+    public function it_can_setup_webhook_with_profile_events()
+    {
+        config(['mollie.key' => 'access_xxxxxxxxxxxxxxxxxxxxxxxxxxxxyz']);
+
+        Mollie::fake([
+            ListPermissionsRequest::class => MockResponse::list(PermissionCollection::class)
+                ->add([
+                    'id' => 'webhooks.write',
+                    'description' => 'Write webhooks',
+                    'granted' => true,
+                ])
+                ->create(),
+            CreateWebhookRequest::class => function (PendingRequest $pendingRequest) {
+                $this->assertEquals(WebhookEventType::PROFILE_VERIFIED, $pendingRequest->payload()->get('eventTypes'));
+
+                return MockResponse::resource(Webhook::class)
+                    ->with([
+                        'id' => 'webhook_profile',
+                        'webhookSecret' => 'secret_profile',
+                    ])
+                    ->create();
+            },
+        ]);
+
+        $this->artisan(SetupWebhookCommand::class)
+            ->expectsQuestion('Name', 'Profile Webhook')
+            ->expectsQuestion('Url', 'https://test.com/webhook')
+            ->expectsQuestion('Events', [WebhookEventType::PROFILE_VERIFIED])
+            ->expectsQuestion('Testmode', 'yes')
+            ->expectsConfirmation('Proceed with setup?', 'yes')
+            ->expectsQuestion('Press ENTER to continue', 'yes')
+            ->expectsOutputToContain('Webhook created successfully')
+            ->expectsOutputToContain('secret_profile')
+            ->assertSuccessful();
+
+        Mollie::assertSent(CreateWebhookRequest::class);
+    }
+
+    #[Test]
     public function it_suggests_manual_creation_when_no_access_token_is_provided()
     {
         config([
@@ -139,6 +178,34 @@ class SetupWebhookCommandTest extends TestCase
             ->assertSuccessful();
 
         Mollie::assertSent(ListPermissionsRequest::class);
+    }
+
+    #[Test]
+    public function it_displays_validation_errors_when_webhook_creation_fails()
+    {
+        config(['mollie.key' => 'access_xxxxxxxxxxxxxxxxxxxxxxxxxxxxyz']);
+
+        Mollie::fake([
+            ListPermissionsRequest::class => MockResponse::list(PermissionCollection::class)
+                ->add([
+                    'id' => 'webhooks.write',
+                    'description' => 'Write webhooks',
+                    'granted' => true,
+                ])
+                ->create(),
+            CreateWebhookRequest::class => MockResponse::unprocessableEntity('The webhook URL is invalid.', 'url'),
+        ]);
+
+        $this->artisan(SetupWebhookCommand::class)
+            ->expectsQuestion('Name', 'Invalid Webhook')
+            ->expectsQuestion('Url', 'https://test.com/webhook')
+            ->expectsQuestion('Events', [WebhookEventType::ALL])
+            ->expectsQuestion('Testmode', 'yes')
+            ->expectsConfirmation('Proceed with setup?', 'yes')
+            ->expectsQuestion('Press ENTER to continue', 'yes')
+            ->expectsOutputToContain('Failed to create webhook because Mollie rejected one or more fields.')
+            ->expectsOutputToContain('url: The webhook URL is invalid.')
+            ->assertFailed();
     }
 
     #[Test]

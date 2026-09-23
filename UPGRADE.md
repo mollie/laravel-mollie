@@ -1,5 +1,79 @@
 ![Mollie](https://www.mollie.nl/files/Mollie-Logo-Style-Small.png)
 
+# Migrating from Laravel-Mollie v4.x to v5
+
+## Update composer dependencies
+
+Update `composer.json` to match this:
+
+```json
+"require": {
+    "mollie/laravel-mollie": "^5.0"
+}
+```
+
+Then run `composer update mollie/laravel-mollie`.
+
+## Review Changes
+
+### Mollie API PHP v4 Upgrade
+Laravel-Mollie now requires mollie-api-php v4. The PHP and Laravel platform floor is unchanged from Laravel-Mollie v4: PHP 8.2 or greater and Laravel 11.0, 12.0, or 13.0.
+
+The most relevant upstream changes are:
+
+1. **Type constants are now enums**: classes under `Mollie\Api\Types` now expose string-backed enum cases such as `PaymentStatus::Paid`.
+2. **Typed resources and value objects**: resource fields that were previously `stdClass` are now concrete value objects. Property names are unchanged, but code checking for `stdClass` may need to call `toArray()`.
+3. **Readonly value objects**: `Money`, `Address`, `OrderLine`, and related data objects are readonly. Prefer factories or `Money::macro()` over subclassing.
+4. **Generic `send()` return type**: static analysis can infer the returned resource from the request class. Manual `@var` casts around `Mollie::send(...)` can usually be removed.
+5. **Typed SDK boundaries**: mollie-api-php v4 adds typed signatures. Whether an invalid scalar throws a `TypeError` or is coerced depends on the calling file's `strict_types` declaration.
+
+For full details on the mollie-api-php v4 changes, see the [official upgrade guide](https://github.com/mollie/mollie-api-php/blob/v4.0.0/UPGRADING.md).
+
+### Money creation
+You can keep using `new Money('EUR', '10.00')`, but v4 adds builder helpers that fit Laravel apps storing integer minor units:
+
+```php
+use Mollie\Api\Http\Data\Money;
+
+Money::of('EUR')->fromString('10.00');
+Money::of('EUR')->minorUnits(1000);
+```
+
+### Retry strategy configuration
+The SDK still uses a linear retry strategy by default. Laravel-Mollie can now switch the SDK to mollie-api-php v4's exponential retry strategy from `config/mollie.php`:
+
+```dotenv
+MOLLIE_RETRY_STRATEGY=exponential
+MOLLIE_RETRY_MAX_RETRIES=5
+MOLLIE_RETRY_DELAY_MS=1000
+MOLLIE_RETRY_EXPONENTIAL_MULTIPLIER=2.0
+MOLLIE_RETRY_EXPONENTIAL_MAX_DELAY_MS=30000
+MOLLIE_RETRY_EXPONENTIAL_JITTER=true
+```
+
+This retries temporary network failures and HTTP 429 responses. When Mollie sends a `Retry-After` header, the SDK uses that delay.
+
+### Webhook setup command
+`mollie:setup-webhook` now includes profile webhook event types because mollie-api-php v4 ships event classes for profile lifecycle events.
+
+### Testing
+If your tests use `Mollie::fake()`, mollie-api-php v4 adds typed `MockResponse` factories for common resources:
+
+```php
+use Mollie\Api\Fake\MockResponse;
+
+Mollie::fake([
+    GetPaymentRequest::class => MockResponse::payment(
+        id: 'tr_123',
+        description: 'Order #123',
+    ),
+]);
+```
+
+Existing generic builders such as `MockResponse::resource(...)` and `MockResponse::list(...)` remain useful for resources without typed factories.
+
+---
+
 # Migrating from Laravel-Mollie v3.x to v4
 
 ## Update composer dependencies

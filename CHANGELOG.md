@@ -6,9 +6,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!--  -->
-<!-- ## [Unreleased] -->
-<!-- ### Added -->
-<!-- ### Changed -->
+## [Unreleased]
+### Added
+- Retry strategy selection for mollie-api-php v4, including exponential backoff configuration.
+- Profile lifecycle webhook event types in the `mollie:setup-webhook` command.
+- Richer setup-command output for validation errors and rate limits.
+- Facade annotations for generic `send()` return-type inference.
+
+### Changed
+- Require the stable mollie-api-php v4 line.
+- Refresh examples to use the v4 `Money::of(...)->fromString(...)` builder and typed `MockResponse::payment(...)` factory.
+
 <!-- ### Removed -->
 ## v4.1.1 - 2026-09-14
 

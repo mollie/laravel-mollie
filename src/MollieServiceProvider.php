@@ -6,6 +6,8 @@ namespace Mollie\Laravel;
 
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\ServiceProvider;
+use Mollie\Api\Http\ExponentialRetryStrategy;
+use Mollie\Api\Http\LinearRetryStrategy;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Webhooks\SignatureValidator;
 use Mollie\Laravel\Commands\SetupWebhookCommand;
@@ -14,7 +16,7 @@ use RuntimeException;
 
 class MollieServiceProvider extends ServiceProvider
 {
-    const PACKAGE_VERSION = '4.1.1';
+    const PACKAGE_VERSION = '5.0.0';
 
     public function boot(): void
     {
@@ -45,6 +47,8 @@ class MollieServiceProvider extends ServiceProvider
                     $client->setToken($token);
                 }
 
+                $this->configureRetryStrategy($client);
+
                 return $client;
             }
         );
@@ -70,5 +74,31 @@ class MollieServiceProvider extends ServiceProvider
         $this->app->bind(WebhookDispatcher::class, function (Container $app) {
             return $app->make(config('mollie.webhooks.dispatcher') ?? EventWebhookDispatcher::class);
         });
+    }
+
+    private function configureRetryStrategy(MollieApiClient $client): void
+    {
+        $strategy = strtolower((string) config('mollie.retry.strategy', 'linear'));
+        $maxRetries = (int) config('mollie.retry.max_retries', 5);
+        $delayMs = (int) config('mollie.retry.delay_ms', 1000);
+
+        if ($strategy === 'linear') {
+            $client->setRetryStrategy(new LinearRetryStrategy(
+                maxRetries: $maxRetries,
+                delayIncreaseMs: $delayMs,
+            ));
+
+            return;
+        }
+
+        if ($strategy === 'exponential') {
+            $client->setRetryStrategy(new ExponentialRetryStrategy(
+                maxRetries: $maxRetries,
+                baseDelayMs: $delayMs,
+                multiplier: (float) config('mollie.retry.exponential.multiplier', 2.0),
+                maxDelayMs: (int) config('mollie.retry.exponential.max_delay_ms', 30000),
+                jitter: (bool) config('mollie.retry.exponential.jitter', true),
+            ));
+        }
     }
 }
