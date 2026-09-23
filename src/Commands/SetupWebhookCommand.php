@@ -31,6 +31,8 @@ use Mollie\Api\Webhooks\WebhookEventType;
 
 class SetupWebhookCommand extends Command
 {
+    private const WEBHOOK_WRITE_PERMISSION = 'webhooks.write';
+
     protected $signature = 'mollie:setup-webhook';
 
     protected $description = 'Setup and create a webhook in your Mollie account';
@@ -56,7 +58,7 @@ class SetupWebhookCommand extends Command
 
         if (! $this->hasWebhookWritePermission($mollie)) {
             warning('You do not have permission to create webhooks. You will need to create the webhook manually in the Mollie dashboard.');
-            warning('Or create an access token with the permission of webhooks.write');
+            warning('Or create an access token with the permission of ' . self::WEBHOOK_WRITE_PERMISSION);
 
             $this->suggestManualCreation();
 
@@ -96,7 +98,7 @@ class SetupWebhookCommand extends Command
             )
             ->multiselect(
                 label: 'Events',
-                options: $this->getWebhookEventTypes(),
+                options: WebhookEventType::getAll(),
                 default: [WebhookEventType::ALL],
                 required: true,
                 name: 'events'
@@ -109,11 +111,6 @@ class SetupWebhookCommand extends Command
                 name: 'testmode'
             )
             ->submit();
-    }
-
-    private function getWebhookEventTypes(): array
-    {
-        return WebhookEventType::getAll();
     }
 
     private function confirmDetails(array $responses): bool
@@ -146,7 +143,7 @@ class SetupWebhookCommand extends Command
     {
         return $mollie->send(new ListPermissionsRequest)
             ->contains(function (Permission $permission) {
-                return $permission->id === 'webhooks.write'
+                return $permission->id === self::WEBHOOK_WRITE_PERMISSION
                     && $permission->granted;
             });
     }
