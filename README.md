@@ -26,8 +26,8 @@ Accepting [iDEAL](https://www.mollie.com/en/payments/ideal/), [Apple Pay](https:
 * [Laravel](https://www.laravel.com) >= 11.0
 * [Laravel Socialite](https://github.com/laravel/socialite) >= 5.0 (if you intend on using [Mollie Connect](https://docs.mollie.com/oauth/overview))
 
-## Upgrading from v3.x?
-To support the enhanced Mollie API v3, some breaking changes were introduced. Make sure to follow the instructions in the [upgrade guide](UPGRADE.md).
+## Upgrading?
+To support mollie-api-php v4, some breaking changes were introduced. Make sure to follow the instructions in the [upgrade guide](UPGRADE.md).
 
 Fresh install? Continue with the installation guide below.
 
@@ -43,7 +43,7 @@ Or add it to `composer.json` manually:
 
 ```json
 "require": {
-    "mollie/laravel-mollie": "^4.0"
+    "mollie/laravel-mollie": "^5.0"
 }
 ```
 
@@ -55,6 +55,17 @@ You'll only need to add the `MOLLIE_KEY` variable to your `.env` file.
 
 ```php
 MOLLIE_KEY=test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+```
+
+The SDK uses a linear retry strategy by default. To use the v4 exponential strategy for temporary network failures and HTTP 429 rate limits, set:
+
+```dotenv
+MOLLIE_RETRY_STRATEGY=exponential
+MOLLIE_RETRY_MAX_RETRIES=5
+MOLLIE_RETRY_DELAY_MS=1000
+MOLLIE_RETRY_EXPONENTIAL_MULTIPLIER=2.0
+MOLLIE_RETRY_EXPONENTIAL_MAX_DELAY_MS=30000
+MOLLIE_RETRY_EXPONENTIAL_JITTER=true
 ```
 
 ## Example usage
@@ -73,7 +84,7 @@ public function preparePayment()
 {
     $request = new CreatePaymentRequest(
         description: 'Order #12345',
-        amount: new Money('EUR', '10.00'),
+        amount: Money::of('EUR')->fromString('10.00'),
         redirectUrl: route('order.success'),
         webhookUrl: route('webhooks.mollie'),
         metadata: [
@@ -85,7 +96,7 @@ public function preparePayment()
         ]
     );
 
-    Mollie::send($request);
+    $payment = Mollie::send($request);
 
     // redirect customer to Mollie checkout page
     return redirect($payment->getCheckoutUrl(), 303);

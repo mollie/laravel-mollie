@@ -6,11 +6,17 @@ namespace Mollie\Laravel\Facades;
 
 use Illuminate\Support\Facades\Facade;
 use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Http\Request;
+use Mollie\Api\Http\Requests\ResourceHydratableRequest;
 use Mollie\Api\MollieApiClient;
 
 /**
  * (Facade) Class Mollie.
  *
+ * @template TResource of object
+ *
+ * @method static TResource send(ResourceHydratableRequest<TResource> $request)
+ * @method static mixed send(Request $request)
  * @method static void assertSent(callable|string $callback)
  * @method static void assertSentCount(int $count)
  *

@@ -18,6 +18,8 @@ Next, decide how webhook events should be handled in your app. By default, an ev
 
 Finally, run the `mollie:setup-webhook` command to create a webhook through the Mollie API.
 
+The setup command offers every webhook event type exposed by mollie-api-php, including profile lifecycle events such as `profile.created`, `profile.verified`, `profile.blocked`, and `profile.deleted`.
+
 ## Legacy Webhooks
 To implement legacy webhooks in your Laravel application, provide a `webhookUrl` parameter when creating a payment (or subscription):
 
