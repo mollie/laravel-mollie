@@ -203,8 +203,35 @@ class SetupWebhookCommandTest extends TestCase
             ->expectsQuestion('Testmode', 'yes')
             ->expectsConfirmation('Proceed with setup?', 'yes')
             ->expectsQuestion('Press ENTER to continue', 'yes')
-            ->expectsOutputToContain('Failed to create webhook because Mollie rejected one or more fields.')
+            ->expectsOutputToContain('Failed to create webhook because Mollie rejected the request.')
             ->expectsOutputToContain('url: The webhook URL is invalid.')
+            ->assertFailed();
+    }
+
+    #[Test]
+    public function it_displays_validation_details_without_a_field_name()
+    {
+        config(['mollie.key' => 'access_xxxxxxxxxxxxxxxxxxxxxxxxxxxxyz']);
+
+        Mollie::fake([
+            ListPermissionsRequest::class => MockResponse::list(PermissionCollection::class)
+                ->add([
+                    'id' => 'webhooks.write',
+                    'description' => 'Write webhooks',
+                    'granted' => true,
+                ])
+                ->create(),
+            CreateWebhookRequest::class => MockResponse::error(422, 'Unprocessable Entity', 'The event types cannot be combined.'),
+        ]);
+
+        $this->artisan(SetupWebhookCommand::class)
+            ->expectsQuestion('Name', 'Invalid Webhook')
+            ->expectsQuestion('Url', 'https://test.com/webhook')
+            ->expectsQuestion('Events', [WebhookEventType::ALL])
+            ->expectsQuestion('Testmode', 'yes')
+            ->expectsConfirmation('Proceed with setup?', 'yes')
+            ->expectsQuestion('Press ENTER to continue', 'yes')
+            ->expectsOutputToContain('The event types cannot be combined.')
             ->assertFailed();
     }
 

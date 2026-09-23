@@ -165,10 +165,14 @@ class SetupWebhookCommand extends Command
                 message: 'Creating webhook...'
             );
         } catch (ValidationException $e) {
-            error('Failed to create webhook because Mollie rejected one or more fields.');
+            error('Failed to create webhook because Mollie rejected the request.');
 
-            foreach ($e->getErrors() as $field => $message) {
-                info($field . ': ' . $message);
+            if ($e->getErrors() === []) {
+                info($e->getMessage());
+            } else {
+                foreach ($e->getErrors() as $field => $message) {
+                    info($field . ': ' . $message);
+                }
             }
 
             return null;

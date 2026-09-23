@@ -26,6 +26,7 @@ The most relevant upstream changes are:
 3. **Readonly value objects**: `Money`, `Address`, `OrderLine`, and related data objects are readonly. Prefer factories or `Money::macro()` over subclassing.
 4. **Generic `send()` return type**: static analysis can infer the returned resource from the request class. Manual `@var` casts around `Mollie::send(...)` can usually be removed.
 5. **Typed SDK boundaries**: mollie-api-php v4 adds typed signatures. Whether an invalid scalar throws a `TypeError` or is coerced depends on the calling file's `strict_types` declaration.
+6. **Omitted resource fields**: reading a typed field without a default now throws when the API response omits it. For fields that may be absent in partial responses, use `$payment->description ?? null` or `isset($payment->description)`. A missing required field signals a malformed response and should remain an error.
 
 For full details on the mollie-api-php v4 changes, see the [official upgrade guide](https://github.com/mollie/mollie-api-php/blob/v4.0.0/UPGRADING.md).
 
@@ -51,7 +52,7 @@ MOLLIE_RETRY_EXPONENTIAL_MAX_DELAY_MS=30000
 MOLLIE_RETRY_EXPONENTIAL_JITTER=true
 ```
 
-This retries temporary network failures and HTTP 429 responses. When Mollie sends a `Retry-After` header, the SDK uses that delay.
+This retries temporary network failures and HTTP 429 responses. When Mollie sends a `Retry-After` header, the SDK uses that delay only when it is no greater than `MOLLIE_RETRY_EXPONENTIAL_MAX_DELAY_MS`. Otherwise, it does not retry that response.
 
 ### Webhook setup command
 `mollie:setup-webhook` now includes profile webhook event types because mollie-api-php v4 ships event classes for profile lifecycle events.

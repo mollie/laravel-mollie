@@ -16,8 +16,7 @@ return [
      *
      * The SDK uses a linear retry strategy by default. Set the strategy to
      * "exponential" to retry temporary network failures and HTTP 429 responses
-     * with exponential backoff. When Mollie returns a Retry-After header, that
-     * delay is used.
+     * with exponential backoff. A Retry-After delay above max_delay_ms is not retried.
      */
     'retry' => [
         'strategy' => env('MOLLIE_RETRY_STRATEGY', 'linear'),
