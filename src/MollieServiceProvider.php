@@ -14,7 +14,7 @@ use RuntimeException;
 
 class MollieServiceProvider extends ServiceProvider
 {
-    const PACKAGE_VERSION = '4.1.1';
+    const PACKAGE_VERSION = '4.1.2';
 
     public function boot(): void
     {
