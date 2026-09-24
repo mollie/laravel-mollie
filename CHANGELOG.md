@@ -10,6 +10,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 <!-- ### Added -->
 <!-- ### Changed -->
 <!-- ### Removed -->
+## v4.1.2 - 2026-09-24
+
+### What's Changed
+
+* fix: Socialite driver is unreachable because its provider is deferred by @PieterCappelle in https://github.com/mollie/laravel-mollie/pull/267
+* test: exercise real Socialite provider discovery after #267 by @Naoray in https://github.com/mollie/laravel-mollie/pull/268
+
+### New Contributors
+
+* @PieterCappelle made their first contribution in https://github.com/mollie/laravel-mollie/pull/267
+
+**Full Changelog**: https://github.com/mollie/laravel-mollie/compare/v4.1.1...v4.1.2
+
 ## v4.1.1 - 2026-09-14
 
 Fix webhook signing-secret rotation: comma-separated secrets are now split, trimmed, and validated individually. Existing array configuration remains supported.
