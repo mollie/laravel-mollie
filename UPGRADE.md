@@ -35,7 +35,7 @@ The Socialite integration has been moved to a dedicated service provider (`Molli
 ### Deferred Service Provider
 The main `MollieServiceProvider` is now deferrable, which means it will only be loaded when the Mollie API is actually used in your application. This can improve application performance.
 
-The `MollieSocialiteServiceProvider` is now also deferred and will only be loaded when `laravel/socialite` is installed in your application.
+The `MollieSocialiteServiceProvider` registers eagerly so its Mollie driver is available when Socialite resolves. If `laravel/socialite` is not installed, the provider does no work.
 
 ### Change in calling API endpoints
 Earlier versions of Laravel-Mollie provided access to endpoints via both methods and properties. Moving forward, access to endpoints will be exclusively through properties:
