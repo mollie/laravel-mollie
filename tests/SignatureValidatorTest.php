@@ -24,6 +24,17 @@ class SignatureValidatorTest extends TestCase
         $this->expectNotToPerformAssertions();
     }
 
+    #[Test]
+    public function it_rejects_a_request_without_a_signature()
+    {
+        $request = $this->createRequest('{"id":"payment_123"}');
+        $validator = new SignatureValidator(new BaseSignatureValidator('valid_secret'));
+
+        $this->expectException(\Symfony\Component\HttpKernel\Exception\HttpException::class);
+
+        $validator->validate($request);
+    }
+
     /**
      * Create a request with the specified body and signature header.
      */
