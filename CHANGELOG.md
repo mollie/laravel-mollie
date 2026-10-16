@@ -6,14 +6,44 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!--  -->
+## v5.0.0 - 2026-10-16
+
+### Upgrade notice
+
+This major release requires `mollie/mollie-api-php` ^4.0 and drops SDK v3 support. SDK v4 changes include enums, typed resource fields, and readonly value objects. Review the [Laravel-Mollie upgrade guide](https://github.com/mollie/laravel-mollie/blob/v5.0.0/UPGRADE.md) before upgrading.
+
+The PHP and Laravel requirements are unchanged: PHP 8.2 or later and Laravel 11, 12, or 13.
+
+### Highlights
+
+- Support Mollie API PHP v4, with configurable exponential retries and profile lifecycle webhook events.
+- Reject unsigned webhook requests before dispatching events.
+- Allow PHPUnit 13 and test on PHP 8.6.
+
+### What's Changed
+
+* Test on PHP 8.6 by @jnoordsij in https://github.com/mollie/laravel-mollie/pull/272
+* Allow PHPUnit v13 by @jnoordsij in https://github.com/mollie/laravel-mollie/pull/273
+* Reject a webhook that arrives without a signature by @SashaMIT in https://github.com/mollie/laravel-mollie/pull/271
+* Add mollie-api-php v4 support by @Naoray in https://github.com/mollie/laravel-mollie/pull/270
+
+### New Contributors
+
+* @SashaMIT made their first contribution in https://github.com/mollie/laravel-mollie/pull/271
+
+**Full Changelog**: https://github.com/mollie/laravel-mollie/compare/v4.1.2...v5.0.0
+
 ## [Unreleased]
+
 ### Added
+
 - Retry strategy selection for mollie-api-php v4, including exponential backoff configuration.
 - Profile lifecycle webhook event types in the `mollie:setup-webhook` command.
 - Richer setup-command output for validation errors and rate limits.
 - Facade annotations for generic `send()` return-type inference.
 
 ### Changed
+
 - Require the stable mollie-api-php v4 line.
 - Refresh examples to use the v4 `Money::of(...)->fromString(...)` builder and typed `MockResponse::payment(...)` factory.
 
