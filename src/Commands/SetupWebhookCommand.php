@@ -19,6 +19,8 @@ use function Laravel\Prompts\table;
 use function Laravel\Prompts\warning;
 
 use Mollie\Api\Exceptions\MollieException;
+use Mollie\Api\Exceptions\TooManyRequestsException;
+use Mollie\Api\Exceptions\ValidationException;
 use Mollie\Api\Http\Auth\TokenValidator;
 use Mollie\Api\Http\Requests\CreateWebhookRequest;
 use Mollie\Api\Http\Requests\ListPermissionsRequest;
@@ -29,6 +31,8 @@ use Mollie\Api\Webhooks\WebhookEventType;
 
 class SetupWebhookCommand extends Command
 {
+    private const WEBHOOK_WRITE_PERMISSION = 'webhooks.write';
+
     protected $signature = 'mollie:setup-webhook';
 
     protected $description = 'Setup and create a webhook in your Mollie account';
@@ -54,7 +58,7 @@ class SetupWebhookCommand extends Command
 
         if (! $this->hasWebhookWritePermission($mollie)) {
             warning('You do not have permission to create webhooks. You will need to create the webhook manually in the Mollie dashboard.');
-            warning('Or create an access token with the permission of webhooks.write');
+            warning('Or create an access token with the permission of ' . self::WEBHOOK_WRITE_PERMISSION);
 
             $this->suggestManualCreation();
 
@@ -94,7 +98,7 @@ class SetupWebhookCommand extends Command
             )
             ->multiselect(
                 label: 'Events',
-                options: $this->getWebhookEventTypes(),
+                options: WebhookEventType::getAll(),
                 default: [WebhookEventType::ALL],
                 required: true,
                 name: 'events'
@@ -107,18 +111,6 @@ class SetupWebhookCommand extends Command
                 name: 'testmode'
             )
             ->submit();
-    }
-
-    private function getWebhookEventTypes(): array
-    {
-        return collect(WebhookEventType::getAll())
-            ->reject(fn (string $eventType) => in_array($eventType, [
-                WebhookEventType::PROFILE_CREATED,
-                WebhookEventType::PROFILE_VERIFIED,
-                WebhookEventType::PROFILE_BLOCKED,
-                WebhookEventType::PROFILE_DELETED,
-            ]))
-            ->toArray();
     }
 
     private function confirmDetails(array $responses): bool
@@ -151,7 +143,7 @@ class SetupWebhookCommand extends Command
     {
         return $mollie->send(new ListPermissionsRequest)
             ->contains(function (Permission $permission) {
-                return $permission->id === 'webhooks.write'
+                return $permission->id === self::WEBHOOK_WRITE_PERMISSION
                     && $permission->granted;
             });
     }
@@ -169,6 +161,26 @@ class SetupWebhookCommand extends Command
                 fn () => $mollie->send($request->test($webhookDetails['testmode'] === 'yes')),
                 message: 'Creating webhook...'
             );
+        } catch (ValidationException $e) {
+            error('Failed to create webhook because Mollie rejected the request.');
+
+            if ($e->getErrors() === []) {
+                info($e->getMessage());
+            } else {
+                foreach ($e->getErrors() as $field => $message) {
+                    info($field . ': ' . $message);
+                }
+            }
+
+            return null;
+        } catch (TooManyRequestsException $e) {
+            error('Failed to create webhook because Mollie rate limited the request.');
+
+            if ($e->getRetryAfterSeconds() !== null) {
+                info('Try again in ' . $e->getRetryAfterSeconds() . ' seconds.');
+            }
+
+            return null;
         } catch (MollieException $e) {
             error('Failed to create webhook: ' . $e->getMessage());
 

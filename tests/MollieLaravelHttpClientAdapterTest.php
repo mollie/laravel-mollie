@@ -13,7 +13,6 @@ use Mollie\Api\Http\LinearRetryStrategy;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Requests\CreatePaymentRequest;
 use Mollie\Api\Http\Requests\GetPaymentRequest;
-use Mollie\Api\Resources\Payment;
 use Mollie\Laravel\Facades\Mollie;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -26,19 +25,18 @@ class MollieLaravelHttpClientAdapterTest extends TestCase
     public function it_can_send_a_post_request()
     {
         Mollie::fake([
-            CreatePaymentRequest::class => MockResponse::resource(Payment::class)
-                ->with([
-                    'id' => $paymentId = uniqid('tr_'),
+            CreatePaymentRequest::class => MockResponse::payment(
+                id: $paymentId = uniqid('tr_'),
+                description: $description = 'test',
+                overrides: [
                     'redirectUrl' => $redirectUrl = 'https://google.com/redirect',
-                    'description' => $description = 'test',
-                ])
-                ->create(),
+                ],
+            ),
         ]);
 
-        /** @var Payment $returnedPayment */
         $returnedPayment = Mollie::send(new CreatePaymentRequest(
             description: $description,
-            amount: new Money('10.00', 'EUR'),
+            amount: Money::of('EUR')->fromString('10.00'),
             redirectUrl: $redirectUrl,
         ));
 
@@ -51,13 +49,13 @@ class MollieLaravelHttpClientAdapterTest extends TestCase
     public function it_can_send_a_get_request()
     {
         Mollie::fake([
-            GetPaymentRequest::class => MockResponse::resource(Payment::class)
-                ->with([
-                    'id' => $paymentId = uniqid('tr_'),
+            GetPaymentRequest::class => MockResponse::payment(
+                id: $paymentId = uniqid('tr_'),
+                description: $description = 'test',
+                overrides: [
                     'redirectUrl' => $redirectUrl = 'https://google.com/redirect',
-                    'description' => $description = 'test',
-                ])
-                ->create(),
+                ],
+            ),
         ]);
 
         $returnedPayment = Mollie::send(new GetPaymentRequest($paymentId));
@@ -106,14 +104,14 @@ class MollieLaravelHttpClientAdapterTest extends TestCase
             GetPaymentRequest::class => function (PendingRequest $pendingRequest) use (&$uriString, $paymentId) {
                 $uriString = (string) $pendingRequest->getUri();
 
-                return MockResponse::resource(Payment::class)
-                    ->with([
-                        'id' => $paymentId,
+                return MockResponse::payment(
+                    id: $paymentId,
+                    overrides: [
                         '_embedded' => [
                             'chargebacks' => [],
                         ],
-                    ])
-                    ->create();
+                    ],
+                );
             },
         ]);
 

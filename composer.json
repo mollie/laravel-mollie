@@ -45,7 +45,7 @@
         "ext-json": "*",
         "illuminate/support": "^11.0|^12.0|^13.0",
         "laravel/prompts": "^0.3.7",
-        "mollie/mollie-api-php": "^3.9"
+        "mollie/mollie-api-php": "^4.0"
     },
     "require-dev": {
         "larastan/larastan": "^3.8",
