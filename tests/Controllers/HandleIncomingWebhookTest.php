@@ -54,6 +54,22 @@ class HandleIncomingWebhookTest extends TestCase
     }
 
     #[Test]
+    public function it_rejects_unsigned_incoming_webhooks(): void
+    {
+        Event::fake();
+
+        $payload = MockEvent::for(PaymentLinkPaid::class)
+            ->snapshot()
+            ->create();
+
+        $this
+            ->postJson(route('mollie.webhooks'), $payload)
+            ->assertUnauthorized();
+
+        Event::assertNotDispatched(PaymentLinkPaid::class);
+    }
+
+    #[Test]
     public function it_can_handle_incoming_webhook()
     {
         $this->withoutExceptionHandling();
