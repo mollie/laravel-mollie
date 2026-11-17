@@ -20,6 +20,8 @@ use Mollie\Api\MollieApiClient;
  * @method static void assertSent(callable|string $callback)
  * @method static void assertSentCount(int $count)
  *
+ * @mixin MollieApiClient
+ *
  * @see MockMollieClient
  */
 class Mollie extends Facade
@@ -37,7 +39,9 @@ class Mollie extends Facade
     }
 
     /**
-     * @deprecated Use the facade directly instead. Will be removed in a future major version.
+     * @deprecated The `api()` method will be removed in a future major version.
+     *             Send request classes through the facade instead, e.g. `Mollie::send(new CreatePaymentRequest(...))`.
+     *             If you need the client instance itself, inject or resolve `MollieApiClient` from the container.
      */
     public static function api(): MollieApiClient
     {

@@ -73,6 +73,42 @@ Mollie::fake([
 
 Existing generic builders such as `MockResponse::resource(...)` and `MockResponse::list(...)` remain useful for resources without typed factories.
 
+### Deprecated: `Mollie::api()`
+`Mollie::api()` is deprecated and will be removed in a future major version. It still works in v5, so no change is required yet. There are two ways to move off it.
+
+**Send typed request objects through the facade (recommended):**
+
+```php
+use Mollie\Api\Http\Requests\CreatePaymentRequest;
+use Mollie\Laravel\Facades\Mollie;
+
+// before
+$payment = Mollie::api()->payments->create([...]);
+
+// now
+$payment = Mollie::send(new CreatePaymentRequest(...));
+```
+
+**Inject the client:** if you want to keep using endpoint collections such as `->payments`, or need the client instance itself, inject `Mollie\Api\MollieApiClient` or resolve it from the container:
+
+```php
+use Mollie\Api\MollieApiClient;
+
+class CheckoutController
+{
+    public function store(MollieApiClient $mollie)
+    {
+        // before: Mollie::api()->payments->create([...])
+        $payment = $mollie->payments->create([...]);
+    }
+}
+
+// or resolve it where injection is not available
+$mollie = app(MollieApiClient::class);
+```
+
+Note that `Mollie::payments` does not work. Endpoint collections are properties on the client, and facades only forward method calls.
+
 ---
 
 # Migrating from Laravel-Mollie v3.x to v4

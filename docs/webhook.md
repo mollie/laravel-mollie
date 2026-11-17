@@ -24,15 +24,16 @@ The setup command offers every webhook event type exposed by mollie-api-php, inc
 To implement legacy webhooks in your Laravel application, provide a `webhookUrl` parameter when creating a payment (or subscription):
 
 ```php
-$payment = Mollie::api()->payments->create([
-    'amount' => [
-        'currency' => 'EUR',
-        'value' => '10.00', // You must send the correct number of decimals, thus we enforce the use of strings
-    ],
-    'description' => 'My first API payment',
-    'redirectUrl' => 'https://webshop.example.org/order/12345/',
-    'webhookUrl'   => route('webhooks.mollie'),
-]);
+use Mollie\Api\Http\Data\Money;
+use Mollie\Api\Http\Requests\CreatePaymentRequest;
+use Mollie\Laravel\Facades\Mollie;
+
+$payment = Mollie::send(new CreatePaymentRequest(
+    description: 'My first API payment',
+    amount: Money::of('EUR')->fromString('10.00'), // You must send the correct number of decimals, thus we enforce the use of strings
+    redirectUrl: 'https://webshop.example.org/order/12345/',
+    webhookUrl: route('webhooks.mollie'),
+));
 ```
 
 Create a route to accept incoming webhook requests:
