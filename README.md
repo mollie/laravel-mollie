@@ -23,7 +23,7 @@ Accepting [iDEAL](https://www.mollie.com/en/payments/ideal/), [Apple Pay](https:
 * Follow [a few steps](https://www.mollie.com/dashboard/?modal=onboarding) to enable payment methods in live mode, and let us handle the rest.
 * Up-to-date OpenSSL (or other SSL/TLS toolkit)
 * PHP >= 8.2
-* [Laravel](https://www.laravel.com) >= 11.0
+* [Laravel](https://www.laravel.com) >= 12.0
 * [Laravel Socialite](https://github.com/laravel/socialite) >= 5.0 (if you intend on using [Mollie Connect](https://docs.mollie.com/oauth/overview))
 
 ## Upgrading?

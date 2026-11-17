@@ -43,7 +43,7 @@
     "require": {
         "php": "^8.2",
         "ext-json": "*",
-        "illuminate/support": "^11.0|^12.0|^13.0",
+        "illuminate/support": "^12.0|^13.0",
         "laravel/prompts": "^0.3.7",
         "mollie/mollie-api-php": "^4.0"
     },
@@ -51,7 +51,7 @@
         "larastan/larastan": "^3.8",
         "laravel/pint": "^1.25",
         "laravel/socialite": "^5.23",
-        "orchestra/testbench": "^9.0|^10.0|^11.0",
+        "orchestra/testbench": "^10.0|^11.0",
         "phpstan/phpstan": "^2.1",
         "phpunit/phpunit": "^11.0|^12.5.22|^13.0"
     },
