@@ -39,9 +39,9 @@ class Mollie extends Facade
     }
 
     /**
-     * @deprecated Send request classes through the facade instead, e.g. `Mollie::send(new CreatePaymentRequest(...))`.
+     * @deprecated The `api()` method will be removed in a future major version.
+     *             Send request classes through the facade instead, e.g. `Mollie::send(new CreatePaymentRequest(...))`.
      *             If you need the client instance itself, inject or resolve `MollieApiClient` from the container.
-     *             Will be removed in a future major version.
      */
     public static function api(): MollieApiClient
     {
