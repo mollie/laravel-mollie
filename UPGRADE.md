@@ -131,10 +131,10 @@ use Mollie\Laravel\Facades\Mollie;
 
 // You can send requests directly through the facade
 $payment = Mollie::send(new CreatePaymentRequest(...));
-
-// Or through the API client
-$payment = Mollie::api()->send(new CreatePaymentRequest(...));
 ```
+
+> [!NOTE]
+> `Mollie::api()` is deprecated and will be removed in a future major version. Typed request objects sent with `Mollie::send()` are the recommended way to call the API. If you still rely on endpoint collections such as `->payments`, inject or resolve `Mollie\Api\MollieApiClient` from the container instead of calling `Mollie::api()`.
 
 See the [mollie-api-php documentation](https://github.com/mollie/mollie-api-php/blob/master/docs/requests.md) for more details on typed request objects.
 
@@ -145,15 +145,15 @@ The `Mollie\Laravel\MollieManager` class has been removed. This change has minor
 
 ```php
 // Instead of MollieManager
-use Mollie\Laravel\Facades\Mollie;
+use Mollie\Api\MollieApiClient;
 
-$client = Mollie::api();
+$client = app(MollieApiClient::class);
 ```
 
 #### Global Helper Function
 The `mollie()` helper function was deleted. If you rely on the helper function, either consider switching to
 - injecting or resolving the `MollieApiClient` from the container, or
-- use the `Mollie\Laravel\Facades\Mollie::api()` facade
+- sending typed request objects through the `Mollie\Laravel\Facades\Mollie` facade, e.g. `Mollie::send(new CreatePaymentRequest(...))`
 
 If none of these are an option for you, you can create your own `helpers.php` file and insert the code for the `mollie()` function yourself.
 

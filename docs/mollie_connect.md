@@ -35,6 +35,10 @@ Then add the corresponding credentials (`MOLLIE_CLIENT_ID`, `MOLLIE_CLIENT_SECRE
 ## Example usage
 
 ```php
+use Laravel\Socialite\Facades\Socialite;
+use Mollie\Api\Http\Requests\GetPaginatedProfilesRequest;
+use Mollie\Laravel\Facades\Mollie;
+
 Route::get('login', function () {
     return Socialite::with('mollie')
         ->scopes(['profiles.read']) // Additional permission: profiles.read
@@ -44,8 +48,9 @@ Route::get('login', function () {
 Route::get('login_callback', function () {
     $user = Socialite::with('mollie')->user();
 
-    Mollie::api()->setAccessToken($user->token);
+    Mollie::setAccessToken($user->token);
 
-    return Mollie::api()->profiles->page(); // Retrieve payment profiles available on the obtained Mollie account
+    // Retrieve payment profiles available on the obtained Mollie account
+    return Mollie::send(new GetPaginatedProfilesRequest);
 });
 ```
