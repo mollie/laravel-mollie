@@ -54,6 +54,11 @@ jobs:
             ${{ runner.os }}-composer-
 
       - name: Install dependencies
+        env:
+          # Laravel 11 is end-of-life and every release has open security advisories,
+          # so Composer refuses to install it. Allow it for the Laravel 11 jobs only,
+          # for as long as this package still supports Laravel 11.
+          COMPOSER_NO_BLOCKING: ${{ matrix.laravel == '11.0' && '1' || '0' }}
         run: |
           composer update --prefer-dist --no-interaction --no-progress --with "illuminate/contracts=^${{ matrix.laravel }}" --ignore-platform-req=php+
 
